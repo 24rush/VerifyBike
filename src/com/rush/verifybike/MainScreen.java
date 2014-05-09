@@ -12,17 +12,14 @@ import com.rush.verifybike.Bindings.Flag;
 
 public class MainScreen extends Activity {
 
-	private Controls m_Controls;
-	private LoginViewModel m_LoginViewModel;
+	private Controls m_Controls = new Controls(this);
+	private LoginViewModel m_LoginViewModel = new LoginViewModel();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_screen);
-			
-		m_Controls = new Controls(this);
-		
-		m_LoginViewModel = new LoginViewModel();
+					
 		Bindings.BindVisible(m_Controls.get(R.id.lbl_must_login), m_LoginViewModel.IsUserLinkedToFacebook, Flag.INVERT);
 		Bindings.BindVisible(m_Controls.get(R.id.img_fb_login_button), m_LoginViewModel.IsUserLinkedToFacebook, Flag.INVERT);
 		
@@ -46,7 +43,7 @@ public class MainScreen extends Activity {
 		Intent intent = new Intent(this, SearchResults.class);
 
 		// Mock status received
-		VerificationResult result = new VerificationResult(VerificationResult.BikeStatus.Stolen, "Cannon");
+		VerificationResult result = new VerificationResult(VerificationResult.BikeStatus.NotInDatabase, "Cannon2");
 		intent.putExtra(Intents.Intent_VerificationResult, result);
 
 		startActivity(intent);
