@@ -8,6 +8,7 @@ public class SearchBikeViewModel {
 	public Observable<String> Model = new Observable<String>("");
 	public Observable<String> Status = new Observable<String>("");
 	public Observable<Integer> Image = new Observable<Integer>();
+	public Observable<String> SerialNumber = new Observable<String>("");
 
 	public SearchBikeViewModel(Activity _parent) {
 		m_Activity = _parent;

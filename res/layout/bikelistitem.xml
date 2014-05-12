@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#087DFB" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:focusable="false"
+        android:src="@drawable/ic_launcher" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/imageView1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/lbl_bike_model"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"            
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_serial"
+                android:focusable="false"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/lbl_serial_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="3dp"
+            android:paddingLeft="5dp" >
+
+            <Button
+                android:id="@+id/btn_sold"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_marginRight="5dp"
+                android:focusable="false"
+                android:background="@drawable/round_button"
+                android:text="@string/lbl_btn_sold" />
+
+            <Button
+                android:id="@+id/btn_stolen"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:focusable="false"
+                android:background="@drawable/round_button"
+                android:text="@string/lbl_btn_stolen" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

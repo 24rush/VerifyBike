@@ -1,0 +1,202 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#087DFB"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".NewBikeScreen" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_gravity="right"
+            android:background="@drawable/round_button"
+            android:text="save"
+            android:onClick="onSaveBike" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_bike_model"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <EditText
+            android:id="@+id/edt_bike_model"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_bike_serial_number"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <EditText
+            android:id="@+id/edt_bike_serial"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal" >
+
+            <com.rush.verifybike.SquareLinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/rect_border"
+                android:onClick="onLoadPicture0"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/layout_pic_0"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:text="Front picture"
+                        android:textSize="15sp"
+                        android:textStyle="italic" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:text="+"
+                        android:textSize="60sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/img_bike_pic0"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:visibility="invisible" />
+            </com.rush.verifybike.SquareLinearLayout>
+
+            <com.rush.verifybike.SquareLinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/rect_border"
+                android:onClick="onLoadPicture1"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/layout_pic_1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:text="Serial number"
+                        android:textSize="15sp"
+                        android:textStyle="italic" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:text="+"
+                        android:textSize="60sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/img_bike_pic1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:visibility="invisible" />
+            </com.rush.verifybike.SquareLinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal" >
+
+            <com.rush.verifybike.SquareLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/rect_border"
+                android:onClick="onLoadPicture2"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/layout_pic_2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:text="Serial number"
+                        android:textSize="15sp"
+                        android:textStyle="italic" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:text="+"
+                        android:textSize="60sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/img_bike_pic2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:visibility="invisible" />
+            </com.rush.verifybike.SquareLinearLayout>
+
+            <com.rush.verifybike.SquareLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@drawable/rect_border"
+                android:orientation="vertical"
+                android:visibility="invisible" >
+            </com.rush.verifybike.SquareLinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

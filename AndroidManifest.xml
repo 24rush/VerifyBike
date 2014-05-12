@@ -3,38 +3,51 @@
     package="com.rush.verifybike"
     android:versionCode="1"
     android:versionName="1.0" >
-	
+
     <uses-sdk
-        android:minSdkVersion="13"
+        android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
-     <uses-permission android:name="android.permission.INTERNET"/>
-     
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name="com.rush.verifybike.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
-        android:name=".App">
-            
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
-        
+        android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+
         <activity
             android:name="com.rush.verifybike.MainScreen"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.rush.verifybike.SearchResults"
-            android:label="@string/title_activity_search_results">
+            android:label="@string/title_activity_search_results" >
         </activity>
-        
-        <activity android:name="com.facebook.LoginActivity"
-          android:label="@string/app_name" />
-		
+        <activity
+            android:name="com.facebook.LoginActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.rush.verifybike.BikeListScreen"
+            android:label="@string/title_activity_bike_list_screen" >
+        </activity>
+        <activity
+            android:name="com.rush.verifybike.NewBikeScreen"
+            android:label="@string/title_activity_new_bike_screen" >
+        </activity>
+        <activity
+            android:name="com.rush.verifybike.BrowsePictureActivity"
+            android:label="@string/title_activity_browse_picture" >
+        </activity>
     </application>
 
 </manifest>
