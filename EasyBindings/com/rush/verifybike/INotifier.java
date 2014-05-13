@@ -1,6 +1,6 @@
 package com.rush.verifybike;
 
-public interface INotifier<Type> {
+public interface INotifier<Type extends Object> {
 	public void OnValueChanged(Type value);
 }
 

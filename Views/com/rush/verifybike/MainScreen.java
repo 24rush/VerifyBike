@@ -9,7 +9,9 @@ import android.widget.Button;
 
 import com.facebook.widget.ProfilePictureView;
 import com.parse.ParseFacebookUtils;
+import com.rush.verifybike.LoginViewModel;
 import com.rush.verifybike.Bindings.Mode;
+import com.rush.verifybike.SearchBikeViewModel;
 
 public class MainScreen extends Activity {
 
@@ -27,8 +29,8 @@ public class MainScreen extends Activity {
 		SearchViewModel = new SearchBikeViewModel(this);
 		BikesViewModel = new BikesViewModel();
 		
-		Bindings.BindVisible(Controls.get(R.id.lbl_must_login), LoginViewModel.IsUserLinkedToFacebook, Mode.INVERT);
-		Bindings.BindVisible(Controls.get(R.id.img_fb_login_button), LoginViewModel.IsUserLinkedToFacebook, Mode.INVERT);
+		Bindings.BindVisible(Controls.get(R.id.lbl_must_login), LoginViewModel.CanLogin);
+		Bindings.BindVisible(Controls.get(R.id.img_fb_login_button), LoginViewModel.CanLogin);
 				
 		Bindings.BindVisible(Controls.get(R.id.layout_user_profile), LoginViewModel.IsUserLinkedToFacebook);	
 		

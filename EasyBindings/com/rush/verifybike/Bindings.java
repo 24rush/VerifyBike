@@ -1,5 +1,9 @@
 package com.rush.verifybike;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -9,7 +13,11 @@ import android.widget.TextView;
 
 public class Bindings {
 	public enum Mode { NONE, INVERT, TWO_WAY };
+	
+	public enum BindingType { TEXT, COMMAND };
 
+	private static HashMap<Observable<?>, List<Binding>> m_Bindings = new HashMap<Observable<?>, List<Binding>>();
+	
 	public static void BindVisible(final View control, Observable<Boolean> source) {
 		BindVisible(control, source, Mode.NONE);		
 	}
@@ -42,9 +50,8 @@ public class Bindings {
 		};
 		
 		if (flag == Mode.TWO_WAY) {
-			TextView txtCtrl = (TextView)control;
-			txtCtrl.addTextChangedListener(new TextWatcher() {
-				
+			TextView txtCtrl = (TextView) control;
+			TextWatcher tw = new TextWatcher() {				
 				@Override
 				public void onTextChanged(CharSequence s, int start, int before, int count) {
 											
@@ -61,7 +68,10 @@ public class Bindings {
 				public void afterTextChanged(Editable s) {
 					source.set(s.toString());
 				}
-			});
+			};
+			
+			txtCtrl.addTextChangedListener(tw);				
+			addBindingForSource(BindingType.TEXT, source, control, tw);
 		}
 		
 		observer.OnValueChanged(source.get());
@@ -74,10 +84,49 @@ public class Bindings {
 			public void onClick(View v) {
 				target.Execute(context);
 			}
-		});
+		});			
+	}
+	
+	private static void addBindingForSource(BindingType type, Observable<?> source, View control, Object extra) {
+		List<Binding> existingBindings = m_Bindings.get(source);
+		
+		if (existingBindings == null)
+			existingBindings = new ArrayList<Binding>();
+					
+		existingBindings.add(new Binding(type, control, extra));
+		m_Bindings.put(source, existingBindings);
+	}
+	
+	public static void Remove(Observable<?> source) {
+		List<Binding> existingBindings = m_Bindings.get(source);
+		
+		if (existingBindings == null)
+			return;
+		
+		for (Binding binding : existingBindings) {
+			if (binding.Type == BindingType.TEXT) {
+				TextView txtCtrl = (TextView) binding.Control;
+				txtCtrl.removeTextChangedListener((TextWatcher) binding.Extra);
+				
+				existingBindings.remove(binding);			
+				return;
+			}
+		}
 	}
 }
 
 interface ICommand<Type> {
 	void Execute(Type context);
+}
+
+class Binding {
+	public Bindings.BindingType Type;
+	public Object Extra;
+	public View Control;
+	
+	public Binding(Bindings.BindingType type, View control, Object extra) {
+		Type = type;
+		Extra = extra;
+		Control = control;
+	}
 }

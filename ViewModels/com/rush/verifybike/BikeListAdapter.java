@@ -51,8 +51,8 @@ public class BikeListAdapter extends BaseAdapter{
 		List<BikeDataViewModel> bikes = MainScreen.BikesViewModel.Bikes();
 		BikeDataViewModel objCurrent = bikes.get(arg0);
 		Log.d("MyApp", "getView " + objCurrent.Model);
-		Bindings.BindText(convertedView.findViewById(R.id.lbl_bike_model), objCurrent.Model, Mode.TWO_WAY);
-		Bindings.BindText(convertedView.findViewById(R.id.lbl_serial_number), objCurrent.SerialNumber, Mode.TWO_WAY);			
+		Bindings.BindText(convertedView.findViewById(R.id.lbl_bike_model), objCurrent.Model);
+		Bindings.BindText(convertedView.findViewById(R.id.lbl_serial_number), objCurrent.SerialNumber);			
 		
 		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_stolen), new ICommand<BikeDataViewModel>() {
 			public void Execute(BikeDataViewModel context) {

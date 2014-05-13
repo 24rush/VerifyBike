@@ -13,6 +13,7 @@ public class BikeData {
 	public Integer NoOfPics;	
 	public Boolean Stolen;
 	
+	public BikeData() {}
 	public BikeData(String serial, String model, Integer pics, Boolean stolen) {
 		SerialNumber = serial;
 		Model = model;
@@ -23,6 +24,16 @@ public class BikeData {
 
 class BikeDataViewModel implements Parcelable {
 		
+	public Observable<String> SerialNumber = new Observable<String>("", Validators.RequiredString);
+	public Observable<String> Model = new Observable<String>("", Validators.RequiredString);
+	public Observable<Integer> NoOfPics = new Observable<Integer>(0);
+	public Observable<Boolean> Stolen = new Observable<Boolean>(false);
+	public Observable<Boolean> Sold = new Observable<Boolean>(false);
+	
+	private BikeData m_ModelData;
+	
+	public Observable<Boolean> IsValid = new Validator(SerialNumber, Model).IsValid;
+	
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -50,17 +61,23 @@ class BikeDataViewModel implements Parcelable {
             return new BikeDataViewModel[size];
         }
     };
-
-	public Observable<String> SerialNumber = new Observable<String>("");
-	public Observable<String> Model = new Observable<String>("");
-	public Observable<Integer> NoOfPics = new Observable<Integer>(0);
-	public Observable<Boolean> Stolen = new Observable<Boolean>(false);
-	public Observable<Boolean> Sold = new Observable<Boolean>(false);
 	
-	private BikeData m_ModelData;
+    public BikeDataViewModel clone() {
+    	BikeDataViewModel clone = new BikeDataViewModel(m_ModelData);    	
+    	clone.UpdateViewModel(this);
+    	
+    	return clone;
+    }
+    
+	public BikeDataViewModel() {		
+	}
 	
-	public BikeDataViewModel() {
-		
+	public void Destroy() {
+		Bindings.Remove(SerialNumber);
+		Bindings.Remove(Model);
+		Bindings.Remove(NoOfPics);
+		Bindings.Remove(Stolen);
+		Bindings.Remove(Sold);
 	}
 	
 	private BikeDataViewModel(Parcel in) {
@@ -72,25 +89,32 @@ class BikeDataViewModel implements Parcelable {
         in.readBooleanArray(array);
         Stolen.set(array[0]);
         Sold.set(array[1]);
+        
+        Save();
     }
 	
 	public BikeDataViewModel(BikeData _model) {
 		m_ModelData = _model;
-	}
-	
-	public BikeDataViewModel(String serial, String model, Integer pics, Boolean stolen) {
-		SerialNumber.set(serial);
-		Model.set(model);
-		NoOfPics.set(pics);
-		Stolen.set(stolen);
+		
+		SerialNumber.set(m_ModelData.SerialNumber);
+		Model.set(m_ModelData.Model);
+		NoOfPics.set(m_ModelData.NoOfPics);
+		Stolen.set(m_ModelData.Stolen);
 		Sold.set(false);
 	}
 	
-	public BikeDataViewModel GetViewModel() {		
-		return new BikeDataViewModel(m_ModelData.SerialNumber, m_ModelData.Model, m_ModelData.NoOfPics, m_ModelData.Stolen);	
+	public void UpdateViewModel(BikeDataViewModel source) {
+		SerialNumber.set(source.SerialNumber.get());
+		Model.set(source.Model.get());
+		NoOfPics.set(source.NoOfPics.get());
+		Stolen.set(source.Stolen.get());
+		Sold.set(source.Sold.get());
 	}
 	
-	public void SaveModelData() {
+	public void Save() {
+		if (m_ModelData == null)
+			m_ModelData = new BikeData();
+		
 		m_ModelData.SerialNumber = SerialNumber.get();
 		m_ModelData.Model = Model.get();
 		m_ModelData.NoOfPics = NoOfPics.get();

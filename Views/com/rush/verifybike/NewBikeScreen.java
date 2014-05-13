@@ -2,6 +2,8 @@ package com.rush.verifybike;
 
 import java.util.ArrayList;
 
+import com.rush.verifybike.Bindings.Mode;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,8 +33,10 @@ public class NewBikeScreen extends Activity {
 		
 		BikeDataViewModel viewModel =  (BikeDataViewModel) getIntent().getParcelableExtra("com.rush.verifybike.BikeViewModel");
 		
-		Bindings.BindText(m_Controls.get(R.id.edt_bike_model), viewModel.Model);
-		Bindings.BindText(m_Controls.get(R.id.edt_bike_serial), viewModel.SerialNumber);
+		Bindings.BindText(m_Controls.get(R.id.edt_bike_model), viewModel.Model, Mode.TWO_WAY);
+		Bindings.BindText(m_Controls.get(R.id.edt_bike_serial), viewModel.SerialNumber, Mode.TWO_WAY);
+		
+		Bindings.BindVisible(m_Controls.get(R.id.btn_save_bike), viewModel.IsValid);
 		
 		Log.d("MyApp", viewModel.toString());
 	}
@@ -104,6 +108,7 @@ public class NewBikeScreen extends Activity {
 	}
 	
 	public void onSaveBike(View v) {
+		setResult(RESULT_OK, getIntent());
 		finish();
 	}
 }

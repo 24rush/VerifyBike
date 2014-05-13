@@ -3,10 +3,11 @@ package com.rush.verifybike;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Observable<Type> implements Serializable {
+public class Observable<Type extends Object> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Type m_Value;
+	private IValidator<Type> m_Validator;
 	
 	private ArrayList<INotifier<Type>> m_Listeners = new ArrayList<INotifier<Type>>() {
 		private static final long serialVersionUID = 1L;
@@ -20,6 +21,23 @@ public class Observable<Type> implements Serializable {
 	
 	public Observable(Type value) {
 		set(value);
+	}
+	
+	public Observable(Type value, IValidator<Type> validator) {
+		m_Validator = validator;
+		set(value);
+	}
+	
+	public void Destroy() {
+		m_Listeners.clear();
+		m_ContextListeners.clear();
+	}
+	
+	public boolean IsValid() {
+		if (m_Validator == null)
+			return true;
+		
+		return m_Validator.IsValid(m_Value);
 	}
 	
 	@Override
@@ -47,6 +65,10 @@ public class Observable<Type> implements Serializable {
 	
 	public void addObserver(INotifier<Type> observer) {
 		m_Listeners.add(observer);
+	}
+	
+	public void addTypelessObserver(INotifier<Object> observer) {
+		m_Listeners.add((INotifier<Type>)observer);
 	}
 	
 	public void addObserverContext(IContextNotifier<Type> observer, Object context) {

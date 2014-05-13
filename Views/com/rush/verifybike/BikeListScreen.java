@@ -14,6 +14,7 @@ import android.widget.ListView;
 public class BikeListScreen extends Activity {
 
 	private Controls Controls = new Controls(this);
+	private BikeDataViewModel m_ViewModelSource;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +28,9 @@ public class BikeListScreen extends Activity {
 		Bindings.BindCommand((Button) ((ViewGroup)header).getChildAt(1), new ICommand<Activity>() {
 			public void Execute(Activity context) {
 				Log.d("MyApp", "onAddNewBike");
-
-				startAddEditBike(new BikeDataViewModel(), true);
+				
+				m_ViewModelSource = null;
+				startAddEditBike(new BikeDataViewModel());
 			}
 		}, this);			
 
@@ -45,19 +47,38 @@ public class BikeListScreen extends Activity {
 		bikeListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {				
 				Log.d("MyApp", "tapped bike " + arg2);
-				startAddEditBike(MainScreen.BikesViewModel.Bikes().get(arg2 - 1), false);
+				
+				m_ViewModelSource = MainScreen.BikesViewModel.Bikes().get(arg2 - 1); 
+				startAddEditBike(m_ViewModelSource.clone());
 			}
 		});						    	
 	}
 	
-	private void startAddEditBike(BikeDataViewModel bikeViewModel, Boolean isNew) {
+	private void startAddEditBike(BikeDataViewModel bikeViewModel) {
 		Intent intent = new Intent(this, NewBikeScreen.class);
-
-//		Bundle bundleExtras = new Bundle();
-//		bundleExtras.putBoolean("com.rush.verifybike.BikeViewModel.IsNew", isNew);
 		intent.putExtra("com.rush.verifybike.BikeViewModel", bikeViewModel);
-		//intent.putExtras(bundleExtras);
 
-		startActivity(intent);	
+		startActivityForResult(intent, 1);	
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (requestCode == 1) {
+	        if (resultCode == RESULT_OK) {
+	            BikeDataViewModel retViewModel = data.getParcelableExtra("com.rush.verifybike.BikeViewModel");
+	            
+	            if (m_ViewModelSource == null) {
+	            	m_ViewModelSource = retViewModel;
+	            	MainScreen.BikesViewModel.AddBike(retViewModel);
+	            }
+	            else {
+	            	m_ViewModelSource.UpdateViewModel(retViewModel);
+	            	m_ViewModelSource.Save();
+	            }
+	        }
+	        else
+		        if (resultCode == RESULT_CANCELED) {
+		            //Write your code if there's no result
+		        }
+	    }
 	}
 }

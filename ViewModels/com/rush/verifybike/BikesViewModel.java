@@ -20,7 +20,7 @@ public class BikesViewModel {
 			@Override
 			public void OnDataReceived(List<BikeData> data) {				
 				for (BikeData bikeData : data) {
-					m_Bikes.add((new BikeDataViewModel(bikeData)).GetViewModel());
+					m_Bikes.add((new BikeDataViewModel(bikeData)));
 				}
 								
 				m_initDone = true;
@@ -30,6 +30,7 @@ public class BikesViewModel {
 
 	public void RemoveBike(BikeDataViewModel context) {
 		Log.d("MyApp", "RemoveBike " + context.Model);
+		context.Destroy();
 		m_Bikes.remove(context);
 	}
 	

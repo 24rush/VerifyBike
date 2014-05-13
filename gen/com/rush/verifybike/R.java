@@ -379,10 +379,10 @@ containing a value of this type.
         public static final int action_settings=0x7f04003b;
         public static final int btn_add_bike=0x7f040006;
         public static final int btn_add_new_bike=0x7f04003a;
+        public static final int btn_save_bike=0x7f04000e;
         public static final int btn_search_serial_number=0x7f04000a;
         public static final int btn_sold=0x7f04001e;
         public static final int btn_stolen=0x7f04001f;
-        public static final int button1=0x7f04000e;
         public static final int com_facebook_body_frame=0x7f040032;
         public static final int com_facebook_button_xout=0x7f040034;
         public static final int com_facebook_login_activity_progress_bar=0x7f040022;
