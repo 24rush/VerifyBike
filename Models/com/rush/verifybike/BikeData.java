@@ -26,6 +26,11 @@ class BikeDataViewModel implements Parcelable {
 		
 	public Observable<String> SerialNumber = new Observable<String>("", Validators.RequiredString);
 	public Observable<String> Model = new Observable<String>("", Validators.RequiredString);
+	
+	public Observable<String> PictureURL_0 = new Observable<String>("", Validators.RequiredString);
+	public Observable<String> PictureURL_1 = new Observable<String>("", Validators.RequiredString);
+	public Observable<String> PictureURL_2 = new Observable<String>("", Validators.RequiredString);
+	
 	public Observable<Integer> NoOfPics = new Observable<Integer>(0);
 	public Observable<Boolean> Stolen = new Observable<Boolean>(false);
 	public Observable<Boolean> Sold = new Observable<Boolean>(false);
@@ -45,6 +50,9 @@ class BikeDataViewModel implements Parcelable {
 		out.writeString(SerialNumber.get());
 		out.writeString(Model.get());
 		out.writeInt(NoOfPics.get());
+		out.writeString(PictureURL_0.get());
+		out.writeString(PictureURL_1.get());
+		out.writeString(PictureURL_2.get());
 		
 		boolean[] array = new boolean[2];
 		array[0] = Stolen.get();
@@ -78,12 +86,19 @@ class BikeDataViewModel implements Parcelable {
 		Bindings.Remove(NoOfPics);
 		Bindings.Remove(Stolen);
 		Bindings.Remove(Sold);
+		Bindings.Remove(PictureURL_0);
+		Bindings.Remove(PictureURL_1);
+		Bindings.Remove(PictureURL_2);
 	}
 	
 	private BikeDataViewModel(Parcel in) {
         SerialNumber.set(in.readString());
         Model.set(in.readString());
         NoOfPics.set(in.readInt());
+        
+        PictureURL_0.set(in.readString());
+        PictureURL_1.set(in.readString());
+        PictureURL_2.set(in.readString());
         
         boolean[] array = new boolean[2];
         in.readBooleanArray(array);
@@ -101,6 +116,8 @@ class BikeDataViewModel implements Parcelable {
 		NoOfPics.set(m_ModelData.NoOfPics);
 		Stolen.set(m_ModelData.Stolen);
 		Sold.set(false);
+		
+		
 	}
 	
 	public void UpdateViewModel(BikeDataViewModel source) {
@@ -109,6 +126,10 @@ class BikeDataViewModel implements Parcelable {
 		NoOfPics.set(source.NoOfPics.get());
 		Stolen.set(source.Stolen.get());
 		Sold.set(source.Sold.get());
+		
+		PictureURL_0.set(source.PictureURL_0.get());
+		PictureURL_1.set(source.PictureURL_1.get());
+		PictureURL_2.set(source.PictureURL_2.get());
 	}
 	
 	public void Save() {

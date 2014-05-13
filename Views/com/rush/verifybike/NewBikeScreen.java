@@ -21,24 +21,41 @@ public class NewBikeScreen extends Activity {
 	
 	private ArrayList<ImageView> m_ImageViews = new ArrayList<ImageView>(); 
 	private Controls m_Controls = new Controls(this);
+	private BikeDataViewModel m_ViewModel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_bike_screen);
-		
+				
 		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic0));
 		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic1));
 		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic2));
 		
-		BikeDataViewModel viewModel =  (BikeDataViewModel) getIntent().getParcelableExtra("com.rush.verifybike.BikeViewModel");
+		m_ViewModel =  (BikeDataViewModel) getIntent().getParcelableExtra("com.rush.verifybike.BikeViewModel");
 		
-		Bindings.BindText(m_Controls.get(R.id.edt_bike_model), viewModel.Model, Mode.TWO_WAY);
-		Bindings.BindText(m_Controls.get(R.id.edt_bike_serial), viewModel.SerialNumber, Mode.TWO_WAY);
+		Bindings.BindText(m_Controls.get(R.id.edt_bike_model), m_ViewModel.Model, Mode.TWO_WAY);
+		Bindings.BindText(m_Controls.get(R.id.edt_bike_serial), m_ViewModel.SerialNumber, Mode.TWO_WAY);
 		
-		Bindings.BindVisible(m_Controls.get(R.id.btn_save_bike), viewModel.IsValid);
+		Bindings.BindVisible(m_Controls.get(R.id.btn_save_bike), m_ViewModel.IsValid);
+	
+		IContextNotifier<String> observerURI = new IContextNotifier<String>() {			
+			@Override
+			public void OnValueChanged(String value, Object context) {
+				 ((LinearLayout) findViewById(getLayoutIdForIndex((Integer) context))).setVisibility(View.GONE);				
+			}
+		};
 		
-		Log.d("MyApp", viewModel.toString());
+		Bindings.BindImageURI(m_ImageViews.get(0), m_ViewModel.PictureURL_0);
+		m_ViewModel.PictureURL_0.addObserverContext(observerURI, 0);
+		
+		Bindings.BindImageURI(m_ImageViews.get(1), m_ViewModel.PictureURL_1);
+		m_ViewModel.PictureURL_1.addObserverContext(observerURI, 1);
+		
+		Bindings.BindImageURI(m_ImageViews.get(2), m_ViewModel.PictureURL_2);
+		m_ViewModel.PictureURL_2.addObserverContext(observerURI, 2);
+		
+		Log.d("MyApp", m_ViewModel.toString());
 	}
 
 	private int m_CurrentPicture = -1;
@@ -83,11 +100,15 @@ public class NewBikeScreen extends Activity {
 
 				Log.d("MyApp", m_CurrentPicture + " " + selectedImagePath);				
 				
-				m_ImageViews.get(m_CurrentPicture).setImageURI(selectedImageUri);
-				m_ImageViews.get(m_CurrentPicture).setVisibility(View.VISIBLE);
+				Observable<String> pict = m_ViewModel.PictureURL_0;
 				
-				LinearLayout lay = (LinearLayout) findViewById(getLayoutIdForIndex(m_CurrentPicture));
-				lay.setVisibility(View.GONE);
+				if (m_CurrentPicture == 1)
+					pict = m_ViewModel.PictureURL_1;			
+				else
+					if (m_CurrentPicture == 2)
+						pict = m_ViewModel.PictureURL_2;
+				
+				pict.set(selectedImageUri.toString());				
 			}
 		}
 	}

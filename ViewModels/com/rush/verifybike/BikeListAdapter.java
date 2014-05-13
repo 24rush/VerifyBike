@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.rush.verifybike.Bindings.Mode;
 
@@ -53,6 +54,8 @@ public class BikeListAdapter extends BaseAdapter{
 		Log.d("MyApp", "getView " + objCurrent.Model);
 		Bindings.BindText(convertedView.findViewById(R.id.lbl_bike_model), objCurrent.Model);
 		Bindings.BindText(convertedView.findViewById(R.id.lbl_serial_number), objCurrent.SerialNumber);			
+		
+		Bindings.BindImageURI((ImageView) convertedView.findViewById(R.id.imageView1), objCurrent.PictureURL_0);
 		
 		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_stolen), new ICommand<BikeDataViewModel>() {
 			public void Execute(BikeDataViewModel context) {

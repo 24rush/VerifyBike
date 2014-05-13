@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class Bindings {
@@ -22,6 +24,19 @@ public class Bindings {
 		BindVisible(control, source, Mode.NONE);		
 	}
 
+	public static void BindImageURI(final ImageView control, Observable<String> source) {
+		INotifier<String> observer = new INotifier<String>() {			
+			public void OnValueChanged(String value) {
+				control.setImageURI(Uri.parse(value));
+				control.setVisibility(View.VISIBLE);
+			}
+		};
+		
+		if (!source.get().isEmpty())
+			observer.OnValueChanged(source.get());
+		source.addObserver(observer);
+	}
+	
 	public static void BindVisible(final View control, Observable<Boolean> source, final Mode flag) {
 		INotifier<Boolean> observer = new INotifier<Boolean>() {					
 			public void OnValueChanged(Boolean value) {				
