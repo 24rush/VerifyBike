@@ -19,22 +19,21 @@ public class Bindings {
 	public enum BindingType { TEXT, COMMAND };
 
 	private static HashMap<Observable<?>, List<Binding>> m_Bindings = new HashMap<Observable<?>, List<Binding>>();
-	
-	public static void BindVisible(final View control, Observable<Boolean> source) {
-		BindVisible(control, source, Mode.NONE);		
-	}
 
 	public static void BindImageURI(final ImageView control, Observable<String> source) {
 		INotifier<String> observer = new INotifier<String>() {			
 			public void OnValueChanged(String value) {
-				control.setImageURI(Uri.parse(value));
-				control.setVisibility(View.VISIBLE);
+				control.setImageURI(Uri.parse(value));			
 			}
 		};
 		
 		if (!source.get().isEmpty())
 			observer.OnValueChanged(source.get());
 		source.addObserver(observer);
+	}
+	
+	public static void BindVisible(final View control, Observable<Boolean> source) {
+		BindVisible(control, source, Mode.NONE);		
 	}
 	
 	public static void BindVisible(final View control, Observable<Boolean> source, final Mode flag) {
@@ -93,7 +92,7 @@ public class Bindings {
 		source.addObserver(observer);
 	}
 	
-	public static <Type> void BindCommand(final Button source, final ICommand<Type> target, final Type context) {
+	public static <Type> void BindCommand(final View source, final ICommand<Type> target, final Type context) {
 		source.setTag(context);
 		source.setOnClickListener(new OnClickListener() {			
 			public void onClick(View v) {

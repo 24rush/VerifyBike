@@ -37,7 +37,7 @@ class BikeDataViewModel implements Parcelable {
 	
 	private BikeData m_ModelData;
 	
-	public Observable<Boolean> IsValid = new Validator(SerialNumber, Model).IsValid;
+	public Observable<Boolean> IsValid = new Validator(SerialNumber, Model, PictureURL_0, PictureURL_1).IsValid;
 	
 	@Override
 	public int describeContents() {
