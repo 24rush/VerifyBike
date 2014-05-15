@@ -60,6 +60,7 @@ public class BikeListAdapter extends BaseAdapter{
 		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_stolen), new ICommand<BikeDataViewModel>() {
 			public void Execute(BikeDataViewModel context) {
 				Log.d("MyApp", "Stolen " + context.Model.get());
+				MessageBox.Show(m_Activity, "We are sorry...", "Your bike has been marked as stolen in our database");
 				context.Stolen.set(true);
 			}
 		}, objCurrent);

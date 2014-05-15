@@ -7,7 +7,7 @@ import android.content.DialogInterface;
 public class MessageBox {
 
 	public static void Show(Activity _activity, String title, String message) {
-		AlertDialog alertDialog = new AlertDialog.Builder(_activity, android.R.style.Theme_Holo_Dialog).create();
+		AlertDialog alertDialog = new AlertDialog.Builder(_activity).create();
 		
 		alertDialog.setTitle(title);
 		alertDialog.setMessage(message);

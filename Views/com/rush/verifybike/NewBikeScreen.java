@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.rush.verifybike.Bindings.Mode;
 
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -47,8 +48,8 @@ public class NewBikeScreen extends Activity {
 		};
 		
 		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic0), observerRemBikePic, m_ViewModel.PictureURL_0);
-		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic0), observerRemBikePic, m_ViewModel.PictureURL_1);
-		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic0), observerRemBikePic, m_ViewModel.PictureURL_2);
+		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic1), observerRemBikePic, m_ViewModel.PictureURL_1);
+		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic2), observerRemBikePic, m_ViewModel.PictureURL_2);
 			
 		IContextNotifier<String> observerURI = new IContextNotifier<String>() {			
 			@Override

@@ -7,6 +7,7 @@ import java.util.List;
 import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,6 +24,7 @@ public class Bindings {
 	public static void BindImageURI(final ImageView control, Observable<String> source) {
 		INotifier<String> observer = new INotifier<String>() {			
 			public void OnValueChanged(String value) {
+				Log.d("MyApp", "setimageuri " + value + " " + control);
 				control.setImageURI(Uri.parse(value));			
 			}
 		};
