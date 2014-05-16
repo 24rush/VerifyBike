@@ -77,6 +77,15 @@ public class MainScreen extends Activity {
 		});
 
 		LoginViewModel.Init(this);
+		
+		Bindings.BindCommand(Controls.get(R.id.selection_profile_pic), new ICommand<Activity>() {
+
+			@Override
+			public void Execute(Activity context) {				
+				Intent intent = new Intent(context, UserProfile.class); 				
+				startActivity(intent);	
+			}
+		}, this);
 	}
 
 	public void onSearchSerialNumber(View v) {

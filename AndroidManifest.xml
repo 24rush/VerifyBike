@@ -48,6 +48,10 @@
             android:name="com.rush.verifybike.BrowsePictureActivity"
             android:label="@string/title_activity_browse_picture" >
         </activity>
+        <activity
+            android:name="com.rush.verifybike.UserProfile"
+            android:label="@string/title_activity_user_profile" >
+        </activity>
     </application>
 
 </manifest>

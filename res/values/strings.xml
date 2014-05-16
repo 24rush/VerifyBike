@@ -26,5 +26,6 @@
     <string name="lbl_bike_model">Model</string>
     <string name="lbl_bike_serial_number">Serial</string>
     <string name="title_activity_browse_picture">BrowsePictureActivity</string>
+    <string name="title_activity_user_profile">UserProfile</string>
 
 </resources>

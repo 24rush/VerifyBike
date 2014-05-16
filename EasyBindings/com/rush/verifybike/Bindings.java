@@ -11,6 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Checkable;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +25,36 @@ public class Bindings {
 
 	private static HashMap<Observable<?>, List<Binding>> m_Bindings = new HashMap<Observable<?>, List<Binding>>();
 
+	public static void BindEnabled(final View control, Observable<Boolean> source) {
+		INotifier<Boolean> observer = new INotifier<Boolean>() {					
+			public void OnValueChanged(Boolean value) {			
+				control.setEnabled(value);
+			}
+		};
+		
+		observer.OnValueChanged(source.get());
+		source.addObserver(observer);
+	}
+	
+	public static void BindChecked(final CheckBox control, final Observable<Boolean> source, Mode flags) {
+		INotifier<Boolean> observer = new INotifier<Boolean>() {					
+			public void OnValueChanged(Boolean value) {			
+				control.setChecked(value);
+			}
+		};
+		
+		if (flags == Mode.TWO_WAY) {
+			CheckBox chkCtrl = (CheckBox) control;
+			chkCtrl.setOnCheckedChangeListener(new OnCheckedChangeListener() {				
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					source.set(isChecked);
+				}
+			});
+		}
+		
+		observer.OnValueChanged(source.get());
+	}
+	
 	public static void BindImageURI(final ImageView control, Observable<String> source) {
 		INotifier<String> observer = new INotifier<String>() {			
 			public void OnValueChanged(String value) {

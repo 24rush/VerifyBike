@@ -23,7 +23,11 @@ public class LoginViewModel {
 
 	public Observable<String> UserFullName = new Observable<String>("");
 	public Observable<String> FacebookId = new Observable<String>(null);
-
+	
+	public Observable<Boolean> AllowContactShare = new Observable<Boolean>(true);
+	public Observable<String> Phone = new Observable<String>("");
+	public Observable<String> Email = new Observable<String>("");
+	
 	public boolean Init(Activity _parent) {
 		m_Activity = _parent;
 
@@ -36,10 +40,28 @@ public class LoginViewModel {
 		CanLogin.set(!IsUserLinkedToFacebook.get());
 		UserFullName.set((String)user.getString("name"));
 		FacebookId.set((String)user.getString("facebookId"));
-
+		Email.set((String)user.getString("email"));
+		AllowContactShare.set(user.getBoolean("allowContactShare"));		
+		
 		return true;
 	}
 
+	public void Logout() {		
+				
+		ParseFacebookUtils.getSession().closeAndClearTokenInformation();			
+		ParseUser.logOut();
+		
+		CanLogin.set(true);
+		IsUserLinkedToFacebook.set(false);
+		
+		UserFullName.set("");
+		FacebookId.set("");
+		
+		AllowContactShare.set(false);
+		Phone.set("");
+		Email.set("");
+	}
+	
 	public void Login() {
 
 		CanLogin.set(false);
@@ -99,15 +121,23 @@ public class LoginViewModel {
 						if (parseUser != null) {
 							Log.d("MyApp", "update user");
 		
+							String email = user.getProperty("email").toString();
+							
 							parseUser.put("name", user.getName());	  
-							parseUser.put("facebookId", user.getId());	                
+							parseUser.put("facebookId", user.getId());
+							parseUser.put("allowContactShare", true);
+							
+							if (email != null && !email.isEmpty()) {
+								parseUser.put("email", email);
+								Email.set(user.getProperty("email").toString());
+							}
 		
 							parseUser.saveInBackground();
 		
 							UserFullName.set((String)parseUser.getString("name"));
 							FacebookId.set((String)parseUser.getString("facebookId"));
 							CanLogin.set(false);
-							IsUserLinkedToFacebook.set(true); 
+							IsUserLinkedToFacebook.set(true); 							
 						}	                	                 	                                                     	                                              	                	       
 					}               	                
 				});
