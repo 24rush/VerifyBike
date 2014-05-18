@@ -3,6 +3,10 @@ package com.rush.verifybike;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import android.util.Log;
@@ -20,7 +24,7 @@ public class DataEndpoint {
 		cbk.OnDataReceived(result);
 	}
 	
-	public static void RetrieveUserBikes(DataReceivedCallback<List<BikeData>> cbk) {		
+	public static void RetrieveUserBikes(final DataReceivedCallback<List<BikeData>> cbk) {		
 		if (cbk == null)
 			return;
 		
@@ -31,11 +35,26 @@ public class DataEndpoint {
 		String userId = user.getString("facebookId");
 		Log.d("MyApp", "Launching bike retrievel for " + userId);
 		
-		ArrayList<BikeData> bikes = new ArrayList<BikeData>();
-		bikes.add(new BikeData("H54RF123", "Cannondale CAAD 10", 3, false));
-		bikes.add(new BikeData("DH2324DS", "DHS la care se rupe ghidonul", 1, true));
+		ParseQuery<ParseObject> queryBikes = ParseQuery.getQuery(BikeData.Class);		
+		queryBikes.whereEqualTo("userId", userId);		
+		queryBikes.findInBackground(new FindCallback<ParseObject>() {
+			
+			@Override
+			public void done(List<ParseObject> arg0, ParseException arg1) {		
+				Log.d("MyApp", "Received bikes " + arg0);
+				ArrayList<BikeData> bikes = new ArrayList<BikeData>();
+				
+				for (ParseObject bikeData : arg0) {
+					bikes.add(new BikeData(bikeData));	
+				}							
+				
+				cbk.OnDataReceived(bikes);
+			}
+		});			
+	}
+	
+	public static void AddBike() {
 		
-		cbk.OnDataReceived(bikes);
 	}
 }
 

@@ -28,6 +28,8 @@ public class LoginViewModel {
 	public Observable<String> Phone = new Observable<String>("");
 	public Observable<String> Email = new Observable<String>("");
 	
+	public Observable<Boolean> IsDirty = new Observable<Boolean>(false);
+	
 	public boolean Init(Activity _parent) {
 		m_Activity = _parent;
 
@@ -41,11 +43,35 @@ public class LoginViewModel {
 		UserFullName.set((String)user.getString("name"));
 		FacebookId.set((String)user.getString("facebookId"));
 		Email.set((String)user.getString("email"));
-		AllowContactShare.set(user.getBoolean("allowContactShare"));		
+		Phone.set((String)user.getString("mobile"));
+		AllowContactShare.set(user.getBoolean("allowContactShare"));
+		
+		IsDirty.set(false);
+		
+		INotifier<Object> observerRequireSave = new INotifier<Object>() {					
+			public void OnValueChanged(Object value) {
+				IsDirty.set(true);
+			}
+		};
+		
+		Email.addTypelessObserver(observerRequireSave);
+		Phone.addTypelessObserver(observerRequireSave);
+		AllowContactShare.addTypelessObserver(observerRequireSave);
 		
 		return true;
 	}
 
+	public void Save() {			
+				
+		ParseUser parseUser = ParseUser.getCurrentUser();
+		Log.d("MyApp", "save " + Phone.get());
+		parseUser.put("email", Email.get());	  
+		parseUser.put("mobile", Phone.get());
+		parseUser.put("allowContactShare", AllowContactShare.get());
+		
+		parseUser.saveEventually();
+	}
+	
 	public void Logout() {		
 				
 		ParseFacebookUtils.getSession().closeAndClearTokenInformation();			
@@ -60,6 +86,8 @@ public class LoginViewModel {
 		AllowContactShare.set(false);
 		Phone.set("");
 		Email.set("");
+		
+		IsDirty.set(false);
 	}
 	
 	public void Login() {
@@ -124,18 +152,20 @@ public class LoginViewModel {
 							String email = user.getProperty("email").toString();
 							
 							parseUser.put("name", user.getName());	  
-							parseUser.put("facebookId", user.getId());
+							parseUser.put("facebookId", user.getId());							
 							parseUser.put("allowContactShare", true);
+							parseUser.put("mobile", "");
 							
 							if (email != null && !email.isEmpty()) {
 								parseUser.put("email", email);
 								Email.set(user.getProperty("email").toString());
 							}
 		
-							parseUser.saveInBackground();
+							parseUser.saveEventually();
 		
 							UserFullName.set((String)parseUser.getString("name"));
 							FacebookId.set((String)parseUser.getString("facebookId"));
+							AllowContactShare.set(true);
 							CanLogin.set(false);
 							IsUserLinkedToFacebook.set(true); 							
 						}	                	                 	                                                     	                                              	                	       

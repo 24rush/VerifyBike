@@ -1,9 +1,7 @@
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout1"
     android:layout_width="match_parent"
-
     android:layout_height="wrap_content"
     android:background="#087DFB"
     android:orientation="vertical"
@@ -86,6 +84,15 @@
                     android:layout_marginTop="5dp"
                     android:text="+"
                     android:textSize="60sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:text="(mandatory)"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
             </LinearLayout>
 
             <RelativeLayout
@@ -142,6 +149,15 @@
                     android:layout_marginTop="5dp"
                     android:text="+"
                     android:textSize="60sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:text="(mandatory)"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
             </LinearLayout>
 
             <RelativeLayout
@@ -195,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
-                    android:text="Serial number"
+                    android:text="Invoice"
                     android:textSize="15sp"
                     android:textStyle="italic" />
 
@@ -208,7 +224,7 @@
                     android:textSize="60sp" />
             </LinearLayout>
 
-           <RelativeLayout
+            <RelativeLayout
                 android:id="@+id/lay_show_bike_2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

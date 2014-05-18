@@ -71,9 +71,10 @@ public class BikeListScreen extends Activity {
 	            	MainScreen.BikesViewModel.AddBike(retViewModel);
 	            }
 	            else {
-	            	m_ViewModelSource.UpdateViewModel(retViewModel);
-	            	m_ViewModelSource.Save();
+	            	m_ViewModelSource.UpdateViewModel(retViewModel);	            	
 	            }
+	            
+	            m_ViewModelSource.Save();
 	        }
 	        else
 		        if (resultCode == RESULT_CANCELED) {
