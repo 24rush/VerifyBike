@@ -25,8 +25,7 @@ public class BikeListAdapter extends BaseAdapter{
 	}
 
 	@Override
-	public int getCount() {
-		Log.d("MyApp", "getCount " + MainScreen.BikesViewModel.Bikes().size());
+	public int getCount() {		
 		return MainScreen.BikesViewModel.Bikes().size();
 	}
 
@@ -49,24 +48,24 @@ public class BikeListAdapter extends BaseAdapter{
 		if (convertedView == null)					    	
 			convertedView = m_LayoutInflater.inflate(R.layout.bikelistitem, parentView, false);		
 
-		List<BikeDataViewModel> bikes = MainScreen.BikesViewModel.Bikes();
-		BikeDataViewModel objCurrent = bikes.get(arg0);
-		Log.d("MyApp", "getView " + objCurrent.Model);
+		List<BikeViewModel> bikes = MainScreen.BikesViewModel.Bikes();
+		BikeViewModel objCurrent = bikes.get(arg0);
+		Log.d("MyApp", "getView " + objCurrent.Model.get());
 		Bindings.BindText(convertedView.findViewById(R.id.lbl_bike_model), objCurrent.Model);
 		Bindings.BindText(convertedView.findViewById(R.id.lbl_serial_number), objCurrent.SerialNumber);			
 		
 		Bindings.BindImageURI((ImageView) convertedView.findViewById(R.id.imageView1), objCurrent.PictureURL_0);
 		
-		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_stolen), new ICommand<BikeDataViewModel>() {
-			public void Execute(BikeDataViewModel context) {
+		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_stolen), new ICommand<BikeViewModel>() {
+			public void Execute(BikeViewModel context) {
 				Log.d("MyApp", "Stolen " + context.Model.get());
 				MessageBox.Show(m_Activity, "We are sorry...", "Your bike has been marked as stolen in our database");
 				context.Stolen.set(true);
 			}
 		}, objCurrent);
 		
-		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_sold), new ICommand<BikeDataViewModel>() {
-			public void Execute(BikeDataViewModel context) {
+		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_sold), new ICommand<BikeViewModel>() {
+			public void Execute(BikeViewModel context) {
 				Log.d("MyApp", "Sold " + context.Model.get());
 				MainScreen.BikesViewModel.RemoveBike(context);
 			}

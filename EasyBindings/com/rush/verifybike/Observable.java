@@ -48,8 +48,7 @@ public class Observable<Type extends Object> implements Serializable, IObservabl
 		return m_Value.toString();
 	}
 	
-	public void set(Type value) {
-		Log.d("MyApp", value == null ? "NULL" : value.toString());
+	public void set(Type value) {		
 		if (m_Value == null || !m_Value.equals(value)) {
 			m_Value = value;
 			

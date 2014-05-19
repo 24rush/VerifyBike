@@ -6,9 +6,9 @@ import android.util.Log;
 public class BikesViewModel {
 	
 	private Boolean m_initDone = false;
-	private ObservableCollection<BikeDataViewModel> m_Bikes = new ObservableCollection<BikeDataViewModel>();
+	private ObservableCollection<BikeViewModel> m_Bikes = new ObservableCollection<BikeViewModel>();
 	
-	public ObservableCollection<BikeDataViewModel> Bikes() {		
+	public ObservableCollection<BikeViewModel> Bikes() {		
 		return m_Bikes;
 	}
 	
@@ -16,11 +16,11 @@ public class BikesViewModel {
 		if (m_initDone)
 			return;
 					
-		DataEndpoint.RetrieveUserBikes(new DataReceivedCallback<List<BikeDataViewModel>>() {			
+		DataEndpoint.RetrieveUserBikes(new DataReceivedCallback<List<BikeModel>>() {			
 			@Override
-			public void OnDataReceived(List<BikeDataViewModel> data) {				
-				for (BikeDataViewModel bikeData : data) {
-					m_Bikes.add(bikeData);
+			public void OnDataReceived(List<BikeModel> data) {				
+				for (BikeModel bikeData : data) {					
+					m_Bikes.add(new BikeViewModel(bikeData));
 				}
 								
 				m_initDone = true;
@@ -28,13 +28,13 @@ public class BikesViewModel {
 		});					
 	}
 
-	public void RemoveBike(BikeDataViewModel context) {
+	public void RemoveBike(BikeViewModel context) {
 		Log.d("MyApp", "RemoveBike " + context.Model);
 		context.Destroy();
 		m_Bikes.remove(context);
 	}
 	
-	public void AddBike(BikeDataViewModel context) {
+	public void AddBike(BikeViewModel context) {
 		Log.d("MyApp", "AddBike " + context.Model);
 		m_Bikes.add(context);
 	}

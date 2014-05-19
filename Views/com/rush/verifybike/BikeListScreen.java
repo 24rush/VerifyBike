@@ -14,7 +14,7 @@ import android.widget.ListView;
 public class BikeListScreen extends Activity {
 
 	private Controls Controls = new Controls(this);
-	private BikeDataViewModel m_ViewModelSource;
+	private BikeViewModel m_BikeViewModel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +29,14 @@ public class BikeListScreen extends Activity {
 			public void Execute(Activity context) {
 				Log.d("MyApp", "onAddNewBike");
 				
-				m_ViewModelSource = null;
-				startAddEditBike(new BikeDataViewModel());
+				m_BikeViewModel = new BikeViewModel();
+				startAddEditBike(m_BikeViewModel);
 			}
 		}, this);			
 
 		// Manual refresh on the adapter when the list changes
-		MainScreen.BikesViewModel.Bikes().addObserver(new INotifier<ObservableCollection<BikeDataViewModel>>() {
-			public void OnValueChanged(ObservableCollection<BikeDataViewModel> value) {
+		MainScreen.BikesViewModel.Bikes().addObserver(new INotifier<ObservableCollection<BikeViewModel>>() {
+			public void OnValueChanged(ObservableCollection<BikeViewModel> value) {
 				bikeListAdapter.notifyDataSetChanged();
 			}
 		});
@@ -48,13 +48,13 @@ public class BikeListScreen extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {				
 				Log.d("MyApp", "tapped bike " + arg2);
 				
-				m_ViewModelSource = MainScreen.BikesViewModel.Bikes().get(arg2 - 1); 
-				startAddEditBike(new BikeDataViewModel(m_ViewModelSource));
+				m_BikeViewModel = MainScreen.BikesViewModel.Bikes().get(arg2 - 1); 
+				startAddEditBike(m_BikeViewModel);
 			}
 		});						    	
 	}
 	
-	private void startAddEditBike(BikeDataViewModel bikeViewModel) {
+	private void startAddEditBike(BikeViewModel bikeViewModel) {
 		Intent intent = new Intent(this, NewBikeScreen.class);
 		intent.putExtra("com.rush.verifybike.BikeViewModel", bikeViewModel);
 
@@ -64,17 +64,12 @@ public class BikeListScreen extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    if (requestCode == 1) {
 	        if (resultCode == RESULT_OK) {
-	            BikeDataViewModel retViewModel = data.getParcelableExtra("com.rush.verifybike.BikeViewModel");
+	            m_BikeViewModel = data.getParcelableExtra("com.rush.verifybike.BikeViewModel");
+	            	           	      
+	            if (m_BikeViewModel.IsNewObject())
+	            	MainScreen.BikesViewModel.AddBike(m_BikeViewModel);	                   	            
 	            
-	            if (m_ViewModelSource == null) {
-	            	m_ViewModelSource = retViewModel;
-	            	MainScreen.BikesViewModel.AddBike(retViewModel);
-	            }
-	            else {
-	            	m_ViewModelSource.CopyFrom(retViewModel);	            	
-	            }
-	            
-	            m_ViewModelSource.Save();
+	            m_BikeViewModel.Commit();
 	        }
 	        else
 		        if (resultCode == RESULT_CANCELED) {

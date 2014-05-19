@@ -26,7 +26,7 @@ public class NewBikeScreen extends Activity {
 
 	private ArrayList<ImageView> m_ImageViews = new ArrayList<ImageView>(); 
 	private Controls m_Controls = new Controls(this);
-	private BikeDataViewModel m_ViewModel;
+	private BikeViewModel m_ViewModel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class NewBikeScreen extends Activity {
 		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic1));
 		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic2));
 
-		m_ViewModel =  (BikeDataViewModel) getIntent().getParcelableExtra("com.rush.verifybike.BikeViewModel");
+		m_ViewModel =  (BikeViewModel) getIntent().getParcelableExtra("com.rush.verifybike.BikeViewModel");
 		Log.d("MyApp", "picture " + m_ViewModel.PictureURL_0.get());
 		Bindings.BindText(m_Controls.get(R.id.edt_bike_model), m_ViewModel.Model, Mode.TWO_WAY);
 		Bindings.BindText(m_Controls.get(R.id.edt_bike_serial), m_ViewModel.SerialNumber, Mode.TWO_WAY);
@@ -68,9 +68,7 @@ public class NewBikeScreen extends Activity {
 
 				if (imageAvail) {
 					Bitmap scaledBm = BitmapUtils.decodeSampledBitmapFromResource(value, 240, 240);
-					m_ImageViews.get(index).setImageBitmap(scaledBm);	
-					
-					getPictureHolderForIndex(index).set(scaledBm);
+					m_ImageViews.get(index).setImageBitmap(scaledBm);										
 				}
 			}
 		};
@@ -128,16 +126,6 @@ public class NewBikeScreen extends Activity {
 		}
 	}
 
-	private Observable<Bitmap> getPictureHolderForIndex(int index) {
-		switch (index) {
-		case 0: return m_ViewModel.PictureData_0;
-		case 1: return m_ViewModel.PictureData_1;
-		case 2: return m_ViewModel.PictureData_2;
-		default:
-			return null;
-		}
-	}
-
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
 			if (requestCode == SELECT_PICTURE) {
@@ -174,16 +162,7 @@ public class NewBikeScreen extends Activity {
 		return null;
 	}
 
-	public void onSaveBike(View v) {		
-		for (int i = 0; i < 3; i++) {
-			BitmapDrawable drawable = (BitmapDrawable)m_ImageViews.get(i).getDrawable();
-			
-			if (drawable == null)
-				continue;
-			
-			getPictureHolderForIndex(i).set(drawable.getBitmap());					
-		}
-		
+	public void onSaveBike(View v) {				
 		setResult(RESULT_OK, getIntent());
 		finish();
 	}
