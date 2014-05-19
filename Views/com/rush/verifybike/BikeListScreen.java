@@ -49,7 +49,7 @@ public class BikeListScreen extends Activity {
 				Log.d("MyApp", "tapped bike " + arg2);
 				
 				m_ViewModelSource = MainScreen.BikesViewModel.Bikes().get(arg2 - 1); 
-				startAddEditBike(m_ViewModelSource.clone());
+				startAddEditBike(new BikeDataViewModel(m_ViewModelSource));
 			}
 		});						    	
 	}
@@ -71,7 +71,7 @@ public class BikeListScreen extends Activity {
 	            	MainScreen.BikesViewModel.AddBike(retViewModel);
 	            }
 	            else {
-	            	m_ViewModelSource.UpdateViewModel(retViewModel);	            	
+	            	m_ViewModelSource.CopyFrom(retViewModel);	            	
 	            }
 	            
 	            m_ViewModelSource.Save();

@@ -16,11 +16,11 @@ public class BikesViewModel {
 		if (m_initDone)
 			return;
 					
-		DataEndpoint.RetrieveUserBikes(new DataReceivedCallback<List<BikeData>>() {			
+		DataEndpoint.RetrieveUserBikes(new DataReceivedCallback<List<BikeDataViewModel>>() {			
 			@Override
-			public void OnDataReceived(List<BikeData> data) {				
-				for (BikeData bikeData : data) {
-					m_Bikes.add((new BikeDataViewModel(bikeData)));
+			public void OnDataReceived(List<BikeDataViewModel> data) {				
+				for (BikeDataViewModel bikeData : data) {
+					m_Bikes.add(bikeData);
 				}
 								
 				m_initDone = true;

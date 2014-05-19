@@ -3,10 +3,14 @@ package com.rush.verifybike;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Observable<Type extends Object> implements Serializable {
+import android.util.Log;
+
+import com.parse.ParseObject;
+
+public class Observable<Type extends Object> implements Serializable, IObservable<Type> {
 	private static final long serialVersionUID = 1L;
 	
-	private Type m_Value;
+	protected Type m_Value;
 	private IValidator<Type> m_Validator;
 	
 	private ArrayList<INotifier<Type>> m_Listeners = new ArrayList<INotifier<Type>>() {
@@ -15,17 +19,16 @@ public class Observable<Type extends Object> implements Serializable {
 	
 	private ArrayList<ContextualListener<Type>> m_ContextListeners = new ArrayList<ContextualListener<Type>>();
 	
-	public Observable() {
-		
+	public Observable() {		
 	}
 	
 	public Observable(Type value) {
-		set(value);
+		m_Value = value;
 	}
 	
 	public Observable(Type value, IValidator<Type> validator) {
+		m_Value = value;
 		m_Validator = validator;
-		set(value);
 	}
 	
 	public void Destroy() {
@@ -46,6 +49,7 @@ public class Observable<Type extends Object> implements Serializable {
 	}
 	
 	public void set(Type value) {
+		Log.d("MyApp", value == null ? "NULL" : value.toString());
 		if (m_Value == null || !m_Value.equals(value)) {
 			m_Value = value;
 			
@@ -78,4 +82,9 @@ public class Observable<Type extends Object> implements Serializable {
 	public void removeObserver(INotifier<Type> observer) {
 		m_Listeners.remove(observer);
 	}
+}
+
+interface IObservable<Type> {
+	public void set(Type value);	
+	public Type get();
 }

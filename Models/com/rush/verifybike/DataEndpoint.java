@@ -24,7 +24,7 @@ public class DataEndpoint {
 		cbk.OnDataReceived(result);
 	}
 	
-	public static void RetrieveUserBikes(final DataReceivedCallback<List<BikeData>> cbk) {		
+	public static void RetrieveUserBikes(final DataReceivedCallback<List<BikeDataViewModel>> cbk) {		
 		if (cbk == null)
 			return;
 		
@@ -35,17 +35,17 @@ public class DataEndpoint {
 		String userId = user.getString("facebookId");
 		Log.d("MyApp", "Launching bike retrievel for " + userId);
 		
-		ParseQuery<ParseObject> queryBikes = ParseQuery.getQuery(BikeData.Class);		
+		ParseQuery<ParseObject> queryBikes = ParseQuery.getQuery(BikeDataViewModel.Class);		
 		queryBikes.whereEqualTo("userId", userId);		
 		queryBikes.findInBackground(new FindCallback<ParseObject>() {
 			
 			@Override
 			public void done(List<ParseObject> arg0, ParseException arg1) {		
 				Log.d("MyApp", "Received bikes " + arg0);
-				ArrayList<BikeData> bikes = new ArrayList<BikeData>();
+				ArrayList<BikeDataViewModel> bikes = new ArrayList<BikeDataViewModel>();
 				
 				for (ParseObject bikeData : arg0) {
-					bikes.add(new BikeData(bikeData));	
+					bikes.add(new BikeDataViewModel(bikeData));	
 				}							
 				
 				cbk.OnDataReceived(bikes);

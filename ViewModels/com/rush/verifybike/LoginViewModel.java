@@ -22,7 +22,7 @@ public class LoginViewModel {
 	public Observable<Boolean> CanLogin = new Observable<Boolean>(true);
 
 	public Observable<String> UserFullName = new Observable<String>("");
-	public Observable<String> FacebookId = new Observable<String>(null);
+	public Observable<String> FacebookId = new Observable<String>("");
 	
 	public Observable<Boolean> AllowContactShare = new Observable<Boolean>(true);
 	public Observable<String> Phone = new Observable<String>("");

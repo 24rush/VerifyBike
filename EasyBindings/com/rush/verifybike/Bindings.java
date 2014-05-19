@@ -63,7 +63,7 @@ public class Bindings {
 			}
 		};
 		
-		if (!source.get().isEmpty())
+		if (source.get() != null && !source.get().isEmpty())
 			observer.OnValueChanged(source.get());
 		source.addObserver(observer);
 	}
