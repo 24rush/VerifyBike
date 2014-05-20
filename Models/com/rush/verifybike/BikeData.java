@@ -2,6 +2,7 @@ package com.rush.verifybike;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.graphics.Bitmap;
@@ -21,7 +22,8 @@ class ObjectProxy<Type> {
 		m_Tag = tag;
 	}
 	
-	public void set(Type v) {		
+	public void set(Type v) {	
+		Log.d("MyApp", "set " + m_Tag);
 		m_Obj.put(m_Tag, v);
 	}
 	
@@ -29,11 +31,11 @@ class ObjectProxy<Type> {
 	public Type get() {
 		Log.d("MyApp", "get " + m_Tag + " " + m_Obj.get(m_Tag));
 		return (Type) m_Obj.get(m_Tag);
-	}
+	}	
 }
 
 class BikeModel {
-	public final static String Class = "Bike";
+	public final static String Class = "BikeData";
 	
 	private ParseObject m_CloudData;
 	
@@ -71,13 +73,16 @@ class BikeModel {
 
 		int index = 0;
 		for (final ObjectProxy<ParseFile> picFile : PictureFiles) {
-			if (picFile.get() != null) {				
+			Log.d("MyApp", "try call " + Boolean.toString((picFile.get()!=null)));
+			if (picFile.get() != null) {								
 				ExceptionInhibitor.Execute(new MethodInvoker2<Integer, ParseFile>() {
 					@Override
-					public void Call(Integer index, ParseFile picFile) throws ParseException {
-						PictureBuffers.set(index, picFile.getData());											
+					public void Call(Integer index, ParseFile picFile) throws Exception {	
+						Log.d("MyApp", "in pic "+index);
+						if (!Arrays.equals(picFile.getData(), "empty".getBytes()))
+							PictureBuffers.set(index, picFile.getData());											
 					}
-				}, index, picFile);							
+				}, index, picFile.get());							
 			}
 			
 			index++;
@@ -89,14 +94,15 @@ class BikeModel {
 		
 		int index = 0;
 		for (byte[] picBuffer : PictureBuffers) {
-			if (picBuffer != null) {
-				ParseFile file = new ParseFile(picBuffer);
+			if (picBuffer != null) {				
+				ParseFile file = new ParseFile("pic" + index + ".png", picBuffer);
 				try {
 					file.save();
 					
 					PictureFiles.get(index).set(file);
 				} 
-				catch (ParseException e) {				
+				catch (ParseException e) {
+					Log.d("MyApp", "exc " + e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -105,11 +111,13 @@ class BikeModel {
 		}
 		
 		try {
+			Log.d("MyApp", "saving");
 			m_CloudData.save();
-			
+			Log.d("MyApp", "saved");
 			IsNewObject = false;
 		} 
-		catch (ParseException e) {		
+		catch (ParseException e) {
+			Log.d("MyApp", "save exc " + e.getMessage());
 			e.printStackTrace();
 		}
 	}	
@@ -136,6 +144,7 @@ class BikeViewModel {
 	//
 	// Constructors 
 	//	
+	
 	public BikeViewModel(BikeModel src) {
 		m_ModelData = src;
 		
@@ -177,13 +186,25 @@ class BikeViewModel {
 		m_ModelData.Stolen.set(Stolen.get());
 		
 		int index = 0;
-		for (Observable<Bitmap> picBmp : PictureCaches) {
+		for (Observable<Bitmap> picBmp : PictureCaches) {			
 			if (picBmp.get() != null) {
 				ByteArrayOutputStream stream = new ByteArrayOutputStream();
 				picBmp.get().compress(Bitmap.CompressFormat.PNG, 100, stream);
 				byte[] byteArray = stream.toByteArray();
 				
 				m_ModelData.PictureBuffers.set(index, byteArray);
+			}
+			else {
+				Log.d("MyApp", "removing " + index);
+				ParseFile dummy = new ParseFile("empty".getBytes());
+				try {
+					dummy.save();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				m_ModelData.PictureFiles.get(index).set(dummy);
 			}
 			
 			index++;

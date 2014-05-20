@@ -1,41 +1,27 @@
 package com.rush.verifybike;
 
+import android.util.Log;
+
 import com.parse.ParseException;
 import com.parse.ParseFile;
 
 public class ExceptionInhibitor {
-	@SuppressWarnings("unchecked")
-	public static <T, V> void Execute(MethodInvoker2<T, V> method, Object... args) {
+	
+	public static <T1, T2> void Execute(MethodInvoker2<T1, T2> method, T1 t1, T2 t2) {
 		if (method == null)
 			return;
-		
-		try 
-		{
-			int count = 0;
-			for (Object object : args) {
-				count++;
-			}
 
-			switch (count) {
-			case 0:
-				//method.Call();
-				break;
-			case 1:
-				//method.Call(args[0]);
-				break;
-			case 2:
-				method.Call((T)args[0], (V)args[1]);
-				break;
-			default:
-				break;
-			} 				
+		try 
+		{			
+			method.Call(t1, t2);
 		}
 		catch (Exception e) 
-		{			
+		{
+			Log.e("MyApp", e.getMessage());
 		}			
 	}
 }
 
-interface MethodInvoker2<T1 extends Object, T2 extends Object> {	
-	public void Call(T1 t1, T2 t2) throws ParseException;	
+interface MethodInvoker2 <T1, T2> {	
+	public void Call(T1 t1, T2 t2) throws Exception;	
 }
