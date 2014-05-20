@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-
-import com.rush.verifybike.Bindings.Mode;
 
 public class BikeListAdapter extends BaseAdapter{
 
@@ -44,18 +43,29 @@ public class BikeListAdapter extends BaseAdapter{
 	@Override
 	public View getView(int arg0, View convertedView, ViewGroup parentView) {		
 		Log.d("MyApp", arg0 + " " + convertedView);
-		
+
 		if (convertedView == null)					    	
 			convertedView = m_LayoutInflater.inflate(R.layout.bikelistitem, parentView, false);		
 
 		List<BikeViewModel> bikes = MainScreen.BikesViewModel.Bikes();
-		BikeViewModel objCurrent = bikes.get(arg0);
+		final BikeViewModel objCurrent = bikes.get(arg0);
+		final ImageView bikePreview = (ImageView) convertedView.findViewById(R.id.imageView1);
+
 		Log.d("MyApp", "getView " + objCurrent.Model.get());
 		Bindings.BindText(convertedView.findViewById(R.id.lbl_bike_model), objCurrent.Model);
 		Bindings.BindText(convertedView.findViewById(R.id.lbl_serial_number), objCurrent.SerialNumber);			
-		
-		Bindings.BindImageURI((ImageView) convertedView.findViewById(R.id.imageView1), objCurrent.PictureURL_0);
-		
+
+		INotifier<Bitmap> picNotifier = new INotifier<Bitmap>() {			
+			@Override
+			public void OnValueChanged(Bitmap value) {												
+				bikePreview.setImageBitmap(value);
+			}
+		};
+				
+		objCurrent.PictureCaches.get(0).addObserver(picNotifier);		
+		if (objCurrent.PictureCaches.get(0).get() != null)
+			picNotifier.OnValueChanged(objCurrent.PictureCaches.get(0).get());
+
 		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_stolen), new ICommand<BikeViewModel>() {
 			public void Execute(BikeViewModel context) {
 				Log.d("MyApp", "Stolen " + context.Model.get());
@@ -63,14 +73,14 @@ public class BikeListAdapter extends BaseAdapter{
 				context.Stolen.set(true);
 			}
 		}, objCurrent);
-		
+
 		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_sold), new ICommand<BikeViewModel>() {
 			public void Execute(BikeViewModel context) {
 				Log.d("MyApp", "Sold " + context.Model.get());
 				MainScreen.BikesViewModel.RemoveBike(context);
 			}
 		}, objCurrent);				
-				
+
 		return convertedView;
 	}
 

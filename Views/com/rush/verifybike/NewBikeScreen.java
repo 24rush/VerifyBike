@@ -36,55 +36,55 @@ public class NewBikeScreen extends Activity {
 		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic0));
 		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic1));
 		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic2));
-
-		m_ViewModel =  (BikeViewModel) getIntent().getParcelableExtra("com.rush.verifybike.BikeViewModel");
-		Log.d("MyApp", "picture " + m_ViewModel.PictureURL_0.get());
+		
+		m_ViewModel =  (BikeViewModel) DataTransfer.get("com.rush.verifybike.BikeViewModel");
+				
 		Bindings.BindText(m_Controls.get(R.id.edt_bike_model), m_ViewModel.Model, Mode.TWO_WAY);
 		Bindings.BindText(m_Controls.get(R.id.edt_bike_serial), m_ViewModel.SerialNumber, Mode.TWO_WAY);
 
 		Bindings.BindVisible(m_Controls.get(R.id.btn_save_bike), m_ViewModel.IsValid);		
 
-		ICommand<Observable<String>> observerRemBikePic = new ICommand<Observable<String>>() {
-			public void Execute(Observable<String> context) {			
-				((Observable<String>) context).set("");
+		ICommand<Observable<Bitmap>> observerRemBikePic = new ICommand<Observable<Bitmap>>() {
+			public void Execute(Observable<Bitmap> context) {			
+				context.set(null);
 			}
 		};
 
-		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic0), observerRemBikePic, m_ViewModel.PictureURL_0);
-		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic1), observerRemBikePic, m_ViewModel.PictureURL_1);
-		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic2), observerRemBikePic, m_ViewModel.PictureURL_2);
+		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic0), observerRemBikePic, m_ViewModel.PictureCaches.get(0));
+		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic1), observerRemBikePic, m_ViewModel.PictureCaches.get(1));
+		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic2), observerRemBikePic, m_ViewModel.PictureCaches.get(2));
 
-		IContextNotifier<String> observerURI = new IContextNotifier<String>() {			
+		IContextNotifier<Bitmap> observerURI = new IContextNotifier<Bitmap>() {			
 			@Override
-			public void OnValueChanged(String value, Object context) {	
-				if (value == null)
-					value = "";
-
-				Boolean imageAvail = !value.equals("");
-
+			public void OnValueChanged(Bitmap value, Object context) {					
+				Boolean imageAvail = value != null;
+				
 				Integer index = (Integer) context;
-				((LinearLayout) findViewById(getAddBikeLayoutForIndex(index))).setVisibility(!imageAvail ? View.VISIBLE : View.GONE);				
-				((RelativeLayout) findViewById(getBikeLayoutForIndex(index))).setVisibility(!imageAvail ? View.GONE : View.VISIBLE);
+				setLayoutVisibility(index, imageAvail);				
 
-				if (imageAvail) {
-					Bitmap scaledBm = BitmapUtils.decodeSampledBitmapFromResource(value, 240, 240);
-					m_ImageViews.get(index).setImageBitmap(scaledBm);										
+				if (imageAvail) {					
+					m_ImageViews.get(index).setImageBitmap(value);					
+					m_ViewModel.PictureCaches.get(index).set(value);					
 				}
 			}
 		};
 
-		m_ViewModel.PictureURL_0.addObserverContext(observerURI, 0);
-		observerURI.OnValueChanged(m_ViewModel.PictureURL_0.get(), 0);
-
-		m_ViewModel.PictureURL_1.addObserverContext(observerURI, 1);
-		observerURI.OnValueChanged(m_ViewModel.PictureURL_1.get(), 1);
-
-		m_ViewModel.PictureURL_2.addObserverContext(observerURI, 2);
-		observerURI.OnValueChanged(m_ViewModel.PictureURL_2.get(), 2);
+		int index = 0;
+		for (Observable<Bitmap> picURL : m_ViewModel.PictureCaches) {
+			picURL.addObserverContext(observerURI, index);
+			observerURI.OnValueChanged(m_ViewModel.PictureCaches.get(index).get(), index);
+			
+			index++;
+		}			
 	}
 
 	private int m_CurrentPicture = -1;
 
+	private void setLayoutVisibility(int index, boolean imageAvail) {		
+		((LinearLayout) findViewById(getAddBikeLayoutForIndex(index))).setVisibility(!imageAvail ? View.VISIBLE : View.GONE);				
+		((RelativeLayout) findViewById(getBikeLayoutForIndex(index))).setVisibility(!imageAvail ? View.GONE : View.VISIBLE);
+	}
+	
 	public void onLoadPicture0(View v) {
 		m_CurrentPicture = 0;
 		LaunchIntent();
@@ -128,21 +128,9 @@ public class NewBikeScreen extends Activity {
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
-			if (requestCode == SELECT_PICTURE) {
-				Uri selectedImageUri = data.getData();
-				String selectedImagePath = getPath(selectedImageUri);
-
-				Log.d("MyApp", m_CurrentPicture + " " + selectedImagePath);										
-
-				Observable<String> pict = m_ViewModel.PictureURL_0;
-
-				if (m_CurrentPicture == 1) 
-					pict = m_ViewModel.PictureURL_1;			
-				else
-					if (m_CurrentPicture == 2)
-						pict = m_ViewModel.PictureURL_2;
-
-				pict.set(selectedImagePath);				
+			if (requestCode == SELECT_PICTURE) {				
+				Bitmap scaledBm = BitmapUtils.decodeSampledBitmapFromResource(getPath(data.getData()), 240, 240);
+				m_ViewModel.PictureCaches.get(m_CurrentPicture).set(scaledBm);
 			}
 		}
 	}

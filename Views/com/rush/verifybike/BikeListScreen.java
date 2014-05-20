@@ -56,16 +56,16 @@ public class BikeListScreen extends Activity {
 	
 	private void startAddEditBike(BikeViewModel bikeViewModel) {
 		Intent intent = new Intent(this, NewBikeScreen.class);
-		intent.putExtra("com.rush.verifybike.BikeViewModel", bikeViewModel);
+		DataTransfer.put("com.rush.verifybike.BikeViewModel", bikeViewModel);		
 
 		startActivityForResult(intent, 1);	
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    if (requestCode == 1) {
-	        if (resultCode == RESULT_OK) {
-	            m_BikeViewModel = data.getParcelableExtra("com.rush.verifybike.BikeViewModel");
-	            	           	      
+	    if (requestCode == 1) {	    	
+	    	m_BikeViewModel = (BikeViewModel) DataTransfer.get("com.rush.verifybike.BikeViewModel");
+	    	
+	        if (resultCode == RESULT_OK) {	            	            	           	      
 	            if (m_BikeViewModel.IsNewObject())
 	            	MainScreen.BikesViewModel.AddBike(m_BikeViewModel);	                   	            
 	            
@@ -73,7 +73,7 @@ public class BikeListScreen extends Activity {
 	        }
 	        else
 		        if (resultCode == RESULT_CANCELED) {
-		            //Write your code if there's no result
+		            m_BikeViewModel.Reset();
 		        }
 	    }
 	}

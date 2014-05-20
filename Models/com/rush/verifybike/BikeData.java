@@ -1,24 +1,18 @@
 package com.rush.verifybike;
 
 import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Bitmap.Config;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
-
-class ObjectProxy<Type> implements Serializable {	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+class ObjectProxy<Type> {		
 	private ParseObject m_Obj;
 	private String m_Tag;
 	
@@ -43,6 +37,13 @@ class BikeModel {
 	
 	private ParseObject m_CloudData;
 	
+	public ObjectProxy<String> SerialNumber;	
+	public ObjectProxy<String> Model;	
+	public ObjectProxy<Boolean> Stolen;
+	
+	public List<ObjectProxy<ParseFile>> PictureFiles;		
+	public List<byte[]> PictureBuffers;
+	
 	public boolean IsNewObject = true;
 	
 	public BikeModel() {
@@ -57,10 +58,51 @@ class BikeModel {
 		SerialNumber = new ObjectProxy<String>(m_CloudData, "serial");
 		Model = new ObjectProxy<String>(m_CloudData, "model");
 		Stolen = new ObjectProxy<Boolean>(m_CloudData, "status");
+		
+		PictureFiles = new ArrayList<ObjectProxy<ParseFile>>(3);
+		PictureFiles.add(new ObjectProxy<ParseFile>(m_CloudData, "pic0"));
+		PictureFiles.add(new ObjectProxy<ParseFile>(m_CloudData, "pic1"));
+		PictureFiles.add(new ObjectProxy<ParseFile>(m_CloudData, "pic2"));
+		
+		PictureBuffers = new ArrayList<byte[]>(3);
+		PictureBuffers.add(null);
+		PictureBuffers.add(null);
+		PictureBuffers.add(null);		
+
+		int index = 0;
+		for (final ObjectProxy<ParseFile> picFile : PictureFiles) {
+			if (picFile.get() != null) {				
+				ExceptionInhibitor.Execute(new MethodInvoker2<Integer, ParseFile>() {
+					@Override
+					public void Call(Integer index, ParseFile picFile) throws ParseException {
+						PictureBuffers.set(index, picFile.getData());											
+					}
+				}, index, picFile);							
+			}
+			
+			index++;
+		}
 	}
 	
 	public void Save() {
 		m_CloudData.put("userId", MainScreen.LoginViewModel.FacebookId.get());
+		
+		int index = 0;
+		for (byte[] picBuffer : PictureBuffers) {
+			if (picBuffer != null) {
+				ParseFile file = new ParseFile(picBuffer);
+				try {
+					file.save();
+					
+					PictureFiles.get(index).set(file);
+				} 
+				catch (ParseException e) {				
+					e.printStackTrace();
+				}
+			}
+			
+			index++;
+		}
 		
 		try {
 			m_CloudData.save();
@@ -70,18 +112,10 @@ class BikeModel {
 		catch (ParseException e) {		
 			e.printStackTrace();
 		}
-	}
-	
-	public ObjectProxy<String> SerialNumber;	
-	public ObjectProxy<String> Model;	
-	public ObjectProxy<Boolean> Stolen;
-	
-	private final static String Pic0Tag = "pic0";
-	private final static String Pic1Tag = "pic1";
-	private final static String Pic2Tag = "pic2";
+	}	
 }
 
-class BikeViewModel implements Parcelable {	
+class BikeViewModel {	
 		
 	private BikeModel m_ModelData;
 	public boolean IsNewObject() { return m_ModelData.IsNewObject; }
@@ -90,26 +124,15 @@ class BikeViewModel implements Parcelable {
 	public Observable<String> Model = new Observable<String>("", Validators.RequiredString);	
 	public Observable<Boolean> Stolen = new Observable<Boolean>(false);
 	public Observable<Boolean> Sold = new Observable<Boolean>(false);
+				
+	public List<Observable<Bitmap>> PictureCaches = new ArrayList<Observable<Bitmap>>(3) {{
+		add(new Observable<Bitmap>(null, Validators.RequiredBitmap));
+		add(new Observable<Bitmap>(null, Validators.RequiredBitmap));
+		add(new Observable<Bitmap>(null, Validators.RequiredBitmap));
+	}};
 	
-	public Observable<String> PictureURL_0 = new Observable<String>("", Validators.RequiredString);			
-	public Observable<String> PictureURL_1 = new Observable<String>("", Validators.RequiredString);				
-	public Observable<String> PictureURL_2 = new Observable<String>("", Validators.RequiredString);		
-		
-	public Observable<Boolean> IsValid = new Validator(SerialNumber, Model, PictureURL_0, PictureURL_1).IsValid;
-		
-	@Override
-	public int describeContents() {	return 0; }
-	
-	public static final Parcelable.Creator<BikeViewModel> CREATOR = new Parcelable.Creator<BikeViewModel>() {
-		public BikeViewModel createFromParcel(Parcel in) {
-			return new BikeViewModel(in);
-		}
-
-		public BikeViewModel[] newArray(int size) {
-			return new BikeViewModel[size];
-		}
-	};
-	
+	public Observable<Boolean> IsValid = new Validator(SerialNumber, Model, PictureCaches.get(0), PictureCaches.get(1)).IsValid;
+			
 	//
 	// Constructors 
 	//	
@@ -126,97 +149,45 @@ class BikeViewModel implements Parcelable {
 	private void loadFromModel() {
 		SerialNumber.set(m_ModelData.SerialNumber.get());
 		Model.set(m_ModelData.Model.get());
-		Stolen.set(m_ModelData.Stolen.get());		
-	}
-	
-	@Override
-	public void writeToParcel(Parcel out, int arg1) {
-		out.writeValue(m_ModelData);
-		out.writeString(SerialNumber.get());
-		out.writeString(Model.get());
+		Stolen.set(m_ModelData.Stolen.get());
 		
-		out.writeString(PictureURL_0.get());
-		out.writeString(PictureURL_1.get());
-		out.writeString(PictureURL_2.get());		
+		int index = 0;
+		for (Observable<Bitmap> picCache : PictureCaches) {
+			byte[] picBuffer = m_ModelData.PictureBuffers.get(index);
+			if (picBuffer != null) {
 
-		boolean[] array = new boolean[2];		
-		array[0] = Stolen.get();
-		array[1] = Sold.get();
-		out.writeBooleanArray(array);
-	}
-	
-	private BikeViewModel(Parcel in) {
-		in.readValue(BikeModel.class.getClassLoader());
-		SerialNumber.set(in.readString());
-		Model.set(in.readString());
-	
-		PictureURL_0.set(in.readString());
-		PictureURL_1.set(in.readString());
-		PictureURL_2.set(in.readString());
-		
-		boolean[] array = new boolean[2];
-		in.readBooleanArray(array);
-		Stolen.set(array[0]);
-		Sold.set(array[1]);	
-	}
-	
-	
-	
-	/*
-	private Observable<Bitmap> createModelPictureObservable(final String tag) {
-		return new Observable<Bitmap>() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public Bitmap get() {
-				if (m_ModelData.get(tag) == null)
-					return Bitmap.createBitmap(1, 1, Config.ARGB_8888);
-				
-				ParseFile file = (ParseFile) m_ModelData.get(tag);
-				
-				Bitmap bmp = null;
 				BitmapFactory.Options options = new BitmapFactory.Options();
 				options.inMutable = true;
-				try {
-					bmp = BitmapFactory.decodeByteArray(file.getData(), 0, file.getData().length, options);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				m_Value = bmp;
-				return m_Value;
+			
+				Bitmap bmp = BitmapFactory.decodeByteArray(picBuffer, 0, picBuffer.length, options);				
+				picCache.set(bmp);
 			}
 			
-			@Override
-			public void set(Bitmap v) {
-				super.set(v);
-				
-				ByteArrayOutputStream stream = new ByteArrayOutputStream();
-				v.compress(Bitmap.CompressFormat.PNG, 100, stream);
-				byte[] byteArray = stream.toByteArray();
-				
-				ParseFile imageFile = new ParseFile(byteArray);
-				try {
-					imageFile.save();
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				m_ModelData.put(tag, imageFile);
-			}
-			
-			@Override
-			public String toString() {
-				return get().toString();
-			}
-		};
-	}		*/
+			index++;
+		}
+	}
+	
+	public void Reset() {
+		loadFromModel();
+	}	
 		
 	public void Commit() {		
 		m_ModelData.SerialNumber.set(SerialNumber.get());
 		m_ModelData.Model.set(Model.get());	
 		m_ModelData.Stolen.set(Stolen.get());
+		
+		int index = 0;
+		for (Observable<Bitmap> picBmp : PictureCaches) {
+			if (picBmp.get() != null) {
+				ByteArrayOutputStream stream = new ByteArrayOutputStream();
+				picBmp.get().compress(Bitmap.CompressFormat.PNG, 100, stream);
+				byte[] byteArray = stream.toByteArray();
+				
+				m_ModelData.PictureBuffers.set(index, byteArray);
+			}
+			
+			index++;
+		}
 		
 		m_ModelData.Save();
 	}
@@ -226,9 +197,9 @@ class BikeViewModel implements Parcelable {
 		Bindings.Remove(Model);
 		Bindings.Remove(Stolen);
 		Bindings.Remove(Sold);
-		Bindings.Remove(PictureURL_0);
-		Bindings.Remove(PictureURL_1);
-		Bindings.Remove(PictureURL_2);
+		Bindings.Remove(PictureCaches.get(0));
+		Bindings.Remove(PictureCaches.get(1));
+		Bindings.Remove(PictureCaches.get(2));
 	}
 
 }

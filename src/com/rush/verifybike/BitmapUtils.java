@@ -22,6 +22,8 @@ public class BitmapUtils {
 					&& (halfWidth / inSampleSize) > reqWidth) {
 				inSampleSize *= 2;
 			}
+			
+			inSampleSize *= 2;
 		}
 
 		return inSampleSize;

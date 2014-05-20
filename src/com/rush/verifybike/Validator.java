@@ -3,6 +3,8 @@ package com.rush.verifybike;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Bitmap;
+
 public class Validator {
 	class ValidationCache {
 		public boolean IsValid;
@@ -41,6 +43,8 @@ public class Validator {
 
 class Validators {
 	public static RequiredString RequiredString = new RequiredString();
+	public static RequiredObject RequiredObject = new RequiredObject();
+	public static RequiredBitmap RequiredBitmap = new RequiredBitmap();	
 }
 
 class RequiredString implements IValidator<String> {
@@ -48,6 +52,22 @@ class RequiredString implements IValidator<String> {
 	@Override
 	public boolean IsValid(String value) {
 		return value != null && !value.equals("");
+	}
+}
+
+class RequiredObject implements IValidator<Object> {
+
+	@Override
+	public boolean IsValid(Object value) {
+		return value != null;
+	}
+}
+
+class RequiredBitmap implements IValidator<Bitmap> {
+
+	@Override
+	public boolean IsValid(Bitmap value) {
+		return value != null;
 	}
 }
 
