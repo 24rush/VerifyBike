@@ -24,11 +24,11 @@ public class BikeListScreen extends Activity {
 		ListView bikeListView = (ListView)Controls.get(R.id.lst_bikes_owned);		
 		View header = getLayoutInflater().inflate(R.layout.header, null);
 		final BikeListAdapter bikeListAdapter = new BikeListAdapter(this);
-		
+
 		Bindings.BindCommand((Button) ((ViewGroup)header).getChildAt(1), new ICommand<Activity>() {
 			public void Execute(Activity context) {
 				Log.d("MyApp", "onAddNewBike");
-				
+
 				m_BikeViewModel = new BikeViewModel();
 				startAddEditBike(m_BikeViewModel);
 			}
@@ -40,39 +40,34 @@ public class BikeListScreen extends Activity {
 				bikeListAdapter.notifyDataSetChanged();
 			}
 		});
-		
+
 		bikeListView.addHeaderView(header);
-		
+
 		bikeListView.setAdapter(bikeListAdapter);		
 		bikeListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {				
 				Log.d("MyApp", "tapped bike " + arg2);
-				
+
 				m_BikeViewModel = MainScreen.BikesViewModel.Bikes().get(arg2 - 1); 
 				startAddEditBike(m_BikeViewModel);
 			}
 		});						    	
 	}
-	
+
 	private void startAddEditBike(BikeViewModel bikeViewModel) {
 		Intent intent = new Intent(this, NewBikeScreen.class);
 		DataTransfer.put("com.rush.verifybike.BikeViewModel", bikeViewModel);		
 
 		startActivityForResult(intent, 1);	
 	}
-	
+
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    if (requestCode == 1) {	    	
-	    	m_BikeViewModel = (BikeViewModel) DataTransfer.get("com.rush.verifybike.BikeViewModel");
-	    	
-	        if (resultCode == RESULT_OK) {	            	            	           	      
-	            if (m_BikeViewModel.IsNewObject())
-	            	MainScreen.BikesViewModel.AddBike(m_BikeViewModel);	                   	            	            	           
-	        }
-	        else
-		        if (resultCode == RESULT_CANCELED) {
-		            m_BikeViewModel.Reset();
-		        }
-	    }
+		if (requestCode == 1) {	    	
+			m_BikeViewModel = (BikeViewModel) DataTransfer.get("com.rush.verifybike.BikeViewModel");
+
+			if (resultCode == RESULT_CANCELED) {
+				m_BikeViewModel.Reset();
+			}
+		}
 	}
 }

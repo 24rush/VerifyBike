@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import com.rush.verifybike.VerificationResult.BikeStatus;
 
 import android.app.Activity;
+import android.util.Log;
 
 public class SearchBikeViewModel {
 	private Activity m_Activity;
@@ -42,7 +43,8 @@ public class SearchBikeViewModel {
 		IsSearchOnGoing.set(true);		
 				
 		DataEndpoint.CheckSerialNumber(SerialNumber.get(), new DataReceivedCallback<VerificationResult>() {					
-			public void OnDataReceived(VerificationResult result) {				
+			public void OnDataReceived(VerificationResult result) {		
+				Log.d("MyApp", "search ret");
 				IsSearchOnGoing.set(false);
 				LoadData(result);		
 			}

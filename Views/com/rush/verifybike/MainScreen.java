@@ -90,7 +90,7 @@ public class MainScreen extends Activity {
 
 	public void onSearchSerialNumber(View v) {
 		final Activity activity = this;
-		
+				
 		(new SearchPopupWindow(SearchViewModel)).Show(activity, null);
 		
 		SearchViewModel.SearchBike();

@@ -476,6 +476,7 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment=0x7f030013;
         public static final int header=0x7f030014;
         public static final int layout_popup_window_search_bike=0x7f030015;
+        public static final int layout_saving_bike=0x7f030016;
     }
     public static final class menu {
         public static final int bike_list_screen=0x7f090000;

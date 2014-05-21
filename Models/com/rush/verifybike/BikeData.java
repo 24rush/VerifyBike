@@ -89,22 +89,30 @@ class BikeModel {
 	}
 	
 	private int filesSaved = 0;
-	private void OnFileSaved() {
+	private void OnFileSaved(final INotifier<Integer> progress) {
 		filesSaved++;
 		
 		if (filesSaved < 1)
 			return;
 		
 		Log.d("MyApp", "saving");
-		m_CloudData.saveEventually();
-		Log.d("MyApp", "saved");
+		m_CloudData.saveEventually(new SaveCallback() 
+		{		
+			@Override
+			public void done(ParseException arg0) {
+				Log.d("MyApp", "save complete");
+				if (progress != null) {
+					progress.OnValueChanged(100);
+				}				
+			}
+		});			
 		
 		IsNewObject = false;
 		
 		filesSaved = 0;
 	}
 	
-	public void Save() {
+	public void Save(final INotifier<Integer> progress) {
 		m_CloudData.put("userId", MainScreen.LoginViewModel.FacebookId.get());
 		
 		int index = 0;
@@ -126,14 +134,16 @@ class BikeModel {
 							public void done(ParseException arg0) {
 								PictureFiles.get(index).set(file);
 								
-								OnFileSaved();
+								OnFileSaved(progress);
 							}
 						});		
 					}
 				}, index, file);								
 			}
-			else
+			else {
 				Log.d("MyApp", "No need to create new file ");
+				OnFileSaved(null);
+			}
 			
 			index++;
 		}
@@ -153,13 +163,15 @@ class BikeViewModel {
 	public Observable<String> Model = new Observable<String>("", Validators.RequiredString);	
 	public Observable<Boolean> Stolen = new Observable<Boolean>(false);
 	public Observable<Boolean> Sold = new Observable<Boolean>(false);
-				
+	
 	public List<Observable<Bitmap>> PictureCaches = new ArrayList<Observable<Bitmap>>(2) {{
 		add(new Observable<Bitmap>(null, Validators.RequiredBitmap));
 		add(new Observable<Bitmap>(null, Validators.RequiredBitmap));		
 	}};
 	
 	public Observable<Boolean> IsValid = new Validator(SerialNumber, Model, PictureCaches.get(0), PictureCaches.get(1)).IsValid;
+	
+	public Observable<Boolean> IsSaving = new Observable<Boolean>(false);
 			
 	//
 	// Constructors 
@@ -217,7 +229,14 @@ class BikeViewModel {
 			index++;
 		}
 		
-		m_ModelData.Save();
+		IsSaving.set(true);
+		m_ModelData.Save(new INotifier<Integer>() 
+		{			
+			@Override
+			public void OnValueChanged(Integer value) {
+				IsSaving.set(false);				
+			}
+		});
 	}
 	
 	public void Destroy() {

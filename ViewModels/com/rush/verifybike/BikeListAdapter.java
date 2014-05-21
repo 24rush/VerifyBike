@@ -71,6 +71,7 @@ public class BikeListAdapter extends BaseAdapter{
 				Log.d("MyApp", "Stolen " + context.Model.get());
 				MessageBox.Show(m_Activity, "We are sorry...", "Your bike has been marked as stolen in our database");
 				context.Stolen.set(true);
+				context.Commit();
 			}
 		}, objCurrent);
 

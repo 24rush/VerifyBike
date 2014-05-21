@@ -27,17 +27,20 @@ public class NewBikeScreen extends Activity {
 	private ArrayList<ImageView> m_ImageViews = new ArrayList<ImageView>(); 
 	private Controls m_Controls = new Controls(this);
 	private BikeViewModel m_ViewModel;
+	private SavingBikePopupWindow m_SavingPopup = new SavingBikePopupWindow();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_bike_screen);
 
+		final Activity activity = this;
+
 		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic0));
 		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic1));		
-		
-		m_ViewModel =  (BikeViewModel) DataTransfer.get("com.rush.verifybike.BikeViewModel");
-				
+
+		m_ViewModel =  (BikeViewModel) DataTransfer.get("com.rush.verifybike.BikeViewModel");		
+
 		Bindings.BindText(m_Controls.get(R.id.edt_bike_model), m_ViewModel.Model, Mode.TWO_WAY);
 		Bindings.BindText(m_Controls.get(R.id.edt_bike_serial), m_ViewModel.SerialNumber, Mode.TWO_WAY);
 
@@ -56,7 +59,7 @@ public class NewBikeScreen extends Activity {
 			@Override
 			public void OnValueChanged(Bitmap value, Object context) {					
 				Boolean imageAvail = value != null;
-				
+
 				Integer index = (Integer) context;
 				setLayoutVisibility(index, imageAvail);				
 
@@ -70,9 +73,25 @@ public class NewBikeScreen extends Activity {
 		for (Observable<Bitmap> picURL : m_ViewModel.PictureCaches) {
 			picURL.addObserverContext(observerURI, index);
 			observerURI.OnValueChanged(m_ViewModel.PictureCaches.get(index).get(), index);
-			
+
 			index++;
-		}			
+		}
+
+		m_ViewModel.IsSaving.addObserver(new INotifier<Boolean>() 
+				{			
+			@Override
+			public void OnValueChanged(Boolean value) {
+				if (value == true) {
+					m_SavingPopup.Show(activity);
+				}
+				else {					
+					setResult(RESULT_OK, getIntent());
+					finish();
+					
+					m_SavingPopup.Dismiss();
+				}
+			}
+				});
 	}
 
 	private int m_CurrentPicture = -1;
@@ -81,9 +100,9 @@ public class NewBikeScreen extends Activity {
 		((LinearLayout) findViewById(getAddBikeLayoutForIndex(index))).setVisibility(!imageAvail ? View.VISIBLE : View.GONE);				
 		((RelativeLayout) findViewById(getBikeLayoutForIndex(index))).setVisibility(!imageAvail ? View.GONE : View.VISIBLE);
 	}
-	
+
 	public void onLoadPicture0(View v) {
-		m_CurrentPicture = 0;
+		m_CurrentPicture = 0;				
 		LaunchIntent();
 	}
 
@@ -147,8 +166,9 @@ public class NewBikeScreen extends Activity {
 		return null;
 	}
 
-	public void onSaveBike(View v) {				
-		setResult(RESULT_OK, getIntent());
-		finish();
+	public void onSaveBike(View v) {
+		if (m_ViewModel.IsNewObject()) {
+			MainScreen.BikesViewModel.AddBike(m_ViewModel);
+		}
 	}
 }
