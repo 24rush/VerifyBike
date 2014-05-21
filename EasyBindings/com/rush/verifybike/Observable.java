@@ -3,10 +3,6 @@ package com.rush.verifybike;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import android.util.Log;
-
-import com.parse.ParseObject;
-
 public class Observable<Type extends Object> implements Serializable, IObservable<Type> {
 	private static final long serialVersionUID = 1L;
 	
@@ -18,6 +14,10 @@ public class Observable<Type extends Object> implements Serializable, IObservabl
 	};
 	
 	private ArrayList<ContextualListener<Type>> m_ContextListeners = new ArrayList<ContextualListener<Type>>();
+	
+	private boolean m_IsChanged = false;
+	public boolean IsChanged() { return m_IsChanged; }
+	public void ResetChanged() { m_IsChanged = false; }
 	
 	public Observable() {		
 	}
@@ -48,9 +48,9 @@ public class Observable<Type extends Object> implements Serializable, IObservabl
 		return m_Value.toString();
 	}
 	
-	public void set(Type value) {		
+	public void load(Type value) {
 		if (m_Value == null || !m_Value.equals(value)) {
-			m_Value = value;
+			m_Value = value;			
 			
 			for (INotifier<Type> observer : m_Listeners) {
 				observer.OnValueChanged(m_Value);
@@ -60,6 +60,11 @@ public class Observable<Type extends Object> implements Serializable, IObservabl
 				contextListener.m_Observer.OnValueChanged(value, contextListener.m_Context);
 			}
 		}
+	}
+	
+	public void set(Type value) {
+		load(value);
+		m_IsChanged = true;
 	}
 	
 	public Type get() {

@@ -65,7 +65,7 @@
             <LinearLayout
                 android:id="@+id/layout_pic_0"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:orientation="vertical" >
 
                 <TextView
@@ -76,23 +76,20 @@
                     android:text="Front picture"
                     android:textSize="15sp"
                     android:textStyle="italic" />
-
-                <TextView
+				<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_marginTop="5dp"
-                    android:text="+"
-                    android:textSize="60sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginTop="5dp"
+                    android:layout_gravity="bottom|center_horizontal"                    
                     android:text="(mandatory)"
                     android:textSize="15sp"
                     android:textStyle="italic" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"                    
+                    android:text="+"
+                    android:textSize="60sp" />                
             </LinearLayout>
 
             <RelativeLayout
@@ -141,23 +138,20 @@
                     android:text="Serial number"
                     android:textSize="15sp"
                     android:textStyle="italic" />
-
-                <TextView
+             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_marginTop="5dp"
-                    android:text="+"
-                    android:textSize="60sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginTop="5dp"
+                    android:layout_gravity="bottom|center_horizontal"                    
                     android:text="(mandatory)"
                     android:textSize="15sp"
                     android:textStyle="italic" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"                    
+                    android:text="+"
+                    android:textSize="60sp" /> 
             </LinearLayout>
 
             <RelativeLayout
@@ -189,6 +183,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:baselineAligned="false"
+        android:visibility="gone"
         android:orientation="horizontal" >
 
         <com.rush.verifybike.SquareLinearLayout

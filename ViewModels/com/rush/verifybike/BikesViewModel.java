@@ -32,10 +32,12 @@ public class BikesViewModel {
 		Log.d("MyApp", "RemoveBike " + context.Model);
 		context.Destroy();
 		m_Bikes.remove(context);
+		context.Delete();
 	}
 	
 	public void AddBike(BikeViewModel context) {
 		Log.d("MyApp", "AddBike " + context.Model);
 		m_Bikes.add(context);
+		context.Commit();
 	}
 }

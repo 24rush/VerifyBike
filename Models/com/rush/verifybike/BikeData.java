@@ -2,7 +2,6 @@ package com.rush.verifybike;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.graphics.Bitmap;
@@ -12,19 +11,24 @@ import android.util.Log;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
+
+//
+// Mediator class to a ParseObject
+//
 
 class ObjectProxy<Type> {		
 	private ParseObject m_Obj;
 	private String m_Tag;
-	
+		
 	public ObjectProxy(ParseObject obj, String tag) {
 		m_Obj = obj;
 		m_Tag = tag;
 	}
 	
-	public void set(Type v) {	
+	public void set(Type v) {
 		Log.d("MyApp", "set " + m_Tag);
-		m_Obj.put(m_Tag, v);
+		m_Obj.put(m_Tag, v);			
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -37,17 +41,16 @@ class ObjectProxy<Type> {
 class BikeModel {
 	public final static String Class = "BikeData";
 	
-	private ParseObject m_CloudData;
+	public boolean IsNewObject = true;	
 	
 	public ObjectProxy<String> SerialNumber;	
 	public ObjectProxy<String> Model;	
 	public ObjectProxy<Boolean> Stolen;
+	public List<Observable<byte[]>> PictureBuffers;
 	
-	public List<ObjectProxy<ParseFile>> PictureFiles;		
-	public List<byte[]> PictureBuffers;
-	
-	public boolean IsNewObject = true;
-	
+	private ParseObject m_CloudData;
+	private List<ObjectProxy<ParseFile>> PictureFiles;		
+
 	public BikeModel() {
 		this(new ParseObject(Class));			
 		IsNewObject = true;
@@ -61,65 +64,83 @@ class BikeModel {
 		Model = new ObjectProxy<String>(m_CloudData, "model");
 		Stolen = new ObjectProxy<Boolean>(m_CloudData, "status");
 		
-		PictureFiles = new ArrayList<ObjectProxy<ParseFile>>(3);
+		PictureFiles = new ArrayList<ObjectProxy<ParseFile>>(2);
 		PictureFiles.add(new ObjectProxy<ParseFile>(m_CloudData, "pic0"));
-		PictureFiles.add(new ObjectProxy<ParseFile>(m_CloudData, "pic1"));
-		PictureFiles.add(new ObjectProxy<ParseFile>(m_CloudData, "pic2"));
+		PictureFiles.add(new ObjectProxy<ParseFile>(m_CloudData, "pic1"));		
 		
-		PictureBuffers = new ArrayList<byte[]>(3);
-		PictureBuffers.add(null);
-		PictureBuffers.add(null);
-		PictureBuffers.add(null);		
+		PictureBuffers = new ArrayList<Observable<byte[]>>(2);
+		PictureBuffers.add(new Observable<byte[]>());		
+		PictureBuffers.add(new Observable<byte[]>());		
 
+		// Load byte[] from ParseFile
 		int index = 0;
-		for (final ObjectProxy<ParseFile> picFile : PictureFiles) {
-			Log.d("MyApp", "try call " + Boolean.toString((picFile.get()!=null)));
+		for (ObjectProxy<ParseFile> picFile : PictureFiles) {			
 			if (picFile.get() != null) {								
 				ExceptionInhibitor.Execute(new MethodInvoker2<Integer, ParseFile>() {
 					@Override
-					public void Call(Integer index, ParseFile picFile) throws Exception {	
-						Log.d("MyApp", "in pic "+index);
-						if (!Arrays.equals(picFile.getData(), "empty".getBytes()))
-							PictureBuffers.set(index, picFile.getData());											
+					public void Call(Integer index, ParseFile picFile) throws Exception {													
+						PictureBuffers.get(index).set(picFile.getData());
+						PictureBuffers.get(index).ResetChanged();
 					}
 				}, index, picFile.get());							
-			}
-			
+			}			
 			index++;
 		}
+	}
+	
+	private int filesSaved = 0;
+	private void OnFileSaved() {
+		filesSaved++;
+		
+		if (filesSaved < 1)
+			return;
+		
+		Log.d("MyApp", "saving");
+		m_CloudData.saveEventually();
+		Log.d("MyApp", "saved");
+		
+		IsNewObject = false;
+		
+		filesSaved = 0;
 	}
 	
 	public void Save() {
 		m_CloudData.put("userId", MainScreen.LoginViewModel.FacebookId.get());
 		
 		int index = 0;
-		for (byte[] picBuffer : PictureBuffers) {
-			if (picBuffer != null) {				
-				ParseFile file = new ParseFile("pic" + index + ".png", picBuffer);
-				try {
-					file.save();
-					
-					PictureFiles.get(index).set(file);
-				} 
-				catch (ParseException e) {
-					Log.d("MyApp", "exc " + e.getMessage());
-					e.printStackTrace();
-				}
+		for (Observable<byte[]> picBuffer : PictureBuffers) {
+			if (picBuffer != null && picBuffer.IsChanged()) {
+				Log.d("MyApp", "Creating new file ");
+				
+				final ParseFile file = new ParseFile("pic" + index + ".png", picBuffer.get());
+				
+				// save file in background
+				ExceptionInhibitor.Execute(new MethodInvoker2<Integer, ParseFile>() 
+				{
+					@Override
+					public void Call(final Integer index, final ParseFile file) throws Exception 
+					{
+						file.saveInBackground(new SaveCallback() 
+						{							
+							@Override
+							public void done(ParseException arg0) {
+								PictureFiles.get(index).set(file);
+								
+								OnFileSaved();
+							}
+						});		
+					}
+				}, index, file);								
 			}
+			else
+				Log.d("MyApp", "No need to create new file ");
 			
 			index++;
 		}
-		
-		try {
-			Log.d("MyApp", "saving");
-			m_CloudData.save();
-			Log.d("MyApp", "saved");
-			IsNewObject = false;
-		} 
-		catch (ParseException e) {
-			Log.d("MyApp", "save exc " + e.getMessage());
-			e.printStackTrace();
-		}
+	}
+
+	public void Delete() {		
+		m_CloudData.deleteEventually();
 	}	
 }
 
@@ -133,10 +154,9 @@ class BikeViewModel {
 	public Observable<Boolean> Stolen = new Observable<Boolean>(false);
 	public Observable<Boolean> Sold = new Observable<Boolean>(false);
 				
-	public List<Observable<Bitmap>> PictureCaches = new ArrayList<Observable<Bitmap>>(3) {{
+	public List<Observable<Bitmap>> PictureCaches = new ArrayList<Observable<Bitmap>>(2) {{
 		add(new Observable<Bitmap>(null, Validators.RequiredBitmap));
-		add(new Observable<Bitmap>(null, Validators.RequiredBitmap));
-		add(new Observable<Bitmap>(null, Validators.RequiredBitmap));
+		add(new Observable<Bitmap>(null, Validators.RequiredBitmap));		
 	}};
 	
 	public Observable<Boolean> IsValid = new Validator(SerialNumber, Model, PictureCaches.get(0), PictureCaches.get(1)).IsValid;
@@ -162,14 +182,14 @@ class BikeViewModel {
 		
 		int index = 0;
 		for (Observable<Bitmap> picCache : PictureCaches) {
-			byte[] picBuffer = m_ModelData.PictureBuffers.get(index);
+			Observable<byte[]> picBuffer = m_ModelData.PictureBuffers.get(index);
 			if (picBuffer != null) {
 
 				BitmapFactory.Options options = new BitmapFactory.Options();
 				options.inMutable = true;
 			
-				Bitmap bmp = BitmapFactory.decodeByteArray(picBuffer, 0, picBuffer.length, options);				
-				picCache.set(bmp);
+				Bitmap bmp = BitmapFactory.decodeByteArray(picBuffer.get(), 0, picBuffer.get().length, options);				
+				picCache.load(bmp);				
 			}
 			
 			index++;
@@ -187,26 +207,13 @@ class BikeViewModel {
 		
 		int index = 0;
 		for (Observable<Bitmap> picBmp : PictureCaches) {			
-			if (picBmp.get() != null) {
+			if (picBmp.get() != null && picBmp.IsChanged()) {
 				ByteArrayOutputStream stream = new ByteArrayOutputStream();
 				picBmp.get().compress(Bitmap.CompressFormat.PNG, 100, stream);
 				byte[] byteArray = stream.toByteArray();
 				
-				m_ModelData.PictureBuffers.set(index, byteArray);
-			}
-			else {
-				Log.d("MyApp", "removing " + index);
-				ParseFile dummy = new ParseFile("empty".getBytes());
-				try {
-					dummy.save();
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				m_ModelData.PictureFiles.get(index).set(dummy);
-			}
-			
+				m_ModelData.PictureBuffers.get(index).set(byteArray);
+			}						
 			index++;
 		}
 		
@@ -219,8 +226,15 @@ class BikeViewModel {
 		Bindings.Remove(Stolen);
 		Bindings.Remove(Sold);
 		Bindings.Remove(PictureCaches.get(0));
-		Bindings.Remove(PictureCaches.get(1));
-		Bindings.Remove(PictureCaches.get(2));
+		Bindings.Remove(PictureCaches.get(1));		
+	}
+
+	public void Delete() {
+		if (m_ModelData == null)
+			return;
+			
+		m_ModelData.Delete();
+		m_ModelData = null;
 	}
 
 }

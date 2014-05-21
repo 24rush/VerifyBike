@@ -9,6 +9,7 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.model.GraphUser;
 import com.parse.LogInCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
@@ -35,9 +36,11 @@ public class LoginViewModel {
 
 		ParseUser user = ParseUser.getCurrentUser();
 
-		if (user == null)
+		if (user == null) {
+			Log.d("MyApp", "NULL user");
 			return false;
-
+		}
+		Log.d("MyApp", "user is " + user.isAuthenticated());
 		IsUserLinkedToFacebook.set(user.isAuthenticated());
 		CanLogin.set(!IsUserLinkedToFacebook.get());
 		UserFullName.set((String)user.getString("name"));
@@ -109,8 +112,8 @@ public class LoginViewModel {
 								m_Activity.getString(R.string.msg_unable_to_login), 
 								err.getMessage());
 					return;
-				} 		
-
+				} 					
+				
 				if (user.isNew()) 
 				{																	
 					Log.d("MyApp", "User signed up and logged in through Facebook!");

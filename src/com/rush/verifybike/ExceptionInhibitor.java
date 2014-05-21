@@ -20,6 +20,24 @@ public class ExceptionInhibitor {
 			Log.e("MyApp", e.getMessage());
 		}			
 	}
+	
+	public static void Execute(MethodInvoker method) {
+		if (method == null)
+			return;
+		
+		try 
+		{			
+			method.Call();
+		}
+		catch (Exception e) 
+		{
+			Log.e("MyApp", e.getMessage());
+		}	
+	}
+}
+
+interface MethodInvoker {
+	public void Call() throws Exception;
 }
 
 interface MethodInvoker2 <T1, T2> {	

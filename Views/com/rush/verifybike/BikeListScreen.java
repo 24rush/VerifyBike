@@ -67,9 +67,7 @@ public class BikeListScreen extends Activity {
 	    	
 	        if (resultCode == RESULT_OK) {	            	            	           	      
 	            if (m_BikeViewModel.IsNewObject())
-	            	MainScreen.BikesViewModel.AddBike(m_BikeViewModel);	                   	            
-	            
-	            m_BikeViewModel.Commit();
+	            	MainScreen.BikesViewModel.AddBike(m_BikeViewModel);	                   	            	            	           
 	        }
 	        else
 		        if (resultCode == RESULT_CANCELED) {

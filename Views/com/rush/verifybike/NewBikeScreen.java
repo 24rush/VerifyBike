@@ -34,8 +34,7 @@ public class NewBikeScreen extends Activity {
 		setContentView(R.layout.activity_new_bike_screen);
 
 		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic0));
-		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic1));
-		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic2));
+		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic1));		
 		
 		m_ViewModel =  (BikeViewModel) DataTransfer.get("com.rush.verifybike.BikeViewModel");
 				
@@ -51,8 +50,7 @@ public class NewBikeScreen extends Activity {
 		};
 
 		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic0), observerRemBikePic, m_ViewModel.PictureCaches.get(0));
-		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic1), observerRemBikePic, m_ViewModel.PictureCaches.get(1));
-		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic2), observerRemBikePic, m_ViewModel.PictureCaches.get(2));
+		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic1), observerRemBikePic, m_ViewModel.PictureCaches.get(1));		
 
 		IContextNotifier<Bitmap> observerURI = new IContextNotifier<Bitmap>() {			
 			@Override
@@ -63,8 +61,7 @@ public class NewBikeScreen extends Activity {
 				setLayoutVisibility(index, imageAvail);				
 
 				if (imageAvail) {					
-					m_ImageViews.get(index).setImageBitmap(value);					
-					m_ViewModel.PictureCaches.get(index).set(value);					
+					m_ImageViews.get(index).setImageBitmap(value);												
 				}
 			}
 		};

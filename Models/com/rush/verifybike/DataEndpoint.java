@@ -39,9 +39,11 @@ public class DataEndpoint {
 			public void done(List<ParseObject> arg0, ParseException arg1) {						
 				ArrayList<BikeModel> bikes = new ArrayList<BikeModel>();
 				
-				for (ParseObject bikeData : arg0) {					
-					bikes.add(new BikeModel(bikeData));	
-				}							
+				if (arg0 != null) {
+					for (ParseObject bikeData : arg0) {					
+						bikes.add(new BikeModel(bikeData));	
+					}	
+				}														
 				
 				cbk.OnDataReceived(bikes);
 			}

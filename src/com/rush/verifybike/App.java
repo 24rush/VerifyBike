@@ -8,7 +8,7 @@ public class App extends Application {
 
     @Override public void onCreate() { 
         super.onCreate();
-
+        
         Parse.initialize(this, "0nxiZgeVLGP68frwuL749rKcYlfHzPgAf2e6q1Vo", "73RjToAA2H1qSlvJHJMTZlm2RP317QE4V0we9I3m");
 		ParseFacebookUtils.initialize("500780326714460");
     }
