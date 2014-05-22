@@ -48,7 +48,7 @@ public class Observable<Type extends Object> implements Serializable, IObservabl
 		return m_Value.toString();
 	}
 	
-	public void load(Type value) {
+	public boolean load(Type value) {
 		if (m_Value == null || !m_Value.equals(value)) {
 			m_Value = value;			
 			
@@ -59,12 +59,16 @@ public class Observable<Type extends Object> implements Serializable, IObservabl
 			for (ContextualListener<Type> contextListener : m_ContextListeners) {
 				contextListener.m_Observer.OnValueChanged(value, contextListener.m_Context);
 			}
+			
+			return true;
 		}
+		
+		return false;
 	}
 	
 	public void set(Type value) {
-		load(value);
-		m_IsChanged = true;
+		if (load(value))
+			m_IsChanged = true;
 	}
 	
 	public Type get() {
@@ -72,9 +76,11 @@ public class Observable<Type extends Object> implements Serializable, IObservabl
 	}
 	
 	public void addObserver(INotifier<Type> observer) {
+		Log.d("Observers: " + m_Listeners.size());
 		m_Listeners.add(observer);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void addTypelessObserver(INotifier<Object> observer) {
 		m_Listeners.add((INotifier<Type>)observer);
 	}

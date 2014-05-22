@@ -1,12 +1,13 @@
 package com.rush.verifybike;
 
 import java.util.List;
-import android.util.Log;
 
 public class BikesViewModel {
 	
 	private Boolean m_initDone = false;
 	private ObservableCollection<BikeViewModel> m_Bikes = new ObservableCollection<BikeViewModel>();
+	
+	public Observable<Boolean> BikesLoaded = new Observable<Boolean>(false);
 	
 	public ObservableCollection<BikeViewModel> Bikes() {		
 		return m_Bikes;
@@ -24,20 +25,24 @@ public class BikesViewModel {
 				}
 								
 				m_initDone = true;
+				BikesLoaded.set(true);
 			}
 		});					
 	}
 
 	public void RemoveBike(BikeViewModel context) {
-		Log.d("MyApp", "RemoveBike " + context.Model);
+		Log.d("Removed bike " + context.Model);
 		context.Destroy();
 		m_Bikes.remove(context);
 		context.Delete();
 	}
 	
-	public void AddBike(BikeViewModel context) {
-		Log.d("MyApp", "AddBike " + context.Model);
-		m_Bikes.add(context);
+	public void SaveBike(BikeViewModel context) {
+		Log.d("Added bike " + context.Model);
+		
+		if (context.IsNewObject())
+			m_Bikes.add(context);
+		
 		context.Commit();
 	}
 }

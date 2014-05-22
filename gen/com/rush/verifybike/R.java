@@ -378,11 +378,11 @@ containing a value of this type.
         public static final int round_button=0x7f020032;
     }
     public static final class id {
-        public static final int action_settings=0x7f040049;
+        public static final int action_settings=0x7f04004a;
         public static final int btn_add_bike=0x7f040006;
         public static final int btn_add_new_bike=0x7f040042;
         public static final int btn_save_bike=0x7f04000e;
-        public static final int btn_search_ok=0x7f040048;
+        public static final int btn_search_ok=0x7f040049;
         public static final int btn_search_serial_number=0x7f04000a;
         public static final int btn_sold=0x7f040026;
         public static final int btn_stolen=0x7f040027;
@@ -417,11 +417,11 @@ containing a value of this type.
         public static final int edt_serial_number=0x7f040009;
         public static final int edt_user_profile_email=0x7f040021;
         public static final int edt_user_profile_phone=0x7f04001f;
-        public static final int imageView1=0x7f040023;
         public static final int img_Status=0x7f040044;
         public static final int img_bike_pic0=0x7f040014;
         public static final int img_bike_pic1=0x7f040018;
         public static final int img_bike_pic2=0x7f04001c;
+        public static final int img_bike_preview=0x7f040023;
         public static final int img_bike_rem_pic0=0x7f040015;
         public static final int img_bike_rem_pic1=0x7f040019;
         public static final int img_bike_rem_pic2=0x7f04001d;
@@ -431,6 +431,7 @@ containing a value of this type.
         public static final int lay_show_bike_0=0x7f040013;
         public static final int lay_show_bike_1=0x7f040017;
         public static final int lay_show_bike_2=0x7f04001b;
+        public static final int layout_bike_model=0x7f040046;
         public static final int layout_bike_result=0x7f040043;
         public static final int layout_pic_0=0x7f040012;
         public static final int layout_pic_1=0x7f040016;
@@ -448,10 +449,10 @@ containing a value of this type.
         public static final int lst_bikes_owned=0x7f040003;
         public static final int normal=0x7f040001;
         public static final int picker_subtitle=0x7f040037;
-        public static final int progress_search=0x7f040047;
+        public static final int progress_search=0x7f040048;
         public static final int selection_profile_pic=0x7f040007;
         public static final int small=0x7f040000;
-        public static final int txt_Model=0x7f040046;
+        public static final int txt_Model=0x7f040047;
     }
     public static final class layout {
         public static final int activity_bike_list_screen=0x7f030000;
@@ -539,6 +540,8 @@ containing a value of this type.
         public static final int txt_bikeStatusNotInDb=0x7f07001f;
         public static final int txt_bikeStatusOwned=0x7f070021;
         public static final int txt_bikeStatusStolen=0x7f070020;
+        public static final int txt_cancel=0x7f070035;
+        public static final int txt_ok=0x7f070034;
     }
     public static final class style {
         /** 

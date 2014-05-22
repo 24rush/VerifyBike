@@ -3,8 +3,11 @@ package com.rush.verifybike;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-public class BitmapUtils {
-	
+// 
+// Class used for resizing user images
+//
+
+public class BitmapUtils {	
 	public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
 		// Raw height and width of image
 		final int height = options.outHeight;
@@ -23,6 +26,7 @@ public class BitmapUtils {
 				inSampleSize *= 2;
 			}
 			
+			// Added an extra halfing 
 			inSampleSize *= 2;
 		}
 

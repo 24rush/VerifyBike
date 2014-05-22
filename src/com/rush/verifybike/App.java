@@ -5,7 +5,6 @@ import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 
 public class App extends Application { 
-
     @Override public void onCreate() { 
         super.onCreate();
         
@@ -13,3 +12,13 @@ public class App extends Application {
 		ParseFacebookUtils.initialize("500780326714460");
     }
 } 
+
+class Log {	
+	public static void d(String message) {
+		android.util.Log.d("MyApp", message);
+	}
+	
+	public static void e(String message) {
+		android.util.Log.e("MyApp", message);
+	}
+}

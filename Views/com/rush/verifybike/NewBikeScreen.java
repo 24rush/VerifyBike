@@ -1,24 +1,18 @@
 package com.rush.verifybike;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
-import com.rush.verifybike.Bindings.Mode;
-
-import android.net.Uri;
-import android.opengl.Visibility;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class NewBikeScreen extends Activity {
 
@@ -40,11 +34,9 @@ public class NewBikeScreen extends Activity {
 		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic1));		
 
 		m_ViewModel =  (BikeViewModel) DataTransfer.get("com.rush.verifybike.BikeViewModel");		
-
-		Bindings.BindText(m_Controls.get(R.id.edt_bike_model), m_ViewModel.Model, Mode.TWO_WAY);
-		Bindings.BindText(m_Controls.get(R.id.edt_bike_serial), m_ViewModel.SerialNumber, Mode.TWO_WAY);
-
-		Bindings.BindVisible(m_Controls.get(R.id.btn_save_bike), m_ViewModel.IsValid);		
+		
+		Bindings.BindText(m_Controls.get(R.id.edt_bike_model), m_ViewModel.Model, Modes.TwoWay());
+		Bindings.BindText(m_Controls.get(R.id.edt_bike_serial), m_ViewModel.SerialNumber, Modes.TwoWay());		
 
 		ICommand<Observable<Bitmap>> observerRemBikePic = new ICommand<Observable<Bitmap>>() {
 			public void Execute(Observable<Bitmap> context) {			
@@ -53,7 +45,15 @@ public class NewBikeScreen extends Activity {
 		};
 
 		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic0), observerRemBikePic, m_ViewModel.PictureCaches.get(0));
-		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic1), observerRemBikePic, m_ViewModel.PictureCaches.get(1));		
+		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic1), observerRemBikePic, m_ViewModel.PictureCaches.get(1));
+		
+		Bindings.BindVisible(m_Controls.get(R.id.btn_save_bike), m_ViewModel.IsValid);		
+		Bindings.BindCommand(m_Controls.get(R.id.btn_save_bike), new ICommand<BikeViewModel>() {
+			@Override
+			public void Execute(BikeViewModel context) {
+				VM.BikesViewModel.SaveBike(m_ViewModel);				
+			}
+		}, m_ViewModel);
 
 		IContextNotifier<Bitmap> observerURI = new IContextNotifier<Bitmap>() {			
 			@Override
@@ -164,11 +164,5 @@ public class NewBikeScreen extends Activity {
 		}
 
 		return null;
-	}
-
-	public void onSaveBike(View v) {
-		if (m_ViewModel.IsNewObject()) {
-			MainScreen.BikesViewModel.AddBike(m_ViewModel);
-		}
 	}
 }

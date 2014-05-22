@@ -5,6 +5,10 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 
+//
+// Validates a list of Observables and sets its own IsValid Observable accordingly 
+//
+
 public class Validator {
 	class ValidationCache {
 		public boolean IsValid;
@@ -41,6 +45,10 @@ public class Validator {
 	}
 }
 
+interface IValidator<Type> {
+	public boolean IsValid(Type value);
+}
+
 class Validators {
 	public static RequiredString RequiredString = new RequiredString();
 	public static RequiredObject RequiredObject = new RequiredObject();
@@ -48,7 +56,6 @@ class Validators {
 }
 
 class RequiredString implements IValidator<String> {
-
 	@Override
 	public boolean IsValid(String value) {
 		return value != null && !value.equals("");
@@ -56,7 +63,6 @@ class RequiredString implements IValidator<String> {
 }
 
 class RequiredObject implements IValidator<Object> {
-
 	@Override
 	public boolean IsValid(Object value) {
 		return value != null;
@@ -64,13 +70,8 @@ class RequiredObject implements IValidator<Object> {
 }
 
 class RequiredBitmap implements IValidator<Bitmap> {
-
 	@Override
 	public boolean IsValid(Bitmap value) {
 		return value != null;
 	}
-}
-
-interface IValidator<Type> {
-	public boolean IsValid(Type value);
 }

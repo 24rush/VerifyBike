@@ -10,16 +10,25 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.rush.verifybike.VerificationResult.BikeStatus;
 
-import android.util.Log;
-
 public class DataEndpoint {
 	
+	private static boolean checkUserLoggedIn() {
+		ParseUser user = ParseUser.getCurrentUser();
+		if (user == null || !user.isAuthenticated()) {
+			Log.d("User not logged in. Aborting.");
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public static void CheckSerialNumber(String serial, final DataReceivedCallback<VerificationResult> cbk) {
-		if (cbk == null)
+		if (cbk == null || !checkUserLoggedIn())
 			return;					
 		
 		ParseQuery<ParseObject> queryStolen = ParseQuery.getQuery(BikeModel.Class);		
 		queryStolen.whereEqualTo("serial", serial);
+		
 		queryStolen.findInBackground(new FindCallback<ParseObject>() {
 			@Override
 			public void done(List<ParseObject> arg0, ParseException arg1) {								
@@ -36,15 +45,10 @@ public class DataEndpoint {
 	}
 	
 	public static void RetrieveUserBikes(final DataReceivedCallback<List<BikeModel>> cbk) {		
-		if (cbk == null)
+		if (cbk == null || !checkUserLoggedIn())
 			return;
 		
-		ParseUser user = ParseUser.getCurrentUser();
-		if (user == null || !user.isAuthenticated())
-			return;
-		
-		//Todo
-		String userId = user.getString("facebookId");		
+		String userId = VM.LoginViewModel.FacebookId.get();	
 		
 		ParseQuery<ParseObject> queryBikes = ParseQuery.getQuery(BikeModel.Class);		
 		queryBikes.whereEqualTo("userId", userId);		
@@ -62,11 +66,7 @@ public class DataEndpoint {
 				cbk.OnDataReceived(bikes);
 			}
 		});			
-	}
-	
-	public static void AddBike() {
-		
-	}
+	}	
 }
 
 interface DataReceivedCallback<Type> {

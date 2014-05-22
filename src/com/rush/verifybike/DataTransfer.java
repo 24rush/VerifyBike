@@ -2,6 +2,10 @@ package com.rush.verifybike;
 
 import java.util.HashMap;
 
+// 
+// Alternative to using intents to transfer data between activities
+//
+
 public class DataTransfer {
 	private static HashMap<String, Object> m_Objects = new HashMap<String, Object>();
 	
@@ -9,8 +13,9 @@ public class DataTransfer {
 		m_Objects.put(key, v);
 	}
 	
-	public static Object get(String key) {
-		return m_Objects.get(key);
+	@SuppressWarnings("unchecked")
+	public static <Type> Type get(String key) {
+		return (Type) m_Objects.get(key);
 	}
 	
 	public static void remove(String key) {

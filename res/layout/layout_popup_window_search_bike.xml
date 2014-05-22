@@ -12,7 +12,7 @@
         android:background="#07FFFFFF"
         android:orientation="vertical" >
 
-        <RelativeLayout            
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_margin="1dp"
@@ -40,19 +40,24 @@
                     android:text="@string/txt_bikeStatusNotInDb"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <TextView
-                    android:id="@+id/txt_Model"
+                <LinearLayout
+                    android:id="@+id/layout_bike_model"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <TextView
-                    android:id="@+id/lbl_check_serial_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lbl_Model"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical" >
+                     <TextView                    
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_Model"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                    <TextView
+                        android:id="@+id/txt_Model"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="14dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />                   
+                </LinearLayout>
             </LinearLayout>
 
             <ProgressBar
@@ -69,7 +74,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
-                android:text="OK" />
+                android:text="@string/txt_ok" />
         </RelativeLayout>
     </LinearLayout>
 

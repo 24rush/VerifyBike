@@ -4,8 +4,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,51 +23,38 @@ public class BikeListAdapter extends BaseAdapter{
 
 	@Override
 	public int getCount() {		
-		return MainScreen.BikesViewModel.Bikes().size();
+		return VM.BikesViewModel.Bikes().size();
 	}
 
 	@Override
 	public Object getItem(int arg0) {
-		Log.d("MyApp", "getItem " + MainScreen.BikesViewModel.Bikes().get(arg0).Model);
-		return MainScreen.BikesViewModel.Bikes().get(arg0);
+		Log.d("getItem " + VM.BikesViewModel.Bikes().get(arg0).Model);
+		return VM.BikesViewModel.Bikes().get(arg0);
 	}
 
 	@Override
-	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
+	public long getItemId(int arg0) {	
 		return arg0;
 	}
 
 	@Override
-	public View getView(int arg0, View convertedView, ViewGroup parentView) {		
-		Log.d("MyApp", arg0 + " " + convertedView);
+	public View getView(int arg0, View convertedView, ViewGroup parentView) {				
+		if (convertedView == null) {					    	
+			convertedView = m_LayoutInflater.inflate(R.layout.bikelistitem, parentView, false);
+		}
 
-		if (convertedView == null)					    	
-			convertedView = m_LayoutInflater.inflate(R.layout.bikelistitem, parentView, false);		
-
-		List<BikeViewModel> bikes = MainScreen.BikesViewModel.Bikes();
-		final BikeViewModel objCurrent = bikes.get(arg0);
-		final ImageView bikePreview = (ImageView) convertedView.findViewById(R.id.imageView1);
-
-		Log.d("MyApp", "getView " + objCurrent.Model.get());
+		List<BikeViewModel> bikes = VM.BikesViewModel.Bikes();
+		final BikeViewModel objCurrent = bikes.get(arg0);		
+		
 		Bindings.BindText(convertedView.findViewById(R.id.lbl_bike_model), objCurrent.Model);
 		Bindings.BindText(convertedView.findViewById(R.id.lbl_serial_number), objCurrent.SerialNumber);			
-
-		INotifier<Bitmap> picNotifier = new INotifier<Bitmap>() {			
-			@Override
-			public void OnValueChanged(Bitmap value) {												
-				bikePreview.setImageBitmap(value);
-			}
-		};
-				
-		objCurrent.PictureCaches.get(0).addObserver(picNotifier);		
-		if (objCurrent.PictureCaches.get(0).get() != null)
-			picNotifier.OnValueChanged(objCurrent.PictureCaches.get(0).get());
-
+		Bindings.BindImageBitmap((ImageView) convertedView.findViewById(R.id.img_bike_preview), objCurrent.PictureCaches.get(0));
+		
 		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_stolen), new ICommand<BikeViewModel>() {
 			public void Execute(BikeViewModel context) {
-				Log.d("MyApp", "Stolen " + context.Model.get());
+				Log.d("Bike " + context.Model.get() + " marked as stolen.");
 				MessageBox.Show(m_Activity, "We are sorry...", "Your bike has been marked as stolen in our database");
+				
 				context.Stolen.set(true);
 				context.Commit();
 			}
@@ -77,8 +62,9 @@ public class BikeListAdapter extends BaseAdapter{
 
 		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_sold), new ICommand<BikeViewModel>() {
 			public void Execute(BikeViewModel context) {
-				Log.d("MyApp", "Sold " + context.Model.get());
-				MainScreen.BikesViewModel.RemoveBike(context);
+				Log.d("Bike " + context.Model.get() + " was sold.");
+				
+				VM.BikesViewModel.RemoveBike(context);
 			}
 		}, objCurrent);				
 

@@ -2,8 +2,7 @@ package com.rush.verifybike;
 import java.util.*;
 
 public class ObservableCollection<Type> extends ArrayList<Type> {
-
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2971425900090512797L;
 	
 	private List<INotifier<ObservableCollection<Type>>> m_Listeners = new ArrayList<INotifier<ObservableCollection<Type>>>();
 	

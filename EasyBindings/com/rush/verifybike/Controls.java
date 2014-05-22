@@ -1,7 +1,6 @@
 package com.rush.verifybike;
 
 import android.app.Activity;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 
@@ -19,17 +18,18 @@ public class Controls {
 			return;							
 	}
 	
-	public View get(int _ctrlId) {
+	@SuppressWarnings("unchecked")
+	public <Type extends View> Type get(int _ctrlId) {
 		View ctrl = m_Controls.get(_ctrlId); 
 		
 		if (ctrl == null) {
 			ctrl = m_Activity.findViewById(_ctrlId);
 			
 			if (ctrl == null) {
-				Log.e("MyApp", "Control ID " + _ctrlId + " does not exist");
+				Log.e("Control ID " + _ctrlId + " does not exist.");
 			}					
 		}
 		
-		return ctrl;
+		return (Type) ctrl;
 	}		
 }

@@ -1,12 +1,6 @@
 package com.rush.verifybike;
 
-import android.util.Log;
-
-import com.parse.ParseException;
-import com.parse.ParseFile;
-
-public class ExceptionInhibitor {
-	
+public class Executor {	
 	public static <T1, T2> void Execute(MethodInvoker2<T1, T2> method, T1 t1, T2 t2) {
 		if (method == null)
 			return;
@@ -17,7 +11,7 @@ public class ExceptionInhibitor {
 		}
 		catch (Exception e) 
 		{
-			Log.e("MyApp", e.getMessage());
+			Log.e(e.getMessage());
 		}			
 	}
 	
@@ -31,7 +25,7 @@ public class ExceptionInhibitor {
 		}
 		catch (Exception e) 
 		{
-			Log.e("MyApp", e.getMessage());
+			Log.e(e.getMessage());
 		}	
 	}
 }
