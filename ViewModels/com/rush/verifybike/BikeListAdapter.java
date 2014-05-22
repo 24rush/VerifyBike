@@ -43,6 +43,8 @@ public class BikeListAdapter extends BaseAdapter{
 			convertedView = m_LayoutInflater.inflate(R.layout.bikelistitem, parentView, false);
 		}
 
+		Bindings Bindings = new Bindings();
+		
 		List<BikeViewModel> bikes = VM.BikesViewModel.Bikes();
 		final BikeViewModel objCurrent = bikes.get(arg0);		
 		

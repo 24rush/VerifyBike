@@ -20,6 +20,7 @@ public class NewBikeScreen extends Activity {
 
 	private ArrayList<ImageView> m_ImageViews = new ArrayList<ImageView>(); 
 	private Controls m_Controls = new Controls(this);
+	private Bindings Bindings = new Bindings();
 	private BikeViewModel m_ViewModel;
 	private SavingBikePopupWindow m_SavingPopup = new SavingBikePopupWindow();
 

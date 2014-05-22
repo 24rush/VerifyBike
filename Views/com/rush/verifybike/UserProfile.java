@@ -10,13 +10,14 @@ import com.facebook.widget.ProfilePictureView;
 public class UserProfile extends Activity {
 
 	private LoginViewModel m_LoginViewModel = VM.LoginViewModel;
-	private Controls m_Controls = new Controls(this); 
-
+	private Controls m_Controls = new Controls(this);
+	private Bindings Bindings = new Bindings();	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_user_profile);
-
+		setContentView(R.layout.activity_user_profile);			
+		
 		Bindings.BindText(m_Controls.get(R.id.lbl_user_name), m_LoginViewModel.UserFullName);
 
 		Bindings.BindChecked((CheckBox)m_Controls.get(R.id.chk_allow_contact_share), m_LoginViewModel.AllowContactShare, Modes.TwoWay());
@@ -40,5 +41,7 @@ public class UserProfile extends Activity {
 	public void onBackPressed() {
 		super.onBackPressed();  
 		m_LoginViewModel.Save();
+		
+		Bindings.Destroy();
 	}
 }

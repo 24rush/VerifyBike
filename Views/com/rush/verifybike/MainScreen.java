@@ -23,7 +23,8 @@ class VM {
 
 public class MainScreen extends Activity {
 
-	private Controls Controls = new Controls(this);	
+	private Controls Controls = new Controls(this);
+	private Bindings Bindings = new Bindings();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -28,6 +28,7 @@ public class SearchPopupWindow {
 
 	private HashMap<BikeStatus, BikeStatusImage> m_BikeStatusToImage = new HashMap<VerificationResult.BikeStatus, BikeStatusImage>();
 	
+	private Bindings Bindings = new Bindings();
 	private static PopupWindow m_PopupWindow;		
 	
 	private void init(final Activity activity) {				

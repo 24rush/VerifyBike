@@ -89,7 +89,7 @@ public class Observable<Type extends Object> implements Serializable, IObservabl
 		m_ContextListeners.add(new ContextualListener<Type>(observer, context));
 	}
 	
-	public void removeObserver(INotifier<Type> observer) {
+	public void removeObserver(INotifier<Object> observer) {
 		m_Listeners.remove(observer);
 	}
 }

@@ -13,6 +13,8 @@ import android.widget.ListView;
 public class BikeListScreen extends Activity {
 
 	private Controls Controls = new Controls(this);
+	private Bindings Bindings = new Bindings();
+	
 	private BikeViewModel m_BikeViewModel;
 
 	@Override

@@ -237,16 +237,7 @@ class BikeViewModel {
 			}
 		});
 	}
-	
-	public void Destroy() {
-		Bindings.Remove(SerialNumber);
-		Bindings.Remove(Model);
-		Bindings.Remove(Stolen);
-		Bindings.Remove(Sold);
-		Bindings.Remove(PictureCaches.get(0));
-		Bindings.Remove(PictureCaches.get(1));		
-	}
-
+		
 	public void Delete() {
 		if (m_ModelData == null)
 			return;

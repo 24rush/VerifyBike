@@ -31,8 +31,7 @@ public class BikesViewModel {
 	}
 
 	public void RemoveBike(BikeViewModel context) {
-		Log.d("Removed bike " + context.Model);
-		context.Destroy();
+		Log.d("Removed bike " + context.Model);		
 		m_Bikes.remove(context);
 		context.Delete();
 	}
