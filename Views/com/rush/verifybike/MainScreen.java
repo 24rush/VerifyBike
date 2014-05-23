@@ -34,9 +34,7 @@ public class MainScreen extends Activity {
 		// Initialize view models
 		new VM();
 
-		Bindings.BindVisible(Controls.get(R.id.lbl_must_login), VM.LoginViewModel.CanLogin);
-		Bindings.BindVisible(Controls.get(R.id.img_fb_login_button), VM.LoginViewModel.CanLogin);
-
+		Bindings.BindVisible(Controls.get(R.id.layout_must_login), VM.LoginViewModel.CanLogin);		
 		Bindings.BindVisible(Controls.get(R.id.layout_user_profile), VM.LoginViewModel.IsUserLinkedToFacebook);	
 
 		Bindings.BindText(Controls.get(R.id.lbl_user_name), VM.LoginViewModel.UserFullName);		

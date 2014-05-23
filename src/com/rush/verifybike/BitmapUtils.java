@@ -46,4 +46,14 @@ public class BitmapUtils {
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeFile(imagePath, options);
 	}
+	
+	public static Bitmap fromByteArray(byte[] bytes) {
+		if (bytes == null)
+			return null;
+		
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inMutable = true;
+	
+		return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);		
+	}
 }

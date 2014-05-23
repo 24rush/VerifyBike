@@ -5,6 +5,8 @@ import com.rush.verifybike.VerificationResult.BikeStatus;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SearchPopupWindow {		
 
@@ -58,8 +61,46 @@ public class SearchPopupWindow {
 
 		Bindings.BindVisible(popupView.findViewById(R.id.layout_bike_model), VM.SearchViewModel.Model, Converters.StringToBoolean);
 		Bindings.BindVisible(popupView.findViewById(R.id.layout_bike_result), VM.SearchViewModel.IsSearchOnGoing, Modes.Invert());
-		Bindings.BindVisible(popupView.findViewById(R.id.progress_search), VM.SearchViewModel.IsSearchOnGoing);				
+		Bindings.BindVisible(popupView.findViewById(R.id.progress_search), VM.SearchViewModel.IsSearchOnGoing);
+		Bindings.BindImageBitmap((ImageView)popupView.findViewById(R.id.img_bike_preview), VM.SearchViewModel.BikePreview);
 
+		Bindings.BindVisible(popupView.findViewById(R.id.layout_owner_details), VM.SearchViewModel.IsStolen);
+		Bindings.BindText(popupView.findViewById(R.id.btn_email_owner), VM.SearchViewModel.Email);
+		Bindings.BindText(popupView.findViewById(R.id.btn_phone_owner), VM.SearchViewModel.Phone);
+		
+		Bindings.BindCommand(popupView.findViewById(R.id.btn_phone_owner), new ICommand<Observable<String>>() {
+			@Override
+			public void Execute(Observable<String> context) {
+				Intent callIntent = new Intent(Intent.ACTION_CALL);
+				
+				Uri phoneUri = Uri.parse("tel:" + context.get());
+				callIntent.setData(phoneUri);
+				
+				Log.d("Calling " + phoneUri);
+				
+				activity.startActivity(callIntent);
+			}
+		}, VM.SearchViewModel.Phone);
+		
+		Bindings.BindCommand(popupView.findViewById(R.id.btn_email_owner), new ICommand<Observable<String>>() {
+			@Override
+			public void Execute(Observable<String> context) {
+				Intent mailIntent = new Intent(Intent.ACTION_SEND);
+				
+				mailIntent.setType("message/rfc822");
+				mailIntent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"recipient@example.com"});
+				mailIntent.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+				mailIntent.putExtra(Intent.EXTRA_TEXT   , "body of email");
+				
+				try {
+				    activity.startActivity(mailIntent);
+				}  
+				catch (android.content.ActivityNotFoundException ex) {
+				    Toast.makeText(activity, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+				}
+			}
+		}, VM.SearchViewModel.Email);
+		
 		Bindings.BindText(popupView.findViewById(R.id.btn_search_ok), VM.SearchViewModel.IsSearchOnGoing, new IConvert<Boolean, String>(){
 			@Override
 			public String Convert(Boolean value) {

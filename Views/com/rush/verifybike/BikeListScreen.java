@@ -63,4 +63,10 @@ public class BikeListScreen extends Activity {
 			DataTransfer.<BikeViewModel>get(Intents.Intent_TransferBikeViewModel).Reset();
 		}		
 	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();  				
+		Bindings.Destroy();
+	}
 }

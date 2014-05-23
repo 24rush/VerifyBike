@@ -74,6 +74,14 @@
                 android:focusable="false"
                 android:background="@drawable/round_button"
                 android:text="@string/lbl_btn_stolen" />
+            
+            <TextView
+                android:id="@+id/lbl_stolen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="STOLEN"
+                android:visibility="gone"
+                />
         </LinearLayout>
     </LinearLayout>
 

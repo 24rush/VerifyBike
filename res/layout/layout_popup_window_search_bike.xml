@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_margin="40dp"
+        android:layout_margin="20dp"
         android:background="#07FFFFFF"
         android:orientation="vertical" >
 
@@ -28,8 +28,8 @@
 
                 <ImageView
                     android:id="@+id/img_Status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:src="@drawable/red_alert" />
 
@@ -38,25 +38,64 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/txt_bikeStatusNotInDb"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="italic" />
 
                 <LinearLayout
                     android:id="@+id/layout_bike_model"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:orientation="vertical" >
-                     <TextView                    
+                    android:orientation="horizontal" >
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/lbl_Model"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
+
                     <TextView
                         android:id="@+id/txt_Model"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="14dp"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />                   
+                        android:layout_marginLeft="8dp"
+                        android:text="cannondale caad10"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/img_bike_preview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <LinearLayout
+                    android:id="@+id/layout_owner_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical" >
+
+                    <Button
+                        android:id="@+id/btn_phone_owner"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"  
+                        android:drawablePadding="2dp"
+                        android:gravity="left|center_vertical" 
+                        android:textSize="13sp"                        
+                        android:drawableLeft="@drawable/telephone"
+                        android:text="call" />
+
+                    <Button
+                        android:id="@+id/btn_email_owner"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:drawablePadding="2dp"
+                        android:gravity="left|center_vertical" 
+                        android:textSize="13sp"                       
+                        android:drawableLeft="@drawable/icon_email"                      
+                        android:text="email" />
                 </LinearLayout>
             </LinearLayout>
 

@@ -104,6 +104,8 @@ class BikeModel {
 			public void done(ParseException arg0) {
 				Log.d("Bike object save completed.");
 				
+				DataEndpoint.ClearCachedBikes();
+				
 				IsNewObject = false;		
 				filesSaved = 0;
 				
@@ -195,12 +197,8 @@ class BikeViewModel {
 		int index = 0;
 		for (Observable<Bitmap> picCache : PictureCaches) {
 			Observable<byte[]> picBuffer = m_ModelData.PictureBuffers.get(index);
-			if (picBuffer != null && picBuffer.get() != null) {
-				BitmapFactory.Options options = new BitmapFactory.Options();
-				options.inMutable = true;
-			
-				Bitmap bmp = BitmapFactory.decodeByteArray(picBuffer.get(), 0, picBuffer.get().length, options);				
-				picCache.load(bmp);				
+			if (picBuffer != null && picBuffer.get() != null) {				
+				picCache.load(BitmapUtils.fromByteArray(picBuffer.get()));				
 			}
 			
 			index++;

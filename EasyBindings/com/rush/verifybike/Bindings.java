@@ -1,7 +1,6 @@
 package com.rush.verifybike;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.rush.verifybike.Modes.Mode;
@@ -89,7 +88,7 @@ public class Bindings {
 
 	public void BindImageBitmap(final ImageView control, Observable<Bitmap> source) {
 		INotifier<Bitmap> observer = new INotifier<Bitmap>() {	
-			public void OnValueChanged(Bitmap value) {		
+			public void OnValueChanged(Bitmap value) {	
 				control.setImageBitmap(value);			
 			}
 		};
@@ -121,7 +120,7 @@ public class Bindings {
 			public void OnValueChanged(S val) {
 				Boolean value = converter.Convert(val);				
 				if (flag.Type() == Mode.Invert) value = !value;				
-				control.setVisibility(value == true ? View.VISIBLE : View.INVISIBLE);
+				control.setVisibility(value == true ? View.VISIBLE : View.GONE);
 			}
 		};			
 		
@@ -158,8 +157,7 @@ public class Bindings {
 			}
 		};
 
-		txtCtrl.addTextChangedListener(tw);				
-		addBindingForSource(source, control, tw);	
+		txtCtrl.addTextChangedListener(tw);						
 	}
 
 	public <S> void BindText(final View control, final Observable<S> source, final IConvert<S, String> converter) {

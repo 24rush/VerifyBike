@@ -166,4 +166,10 @@ public class NewBikeScreen extends Activity {
 
 		return null;
 	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();  			
+		Bindings.Destroy();
+	}
 }
