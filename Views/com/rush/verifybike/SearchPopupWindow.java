@@ -59,8 +59,8 @@ public class SearchPopupWindow {
 				
 		Bindings.BindText(popupView.findViewById(R.id.txt_Model), VM.SearchViewModel.Model);
 
-		Bindings.BindVisible(popupView.findViewById(R.id.layout_bike_model), VM.SearchViewModel.Model, Converters.StringToBoolean);
-		Bindings.BindVisible(popupView.findViewById(R.id.layout_bike_result), VM.SearchViewModel.IsSearchOnGoing, Modes.Invert());
+		Bindings.BindVisibleString(popupView.findViewById(R.id.layout_bike_model), VM.SearchViewModel.Model);
+		Bindings.BindVisible(popupView.findViewById(R.id.layout_bike_result), VM.SearchViewModel.IsSearchOnGoing, Mode.Invert);
 		Bindings.BindVisible(popupView.findViewById(R.id.progress_search), VM.SearchViewModel.IsSearchOnGoing);
 		Bindings.BindImageBitmap((ImageView)popupView.findViewById(R.id.img_bike_preview), VM.SearchViewModel.BikePreview);
 
@@ -101,16 +101,18 @@ public class SearchPopupWindow {
 			}
 		}, VM.SearchViewModel.Email);
 		
-		Bindings.BindText(popupView.findViewById(R.id.btn_search_ok), VM.SearchViewModel.IsSearchOnGoing, new IConvert<Boolean, String>(){
+		VM.SearchViewModel.IsSearchOnGoing.addObserver(new INotifier<Boolean>() {			
 			@Override
-			public String Convert(Boolean value) {
-				return activity.getString(value ? R.string.txt_cancel : R.string.txt_ok);				
-			}});
+			public void OnValueChanged(Boolean value) {				
+				((TextView)popupView.findViewById(R.id.btn_search_ok)).setText(activity.getString(value ? R.string.txt_cancel : R.string.txt_ok));
+			}
+		});		
 		
 		Button btnDismiss = (Button)popupView.findViewById(R.id.btn_search_ok);
 		btnDismiss.setOnClickListener(new Button.OnClickListener(){			
 			public void onClick(View v) {
 				popupWindow.dismiss();
+				VM.SearchViewModel.CancelSearch();
 			}});
 	}
 

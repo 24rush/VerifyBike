@@ -3,130 +3,93 @@ package com.rush.verifybike;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rush.verifybike.Modes.Mode;
-
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-class Modes {	
-	public enum Mode { None, Invert, TwoWay };	
-
-	public interface BindingMode { Mode Type();}
-	public class BindingModeNone implements BindingMode { public Mode Type() { return Mode.None; } };		
-	public class BindingModeInvert implements BindingMode { public Mode Type() { return Mode.Invert; } };	
-	public class BindingModeTwoWay implements BindingMode { public Mode Type() { return Mode.TwoWay; } };
-
-	private static BindingModeNone _none;
-	public static BindingModeNone None() { if (_none == null) _none = (new Modes()).new BindingModeNone(); return _none;}
-
-	private static BindingModeInvert _invert;
-	public static BindingModeInvert Invert()  { if (_invert == null) _invert = (new Modes()).new BindingModeInvert(); return _invert;}
-
-	private static BindingModeTwoWay _twoway;
-	public static BindingModeTwoWay TwoWay()  { if (_twoway == null) _twoway = (new Modes()).new BindingModeTwoWay(); return _twoway;}
-}
+enum Mode { None, Invert, TwoWay };	
 
 public class Bindings {
 	public enum BindingType { TEXT, COMMAND, NONE };
 
 	private List<Binding> m_Bindings = new ArrayList<Binding>();
-
-	public void BindEnabled(final View control, Observable<Boolean> source) {
-		INotifier<Boolean> observer = new INotifier<Boolean>() {					
-			public void OnValueChanged(Boolean value) {			
-				control.setEnabled(value);
-			}
-		};
-
-		observer.OnValueChanged(source.get());
-		source.addObserver(observer);
 		
-		addBindingForSource(source, control, observer);
+	private void addBindingForSource(Observable<?> source, View control, Object extra) {
+		m_Bindings.add(new Binding(source, control, extra));		
 	}
 
-	public void BindChecked(final CheckBox control, final Observable<Boolean> source, Modes.BindingMode flags) {
-		INotifier<Boolean> observer = new INotifier<Boolean>() {					
-			public void OnValueChanged(Boolean value) {			
-				control.setChecked(value);
-			}
-		};
-
-		if (flags.Type() == Mode.TwoWay) {
-			CheckBox chkCtrl = (CheckBox) control;
-			chkCtrl.setOnCheckedChangeListener(new OnCheckedChangeListener() {				
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					source.set(isChecked);
-				}
-			});
+	@SuppressWarnings("unchecked")
+	public void Destroy() {
+		for (Binding binding : m_Bindings) {
+			binding.Observable.removeObserver((INotifier<Object>)binding.Extra);
 		}
-
-		observer.OnValueChanged(source.get());
-		addBindingForSource(source, control, observer);
+	}
+	
+	private <ControlType, ValueType> void bind(final ControlType control, Observable<ValueType> observable, final AbstractViewProperty<ControlType, ValueType> action) {
+		bind(control, observable, action, Mode.None, null);
+	}
+	
+	private <ControlType, ValueType> void bind(final ControlType control, Observable<ValueType> observable, final AbstractViewProperty<ControlType, ValueType> action, final Mode flag, ObservableToControl<ValueType, ControlType> observableAction) {
+		INotifier<ValueType> observer = new INotifier<ValueType>() {
+			public void OnValueChanged(ValueType val) {													
+				action.Execute(control, val, flag);
+			}
+		};			
+		
+		observer.OnValueChanged(observable.get());
+		observable.addObserver(observer);
+		
+		if (flag == Mode.TwoWay && observableAction != null) {
+			observableAction.Execute(observable, control, flag);
+		}
+		
+		addBindingForSource(observable, (View) control, observer);
+	}
+	
+	// Enabled
+	
+	public void BindEnabled(final View control, Observable<Boolean> source) {
+		bind(control, source, ViewProperties.Enabled);						
 	}
 
+	// Checked
+	
+	public void BindChecked(final CheckBox control, final Observable<Boolean> source, Mode flags) {		
+		bind(control, source, ViewProperties.Checked, flags, ViewProperties.FromCheckbox);			
+	}
+
+	// ImageURI
+	
 	public void BindImageURI(final ImageView control, Observable<String> source) {
-		INotifier<String> observer = new INotifier<String>() {			
-			public void OnValueChanged(String value) {				
-				control.setImageURI(Uri.parse(value));			
-			}
-		};
-
-		if (source.get() != null && !source.get().isEmpty())
-			observer.OnValueChanged(source.get());
-		source.addObserver(observer);
-		addBindingForSource(source, control, observer);
+		bind(control, source, ViewProperties.ImageURI);
 	}
 
+	// ImageBitmap
+	
 	public void BindImageBitmap(final ImageView control, Observable<Bitmap> source) {
-		INotifier<Bitmap> observer = new INotifier<Bitmap>() {	
-			public void OnValueChanged(Bitmap value) {	
-				control.setImageBitmap(value);			
-			}
-		};
-
-		if (source.get() != null)
-			observer.OnValueChanged(source.get());
-		source.addObserver(observer);
-		addBindingForSource(source, control, observer);
+		bind(control, source, ViewProperties.ImageBitmap);
 	}
 	
 	//
 	// Visibility
 	//
 	
+	public void BindVisibleString(final View control, Observable<String> source) {		
+		bind(control, source, ViewProperties.VisibleString, Mode.None, null);		
+	}
+	
+	public void BindVisibleString(final View control, Observable<String> source, final Mode flag) {		
+		bind(control, source, ViewProperties.VisibleString, flag, null);		
+	}
+	
 	public void BindVisible(final View control, Observable<Boolean> source) {
-		BindVisible(control, source, Modes.None(), Converters.ForwardBoolean);		
+		bind(control, source, ViewProperties.Visible, Mode.None, null);
 	}
-
-	public <S> void BindVisible(final View control, Observable<S> source, IConvert<S, Boolean> converter) {
-		BindVisible(control, source, Modes.None(), converter);		
-	}
-
-	public void BindVisible(final View control, Observable<Boolean> source, final Modes.BindingMode flag) {
-		BindVisible(control, source, flag, Converters.ForwardBoolean);		
-	}
-
-	public <S> void BindVisible(final View control, Observable<S> source, final Modes.BindingMode flag, final IConvert<S, Boolean> converter) {
-		INotifier<S> observer = new INotifier<S>() {					
-			public void OnValueChanged(S val) {
-				Boolean value = converter.Convert(val);				
-				if (flag.Type() == Mode.Invert) value = !value;				
-				control.setVisibility(value == true ? View.VISIBLE : View.GONE);
-			}
-		};			
-		
-		observer.OnValueChanged(source.get());
-		source.addObserver(observer);
-		addBindingForSource(source, control, observer);
+	
+	public void BindVisible(final View control, Observable<Boolean> source, final Mode flag) {
+		bind(control, source, ViewProperties.Visible, flag, null);
 	}
 
 	// 
@@ -134,47 +97,11 @@ public class Bindings {
 	//
 
 	public void BindText(final View control, Observable<String> source) {
-		BindText(control, source, Converters.ForwardString);
+		bind(control, source, ViewProperties.Text);
 	}
 
-	public void BindText(final View control, final Observable<String> source, final Modes.BindingModeTwoWay flag) {
-		BindText(control, source, Converters.ForwardString);
-
-		TextView txtCtrl = (TextView) control;
-		TextWatcher tw = new TextWatcher() {				
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				source.set(s.toString());
-			}
-		};
-
-		txtCtrl.addTextChangedListener(tw);						
-	}
-
-	public <S> void BindText(final View control, final Observable<S> source, final IConvert<S, String> converter) {
-		INotifier<S> observer = new INotifier<S>() {					
-			public void OnValueChanged(S val) {
-				String value = converter.Convert(val);
-				TextView txtCtrl = (TextView)control;				
-
-				if (txtCtrl.getText().toString().equals(value) == false) {
-					txtCtrl.setText(value);							 
-				}
-			}
-		};
-
-		observer.OnValueChanged(source.get());
-		source.addObserver(observer);
-		addBindingForSource(source, control, observer);
+	public void BindText(final View control, final Observable<String> source, final Mode flag) {
+		bind(control, source, ViewProperties.Text, flag, ViewProperties.FromTextView);
 	}
 
 	//
@@ -188,17 +115,6 @@ public class Bindings {
 				target.Execute(context);
 			}
 		});			
-	}
-
-	private void addBindingForSource(Observable<?> source, View control, Object extra) {
-		m_Bindings.add(new Binding(source, control, extra));		
-	}
-
-	@SuppressWarnings("unchecked")
-	public void Destroy() {
-		for (Binding binding : m_Bindings) {
-			binding.Observable.removeObserver((INotifier<Object>)binding.Extra);
-		}
 	}
 }
 

@@ -36,8 +36,8 @@ public class NewBikeScreen extends Activity {
 
 		m_ViewModel =  (BikeViewModel) DataTransfer.get("com.rush.verifybike.BikeViewModel");		
 		
-		Bindings.BindText(m_Controls.get(R.id.edt_bike_model), m_ViewModel.Model, Modes.TwoWay());
-		Bindings.BindText(m_Controls.get(R.id.edt_bike_serial), m_ViewModel.SerialNumber, Modes.TwoWay());		
+		Bindings.BindText(m_Controls.get(R.id.edt_bike_model), m_ViewModel.Model, Mode.TwoWay);
+		Bindings.BindText(m_Controls.get(R.id.edt_bike_serial), m_ViewModel.SerialNumber, Mode.TwoWay);		
 
 		ICommand<Observable<Bitmap>> observerRemBikePic = new ICommand<Observable<Bitmap>>() {
 			public void Execute(Observable<Bitmap> context) {			

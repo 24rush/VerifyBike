@@ -52,7 +52,7 @@ public class BikeListAdapter extends BaseAdapter{
 		Bindings.BindText(convertedView.findViewById(R.id.lbl_serial_number), objCurrent.SerialNumber);			
 		Bindings.BindImageBitmap((ImageView) convertedView.findViewById(R.id.img_bike_preview), objCurrent.PictureCaches.get(0));
 		
-		Bindings.BindVisible(convertedView.findViewById(R.id.btn_stolen), objCurrent.Stolen, Modes.Invert());
+		Bindings.BindVisible(convertedView.findViewById(R.id.btn_stolen), objCurrent.Stolen, Mode.Invert);
 		Bindings.BindVisible(convertedView.findViewById(R.id.lbl_stolen), objCurrent.Stolen);
 		
 		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_stolen), new ICommand<BikeViewModel>() {

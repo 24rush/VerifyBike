@@ -23,11 +23,39 @@ public class DataEndpoint {
 		return true;
 	}
 
+	public static void CancelQueries() {
+		Log.d("cancelQueries ");
+		final ParseQuery<ParseObject> qStolen = queryStolen;
+		final ParseQuery<ParseUser> qQwner = queryOwner;
+		
+		if (qStolen == null && qQwner == null)
+			return;		
+
+		Thread cancelThread = new Thread(new Runnable(){
+			@Override
+			public void run() {
+				try 
+				{
+					if (qStolen != null) qStolen.cancel();
+					if (qQwner != null) qQwner.cancel();
+				} 
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		cancelThread.start();
+	}
+
+	private static ParseQuery<ParseObject> queryStolen = null;
+	private static ParseQuery<ParseUser> queryOwner = null;
+
 	public static void CheckSerialNumber(String serial, final DataReceivedCallback<VerificationResult> cbk) {
 		if (cbk == null || !checkUserLoggedIn())
-			return;					
+			return;	
 
-		ParseQuery<ParseObject> queryStolen = ParseQuery.getQuery(BikeModel.Class);		
+		queryStolen = ParseQuery.getQuery(BikeModel.Class);		
 		queryStolen.whereEqualTo("serial", serial);
 
 		queryStolen.findInBackground(new FindCallback<ParseObject>() {
@@ -56,12 +84,12 @@ public class DataEndpoint {
 					return;
 				}
 
-				ParseQuery<ParseUser> queryOwner = ParseUser.getQuery();
+				queryOwner = ParseUser.getQuery();
 				queryOwner.whereEqualTo("facebookId", ownerId);
 				queryOwner.whereEqualTo("allowContactShare", true);
 
 				Log.d("Search for ownerID=" + ownerId + " started.");
-				
+
 				queryOwner.findInBackground(new FindCallback<ParseUser>() {							
 					@Override
 					public void done(List<ParseUser> arg0, ParseException arg1) {
@@ -69,10 +97,13 @@ public class DataEndpoint {
 							Log.e(arg1.getMessage());
 							return;
 						}
-						
+
 						Log.d("Search for owner returned " + (arg0 != null ? arg0.size() : 0) + " results.");
-						
+
 						dispatchResult(cbk, isStolen, bikeData, (arg0 != null && arg0.size() > 0) ? arg0.get(0) : null);
+
+						queryStolen = null;
+						queryOwner = null;
 					}
 				});
 			}
@@ -94,11 +125,11 @@ public class DataEndpoint {
 			}
 
 			Log.d("Owner: " + ownerEmail + " phone: " + ownerPhone);
-			
+
 			result = new VerificationResult(isStolen ? BikeStatus.Stolen : BikeStatus.Owned, 
 					bikeData.getString("model"), 
 					previewFile != null ? previewFile.getData() : null,
-					ownerPhone, ownerEmail);
+							ownerPhone, ownerEmail);
 
 			cbk.OnDataReceived(result);
 		}

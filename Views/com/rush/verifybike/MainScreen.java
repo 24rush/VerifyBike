@@ -38,7 +38,7 @@ public class MainScreen extends Activity {
 		Bindings.BindVisible(Controls.get(R.id.layout_user_profile), VM.LoginViewModel.IsUserLinkedToFacebook);	
 
 		Bindings.BindText(Controls.get(R.id.lbl_user_name), VM.LoginViewModel.UserFullName);		
-		Bindings.BindText(Controls.get(R.id.edt_serial_number), VM.SearchViewModel.SerialNumber, Modes.TwoWay());				
+		Bindings.BindText(Controls.get(R.id.edt_serial_number), VM.SearchViewModel.SerialNumber, Mode.TwoWay);				
 
 		Bindings.BindVisible(Controls.get(R.id.btn_add_bike), VM.BikesViewModel.BikesLoaded);
 

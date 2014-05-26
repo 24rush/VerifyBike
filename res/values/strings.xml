@@ -15,12 +15,12 @@
     <string name="msg_unable_to_login">Unable to login</string>
     <string name="msg_error_login_message">An error occurred while trying to login. Please make sure your internet connection is open and data plan active.</string>
     <string name="lbl_add_bike">add a bike</string>
-    <string name="lbl_view_bikes">my bikes</string>
+    <string name="lbl_view_bikes">MY BIKES</string>
     <string name="title_activity_bike_list_screen">BikeListScreen</string>
     <string name="lbl_my_bikes">My bikes</string>
-    <string name="lbl_btn_add">add</string>
-    <string name="lbl_btn_sold">sold</string>
-    <string name="lbl_btn_stolen">stolen</string>
+    <string name="lbl_btn_add">ADD</string>
+    <string name="lbl_btn_sold">SOLD</string>
+    <string name="lbl_btn_stolen">STOLEN</string>
     <string name="lbl_serial">Serial:</string>
     <string name="title_activity_new_bike_screen">NewBikeScreen</string>
     <string name="lbl_bike_model">Model</string>
