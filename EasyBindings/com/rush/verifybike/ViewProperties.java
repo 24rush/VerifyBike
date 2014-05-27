@@ -37,6 +37,7 @@ class Enabled implements AbstractViewProperty<View, Boolean> {
 	public void Execute(View control, Boolean value, Mode flag) {
 		if (flag == Mode.Invert) value = !value;
 		control.setEnabled(value);
+		control.setClickable(value);
 	}
 }
 

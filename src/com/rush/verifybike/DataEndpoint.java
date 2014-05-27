@@ -52,9 +52,10 @@ public class DataEndpoint {
 	private static ParseQuery<ParseUser> queryOwner = null;
 
 	public static void CheckSerialNumber(String serial, final DataReceivedCallback<VerificationResult> cbk) {
-		if (cbk == null || !checkUserLoggedIn())
+		if (cbk == null)
 			return;	
 
+		Log.d("Checking " + serial);
 		queryStolen = ParseQuery.getQuery(BikeModel.Class);		
 		queryStolen.whereEqualTo("serial", serial);
 

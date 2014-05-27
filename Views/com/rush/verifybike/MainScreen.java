@@ -2,8 +2,13 @@ package com.rush.verifybike;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.widget.EditText;
 import android.widget.Button;
 
 import com.facebook.widget.ProfilePictureView;
@@ -25,7 +30,7 @@ public class MainScreen extends Activity {
 
 	private Controls Controls = new Controls(this);
 	private Bindings Bindings = new Bindings();
-
+	private String edtSerialNumberText = "";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,6 +38,8 @@ public class MainScreen extends Activity {
 
 		// Initialize view models
 		new VM();
+		edtSerialNumberText = getString(R.string.lbl_check_serial);
+		VM.SearchViewModel.SerialNumber.set(edtSerialNumberText);
 
 		Bindings.BindVisible(Controls.get(R.id.layout_must_login), VM.LoginViewModel.CanLogin);		
 		Bindings.BindVisible(Controls.get(R.id.layout_user_profile), VM.LoginViewModel.IsUserLinkedToFacebook);	
@@ -40,7 +47,18 @@ public class MainScreen extends Activity {
 		Bindings.BindText(Controls.get(R.id.lbl_user_name), VM.LoginViewModel.UserFullName);		
 		Bindings.BindText(Controls.get(R.id.edt_serial_number), VM.SearchViewModel.SerialNumber, Mode.TwoWay);				
 
-		Bindings.BindVisible(Controls.get(R.id.btn_add_bike), VM.BikesViewModel.BikesLoaded);
+		((EditText)Controls.get(R.id.edt_serial_number)).setOnTouchListener(new OnTouchListener() {			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (VM.SearchViewModel.SerialNumber.get().equals(edtSerialNumberText)) {
+					VM.SearchViewModel.SerialNumber.set("");
+				}
+				
+				return false;
+			}
+		});
+		
+		Bindings.BindVisible(Controls.get(R.id.btn_add_bike), VM.BikesViewModel.BikesLoaded);		
 
 		VM.BikesViewModel.Bikes().Count.addObserver(new INotifier<Integer>() {
 			public void OnValueChanged(Integer value) {			
@@ -79,7 +97,7 @@ public class MainScreen extends Activity {
 	}
 
 	public void onSearchSerialNumber(View v) {
-		if (VM.SearchViewModel.SerialNumber.get().equals(""))
+		if (VM.SearchViewModel.SerialNumber.get().equals("") || VM.SearchViewModel.SerialNumber.get().equals(edtSerialNumberText))
 			return;
 
 		final Activity activity = this;

@@ -1,7 +1,6 @@
 package com.rush.verifybike;
 
 import android.graphics.Bitmap;
-
 import com.rush.verifybike.VerificationResult.BikeStatus;
 
 public class SearchBikeViewModel {
@@ -16,7 +15,7 @@ public class SearchBikeViewModel {
 
 	public Observable<Boolean> IsSearchOnGoing = new Observable<Boolean>(false);
 	public Observable<Boolean> IsStolen = new Observable<Boolean>(false);
-
+	
 	public void SearchBike() {
 		IsSearchOnGoing.set(true);		
 
