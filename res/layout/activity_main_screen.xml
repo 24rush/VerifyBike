@@ -37,9 +37,10 @@
             <Button
                 android:id="@+id/btn_add_bike"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="35dp"
                 android:layout_gravity="right"
                 android:layout_marginRight="5dp"
+                android:padding="10dp"
                 android:background="@drawable/round_button"
                 android:onClick="onAddViewBikes"                                
                 android:text="@string/lbl_add_bike"                
