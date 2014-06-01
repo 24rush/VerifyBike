@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.widget.ProfilePictureView;
 import com.parse.ParseFacebookUtils;
@@ -42,9 +43,8 @@ public class MainScreen extends Activity {
 		VM.SearchViewModel.SerialNumber.set(edtSerialNumberText);
 
 		Bindings.BindVisible(Controls.get(R.id.layout_must_login), VM.LoginViewModel.CanLogin);		
-		Bindings.BindVisible(Controls.get(R.id.layout_user_profile), VM.LoginViewModel.IsUserLinkedToFacebook);	
+		Bindings.BindVisible(Controls.get(R.id.layout_user_loggedin), VM.LoginViewModel.IsUserLinkedToFacebook);	
 
-		Bindings.BindText(Controls.get(R.id.lbl_user_name), VM.LoginViewModel.UserFullName);		
 		Bindings.BindText(Controls.get(R.id.edt_serial_number), VM.SearchViewModel.SerialNumber, Mode.TwoWay);				
 
 		((EditText)Controls.get(R.id.edt_serial_number)).setOnTouchListener(new OnTouchListener() {			
@@ -57,18 +57,15 @@ public class MainScreen extends Activity {
 				return false;
 			}
 		});
-		
-		Bindings.BindVisible(Controls.get(R.id.btn_add_bike), VM.BikesViewModel.BikesLoaded);		
-
+				
 		VM.BikesViewModel.Bikes().Count.addObserver(new INotifier<Integer>() {
 			public void OnValueChanged(Integer value) {			
-				Button btnNoBikes = (Button) Controls.get(R.id.btn_add_bike);
+				TextView btnNoBikes = (TextView) Controls.get(R.id.lbl_add_bike);
 
 				Boolean hasBikes = value > 0; 
 
 				int idLabel =  !hasBikes ? R.string.lbl_add_bike : R.string.lbl_view_bikes;
 				String label = getString(idLabel);
-				if (hasBikes) label += " (" + value + ")";
 
 				btnNoBikes.setText(label);
 			}
@@ -78,22 +75,11 @@ public class MainScreen extends Activity {
 			public void OnValueChanged(String value) {
 				Log.d("New user Facebook id: " + value);
 
-				ProfilePictureView userProfilePictureView = (ProfilePictureView) Controls.get(R.id.selection_profile_pic);
-				userProfilePictureView.setProfileId(value);
-
 				VM.BikesViewModel.LoadBikes();
 			}
 		});
 
-		VM.LoginViewModel.Init(this);
-
-		Bindings.BindCommand(Controls.get(R.id.selection_profile_pic), new ICommand<Activity>() {
-			@Override
-			public void Execute(Activity context) {				
-				Intent intent = new Intent(context, UserProfile.class); 				
-				startActivity(intent);	
-			}
-		}, this);
+		VM.LoginViewModel.Init(this);	
 	}
 
 	public void onSearchSerialNumber(View v) {

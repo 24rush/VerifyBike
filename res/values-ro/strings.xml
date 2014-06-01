@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">cycletome</string>
+    <string name="action_settings">Setari</string>    
+    <string name="lbl_check_serial">introdu aici seria cadrului</string>
+    <string name="title_activity_search_results">Rezultatele cautarii</string>
+    <string name="txt_bikeStatusNotInDb">Bicicleta pe care o cauti nu se afla in baza noastra de date</string>
+    <string name="txt_bikeStatusStolen">Bicicleta a fost raportata ca fiind furata</string>
+    <string name="txt_bikeStatusOwned">Bicicleta este in momentul curent in posesia cuiva</string>
+    <string name="lbl_Model">Model</string>
+    <string name="lbl_LoginToRegister">Pentru a-ti inregistra bicicleta trebuie sa te loghezi</string>
+    <string name="app_id">500780326714460</string>
+    <string name="msg_unable_to_login">Logarea a esuat!</string>
+    <string name="msg_error_login_message">Incercarea de logare a esuat. Te rog verifica conexiunea la Internet.</string>
+    <string name="lbl_add_bike">adauga o bicicleta</string>
+    <string name="lbl_view_bikes">bicicletele mele</string>
+    <string name="title_activity_bike_list_screen">Bicicletele mele</string>
+    <string name="lbl_my_bikes">bicicletele mele</string>
+    <string name="lbl_btn_add">adauga</string>
+    <string name="lbl_btn_sold">vinde</string>
+    <string name="lbl_btn_stolen">furat</string>
+    <string name="lbl_serial">Serial</string>
+    <string name="title_activity_new_bike_screen">Adauga o bicicleta</string>
+    <string name="lbl_bike_model">Model</string>
+    <string name="lbl_bike_serial_number">Serie</string>
+    <string name="title_activity_browse_picture">Cauta poza</string>
+    <string name="title_activity_user_profile">Profilul meu</string>
+    <string name="txt_ok">OK</string>
+	<string name="txt_cancel">Renunta</string>
+	<string name="txt_search_btn">cauta</string>
+</resources>
