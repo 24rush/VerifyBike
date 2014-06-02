@@ -155,6 +155,8 @@ public class LoginViewModel {
 
 		Log.d("User retrieved from Facebook. Updating properties...");		
 
+		Phone.load((String)parseUser.getString("mobile"));
+		
 		parseUser.put("name", user.getName());	  
 		parseUser.put("facebookId", user.getId());							
 		parseUser.put("allowContactShare", false);							

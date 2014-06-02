@@ -14,11 +14,11 @@
     <Button
         android:id="@+id/btn_save_bike"
         android:layout_width="wrap_content"
-        android:layout_height="22dp"
+        android:layout_height="25dp"
         android:layout_gravity="right"
         android:background="@drawable/round_button"
         android:onClick="onSaveBike"
-        android:text="save" />
+        android:text="@string/btn_save_bike" />
 
     <TextView
         android:id="@+id/lbl_user_profile_phone"

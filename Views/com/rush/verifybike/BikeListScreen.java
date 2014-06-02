@@ -1,5 +1,7 @@
 package com.rush.verifybike;
 
+import com.facebook.widget.ProfilePictureView;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +27,7 @@ public class BikeListScreen extends Activity {
 		View header = getLayoutInflater().inflate(R.layout.header, null);
 		final BikeListAdapter bikeListAdapter = new BikeListAdapter(this);
 
-		Bindings.BindCommand((Button) ((ViewGroup)header).getChildAt(1), new ICommand<Activity>() {
+		Bindings.BindCommand((Button) ((ViewGroup)header).getChildAt(3), new ICommand<Activity>() {
 			public void Execute(Activity context) {				
 				m_BikeViewModel = new BikeViewModel();
 				startAddEditBike(m_BikeViewModel);
@@ -48,7 +50,19 @@ public class BikeListScreen extends Activity {
 				m_BikeViewModel = VM.BikesViewModel.Bikes().get(arg2 - 1); 
 				startAddEditBike(m_BikeViewModel);
 			}
-		});						    	
+		});
+		
+		Bindings.BindCommand(header.findViewById(R.id.selection_profile_pic), new ICommand<Activity>() {
+			@Override
+			public void Execute(Activity context) {				
+				onAccountSettings(null);
+			}
+		}, this);
+		
+		Bindings.BindText(Controls.get(R.id.lbl_user_name), VM.LoginViewModel.UserFullName);
+		
+		ProfilePictureView userProfilePictureView = (ProfilePictureView) Controls.get(R.id.selection_profile_pic);
+		userProfilePictureView.setProfileId(VM.LoginViewModel.FacebookId.get());	
 	}
 
 	private void startAddEditBike(BikeViewModel bikeViewModel) {
@@ -68,5 +82,10 @@ public class BikeListScreen extends Activity {
 	public void onBackPressed() {
 		super.onBackPressed();  				
 		Bindings.Destroy();
+	}
+	
+	public void onAccountSettings(View v) {
+		Intent intent = new Intent(this, UserProfile.class); 				
+		startActivity(intent);	
 	}
 }

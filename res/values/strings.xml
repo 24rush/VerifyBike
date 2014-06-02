@@ -16,10 +16,12 @@
     <string name="lbl_add_bike">add a bike</string>
     <string name="lbl_view_bikes">my bikes</string>
     <string name="title_activity_bike_list_screen">BikeListScreen</string>
-    <string name="lbl_my_bikes">my bikes</string>
+    <string name="lbl_my_bikes">My bikes</string>
     <string name="lbl_btn_add">ADD</string>
     <string name="lbl_btn_sold">SOLD</string>
     <string name="lbl_btn_stolen">STOLEN</string>
+    <string name="lbl_btn_recovered">RECOVERED</string>    
+    <string name="txt_mark_as">Mark</string>
     <string name="lbl_serial">Serial</string>
     <string name="title_activity_new_bike_screen">NewBikeScreen</string>
     <string name="lbl_bike_model">Model</string>
@@ -29,4 +31,6 @@
     <string name="txt_ok">OK</string>
 	<string name="txt_cancel">Cancel</string>
 	<string name="txt_search_btn">go</string>
+	<string name="btn_save_bike">SAVE</string>
+	<string name="txt_acc_settings">SETTINGS</string>	
 </resources>

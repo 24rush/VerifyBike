@@ -151,6 +151,7 @@ class BikeModel {
 
 	public void Delete() {		
 		m_CloudData.deleteEventually();
+		DataEndpoint.ClearCachedBikes();
 	}	
 }
 

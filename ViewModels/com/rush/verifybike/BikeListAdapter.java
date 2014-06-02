@@ -55,6 +55,9 @@ public class BikeListAdapter extends BaseAdapter{
 		Bindings.BindVisible(convertedView.findViewById(R.id.btn_stolen), objCurrent.Stolen, Mode.Invert);
 		Bindings.BindVisible(convertedView.findViewById(R.id.lbl_stolen), objCurrent.Stolen);
 		
+		Bindings.BindVisible(convertedView.findViewById(R.id.btn_sold), objCurrent.Stolen, Mode.Invert);
+		Bindings.BindVisible(convertedView.findViewById(R.id.btn_recovered), objCurrent.Stolen);
+		
 		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_stolen), new ICommand<BikeViewModel>() {
 			public void Execute(BikeViewModel context) {
 				Log.d("Bike " + context.Model.get() + " marked as stolen.");
@@ -73,6 +76,15 @@ public class BikeListAdapter extends BaseAdapter{
 			}
 		}, objCurrent);				
 
+		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_recovered), new ICommand<BikeViewModel>() {
+			public void Execute(BikeViewModel context) {
+				Log.d("Bike " + context.Model.get() + " marked as recovered.");
+			
+				context.Stolen.set(false);
+				context.Commit();
+			}
+		}, objCurrent);
+		
 		return convertedView;
 	}
 
