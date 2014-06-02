@@ -17,10 +17,10 @@
     <string name="lbl_view_bikes">my bikes</string>
     <string name="title_activity_bike_list_screen">BikeListScreen</string>
     <string name="lbl_my_bikes">My bikes</string>
-    <string name="lbl_btn_add">ADD</string>
-    <string name="lbl_btn_sold">SOLD</string>
-    <string name="lbl_btn_stolen">STOLEN</string>
-    <string name="lbl_btn_recovered">RECOVERED</string>    
+    <string name="lbl_btn_add">add</string>
+    <string name="lbl_btn_sold">sold</string>
+    <string name="lbl_btn_stolen">stolen</string>
+    <string name="lbl_btn_recovered">recovered</string>    
     <string name="txt_mark_as">Mark</string>
     <string name="lbl_serial">Serial</string>
     <string name="title_activity_new_bike_screen">NewBikeScreen</string>
@@ -31,6 +31,7 @@
     <string name="txt_ok">OK</string>
 	<string name="txt_cancel">Cancel</string>
 	<string name="txt_search_btn">go</string>
-	<string name="btn_save_bike">SAVE</string>
-	<string name="txt_acc_settings">SETTINGS</string>	
+	<string name="btn_save_bike">save</string>
+	<string name="txt_acc_settings">settings</string>
+	<string name="lbl_signout_note">Signing out will not remove your bikes. You will, though, be unable to edit your bikes nor your privacy settings</string>	
 </resources>

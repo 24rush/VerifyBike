@@ -10,8 +10,8 @@
 
         <ImageView
             android:id="@+id/img_bike_preview"
-            android:layout_width="105dp"
-            android:layout_height="80dp"
+            android:layout_width="125dp"
+            android:layout_height="100dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
@@ -42,23 +42,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:focusable="false"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="16sp" />
+            android:text="Cannondale"
+           	style="@style/LabelsLargeFont"/>
 
         <TextView
             android:id="@+id/lbl_serial_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="XDDFDFR343W"
             android:focusable="false"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="15sp" />
+            android:layout_marginLeft="3dp"
+            style="@style/LabelsFont"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="3dp"
-            android:orientation="horizontal"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="3dp"
+            android:orientation="horizontal"            
             >
 
             <TextView
@@ -67,13 +69,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
                 android:text="@string/txt_mark_as"
-                android:textColor="@android:color/white" />
+                style="@style/LabelsFont" />
 
             <Button
                 android:id="@+id/btn_sold"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/round_button"
                 android:focusable="false"
                 android:text="@string/lbl_btn_sold" />

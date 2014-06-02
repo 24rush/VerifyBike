@@ -340,7 +340,7 @@ containing a value of this type.
         public static final int com_facebook_list_section_header_background=0x7f02000d;
         public static final int com_facebook_loginbutton_silver=0x7f02000e;
         public static final int com_facebook_logo=0x7f02000f;
-        public static final int com_facebook_picker_default_separator_color=0x7f02003e;
+        public static final int com_facebook_picker_default_separator_color=0x7f02003f;
         public static final int com_facebook_picker_item_background=0x7f020010;
         public static final int com_facebook_picker_list_focused=0x7f020011;
         public static final int com_facebook_picker_list_longpressed=0x7f020012;
@@ -386,7 +386,8 @@ containing a value of this type.
         public static final int round_button=0x7f02003a;
         public static final int search=0x7f02003b;
         public static final int search1=0x7f02003c;
-        public static final int telephone=0x7f02003d;
+        public static final int signout=0x7f02003d;
+        public static final int telephone=0x7f02003e;
     }
     public static final class id {
         public static final int action_settings=0x7f040052;
@@ -549,6 +550,7 @@ containing a value of this type.
         public static final int lbl_check_serial=0x7f07001c;
         public static final int lbl_my_bikes=0x7f070029;
         public static final int lbl_serial=0x7f07002f;
+        public static final int lbl_signout_note=0x7f07003a;
         public static final int lbl_view_bikes=0x7f070027;
         public static final int msg_error_login_message=0x7f070025;
         public static final int msg_unable_to_login=0x7f070024;
@@ -592,8 +594,10 @@ containing a value of this type.
         /**  Application theme. 
          */
         public static final int AppTheme=0x7f080004;
-        public static final int Button=0x7f080006;
         public static final int ButtonsFont=0x7f080005;
+        public static final int HeadlineFont=0x7f080008;
+        public static final int LabelsFont=0x7f080006;
+        public static final int LabelsLargeFont=0x7f080007;
         public static final int com_facebook_loginview_default_style=0x7f080000;
         public static final int com_facebook_loginview_silver_style=0x7f080001;
         public static final int tooltip_bubble_text=0x7f080002;

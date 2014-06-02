@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"        
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/cycletome_main_bkg"
@@ -8,44 +8,38 @@
     android:paddingTop="@dimen/activity_horizontal_margin"
     tools:context=".MainScreen" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="240dp"
-        android:orientation="vertical" >
+        android:layout_centerInParent="true"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal" >
 
-        <RelativeLayout
+        <EditText
+            android:id="@+id/edt_serial_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:descendantFocusability="beforeDescendants"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal" >
+            android:ems="10"
+            android:inputType="text"
+            android:paddingBottom="1dp"
+            android:paddingLeft="8dp"
+            android:text="@string/lbl_check_serial"
+            android:textStyle="italic"
+            style="@style/LabelsLargeFont"
+            />
 
-            <EditText
-                android:id="@+id/edt_serial_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:padding="4dp"
-                android:text="@string/lbl_check_serial"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/WhiteSmoke"
-                android:textStyle="italic" />
-
-            <Button
-                android:id="@+id/btn_search_serial_number"
-                android:layout_width="wrap_content"
-                android:layout_height="34dp"
-                android:layout_alignParentRight="true"                
-                android:background="@drawable/round_button"
-                android:onClick="onSearchSerialNumber"
-                android:text="@string/txt_search_btn"
-                android:textColor="#ffffff"
-                android:textSize="19sp" />
-        </RelativeLayout>
-    </LinearLayout>
+        <Button
+            android:id="@+id/btn_search_serial_number"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/round_button"
+            android:onClick="onSearchSerialNumber"
+            android:text="@string/txt_search_btn"
+            android:textColor="#ffffff"
+            android:textSize="19sp" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/layout_user_loggedin"
@@ -53,39 +47,40 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-         android:onClick="onAddViewBikes"
+        android:onClick="onAddViewBikes"
         android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/lbl_add_bike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha="0.85"
             android:background="@drawable/my_bikes_bkg"
             android:gravity="center"
             android:onClick="onAddViewBikes"
-            android:paddingTop="15dp"
-            android:alpha="0.85"
+            android:paddingTop="20dp"
             android:text="@string/lbl_add_bike"
             android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/white" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/layout_must_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="gone" >
 
         <ImageView
             android:id="@+id/img_fb_login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onLoginFacebook"
             android:alpha="0.85"
+            android:onClick="onLoginFacebook"
             android:src="@drawable/f_sign" />
 
         <TextView
@@ -96,8 +91,8 @@
             android:paddingTop="55dp"
             android:text="@string/lbl_LoginToRegister"
             android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/white" />
+            android:textStyle="italic"
+             />
     </RelativeLayout>
 
 </RelativeLayout>

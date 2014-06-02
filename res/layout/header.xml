@@ -30,8 +30,7 @@
         android:onClick="onShowUserProfile"
         android:layout_toRightOf="@id/selection_profile_pic"   
         android:layout_alignParentTop="true" 
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/WhiteSmoke" />
+        style="@style/HeadlineFont"/>
 
      <Button
         android:id="@+id/btn_acc_settings"
@@ -61,6 +60,6 @@
         android:layout_alignBaseline="@id/btn_add_new_bike"
         android:onClick="onAddNewBike"
         android:text="@string/lbl_my_bikes"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        style="@style/HeadlineFont" />
       
 </RelativeLayout>
