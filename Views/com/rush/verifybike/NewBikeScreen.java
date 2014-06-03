@@ -48,7 +48,7 @@ public class NewBikeScreen extends Activity {
 		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic0), observerRemBikePic, m_ViewModel.PictureCaches.get(0));
 		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic1), observerRemBikePic, m_ViewModel.PictureCaches.get(1));
 		
-		Bindings.BindVisible(m_Controls.get(R.id.btn_save_bike), m_ViewModel.IsValid);		
+		Bindings.BindEnabled(m_Controls.get(R.id.btn_save_bike), m_ViewModel.IsValid);		
 		Bindings.BindCommand(m_Controls.get(R.id.btn_save_bike), new ICommand<BikeViewModel>() {
 			@Override
 			public void Execute(BikeViewModel context) {

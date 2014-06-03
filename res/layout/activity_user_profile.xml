@@ -16,60 +16,67 @@
         android:layout_marginTop="20dp"
         android:orientation="vertical" >
 
-        <CheckBox
-            android:id="@+id/chk_allow_contact_share"
+        <TextView
+            style="@style/LabelsFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="(Note: providing your contact details can be very useful when your stolen bike is found)"
+            android:textStyle="italic" />
+
+        <CheckBox
+            android:id="@+id/chk_allow_contact_share"
+            style="@style/LabelsLargeFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:text="Show my identity when my bike is searched for" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="(Note: providing your contact details can be very useful when your bike is stolen)"
-            android:textStyle="italic" />
-
-        <TextView
             android:id="@+id/lbl_user_profile_phone"
+            style="@style/LabelsLargeFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone number"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:text="Phone number" />
 
         <EditText
             android:id="@+id/edt_user_profile_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:ems="10"
-            android:inputType="phone" >
+            android:inputType="phone"
+            android:textColor="@android:color/white" >
 
             <requestFocus />
         </EditText>
 
         <TextView
             android:id="@+id/lbl_user_profile_email"
+            style="@style/LabelsLargeFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:text="Email" />
 
         <EditText
             android:id="@+id/edt_user_profile_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true" >
 
         <ImageView
             android:id="@+id/img_fb_logout_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"            
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:alpha="0.85"
             android:onClick="onLogoutFacebook"
@@ -79,9 +86,9 @@
             android:layout_width="185dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:gravity="center" 
-            android:paddingTop="60dp"          
+            android:gravity="center"
             android:onClick="onLogoutFacebook"
+            android:paddingTop="60dp"
             android:text="@string/lbl_signout_note"
             android:textStyle="italic" />
     </RelativeLayout>

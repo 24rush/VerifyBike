@@ -13,19 +13,18 @@
 
     <Button
         android:id="@+id/btn_save_bike"
+        style="@style/RoundButton"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_gravity="right"
-        android:background="@drawable/round_button"
         android:onClick="onSaveBike"
         android:text="@string/btn_save_bike" />
 
     <TextView
-        android:id="@+id/lbl_user_profile_phone"
+        style="@style/LabelsLargeFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/lbl_bike_model"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="@string/lbl_bike_model" />
 
     <EditText
         android:id="@+id/edt_bike_model"
@@ -34,10 +33,10 @@
         android:ems="10" />
 
     <TextView
+        style="@style/LabelsLargeFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/lbl_bike_serial_number"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="@string/lbl_bike_serial_number" />
 
     <EditText
         android:id="@+id/edt_bike_serial"
@@ -69,27 +68,28 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    style="@style/LabelsLargeFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
                     android:text="Front picture"
-                    android:textSize="15sp"
-                    android:textStyle="italic" />
-				<TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center_horizontal"                    
-                    android:text="(mandatory)"
-                    android:textSize="15sp"
                     android:textStyle="italic" />
 
                 <TextView
+                    style="@style/LabelsLargeFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"                    
-                    android:text="+"
-                    android:textSize="60sp" />                
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:text="(mandatory)"
+                    android:textStyle="italic" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/plus" />
             </LinearLayout>
 
             <RelativeLayout
@@ -131,27 +131,28 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    style="@style/LabelsLargeFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
                     android:text="Serial number"
-                    android:textSize="15sp"
-                    android:textStyle="italic" />
-             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center_horizontal"                    
-                    android:text="(mandatory)"
-                    android:textSize="15sp"
                     android:textStyle="italic" />
 
                 <TextView
+                    style="@style/LabelsLargeFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"                    
-                    android:text="+"
-                    android:textSize="60sp" /> 
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:text="(mandatory)"
+                    android:textStyle="italic" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/plus" />
             </LinearLayout>
 
             <RelativeLayout
@@ -183,8 +184,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:baselineAligned="false"
-        android:visibility="gone"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
         <com.rush.verifybike.SquareLinearLayout
             android:layout_width="0dp"
@@ -210,13 +211,12 @@
                     android:textSize="15sp"
                     android:textStyle="italic" />
 
-                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_marginTop="5dp"
-                    android:text="+"
-                    android:textSize="60sp" />
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/plus" />
             </LinearLayout>
 
             <RelativeLayout

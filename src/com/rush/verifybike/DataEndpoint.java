@@ -146,7 +146,7 @@ public class DataEndpoint {
 		String userId = VM.LoginViewModel.FacebookId.get();	
 
 		ParseQuery<ParseObject> queryBikes = ParseQuery.getQuery(BikeModel.Class);	
-		queryBikes.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+		//queryBikes.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 		queryBikes.whereEqualTo("userId", userId);		
 		queryBikes.findInBackground(new FindCallback<ParseObject>() {			
 			@Override

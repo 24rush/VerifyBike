@@ -21,7 +21,7 @@
     <string name="lbl_btn_sold">sold</string>
     <string name="lbl_btn_stolen">stolen</string>
     <string name="lbl_btn_recovered">recovered</string>    
-    <string name="txt_mark_as">Mark</string>
+    <string name="txt_mark_as">Mark as</string>
     <string name="lbl_serial">Serial</string>
     <string name="title_activity_new_bike_screen">NewBikeScreen</string>
     <string name="lbl_bike_model">Model</string>
