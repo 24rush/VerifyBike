@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"                     
             android:text="@string/txt_mark_as" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="1dp"
@@ -73,8 +73,8 @@
             <Button
                 android:id="@+id/btn_sold"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"                
-                android:layout_alignParentLeft="true"         
+                android:layout_height="25dp"
+                android:layout_marginRight="7dp"                                
                 android:focusable="false"
                 style="@style/RoundButton"
                 android:text="@string/lbl_btn_sold" />
@@ -82,24 +82,20 @@
             <Button
                 android:id="@+id/btn_stolen"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_marginRight="7dp"
-                android:layout_alignParentRight="true"
+                android:layout_height="25dp"                                
                 style="@style/RoundButton"
-                android:focusable="false"
-                android:gravity="right"
+                android:focusable="false"                
                 android:text="@string/lbl_btn_stolen" />
 
             <Button
                 android:id="@+id/btn_recovered"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_alignParentLeft="true"
+                android:layout_height="25dp"         
                 style="@style/RoundButton"
                 android:focusable="false"
                 android:text="@string/lbl_btn_recovered"
                 android:visibility="gone" />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

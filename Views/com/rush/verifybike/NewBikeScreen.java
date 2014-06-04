@@ -35,7 +35,7 @@ public class NewBikeScreen extends Activity {
 		m_ImageViews.add((ImageView) m_Controls.get(R.id.img_bike_pic1));		
 
 		m_ViewModel =  (BikeViewModel) DataTransfer.get("com.rush.verifybike.BikeViewModel");		
-		
+
 		Bindings.BindText(m_Controls.get(R.id.edt_bike_model), m_ViewModel.Model, Mode.TwoWay);
 		Bindings.BindText(m_Controls.get(R.id.edt_bike_serial), m_ViewModel.SerialNumber, Mode.TwoWay);		
 
@@ -47,7 +47,7 @@ public class NewBikeScreen extends Activity {
 
 		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic0), observerRemBikePic, m_ViewModel.PictureCaches.get(0));
 		Bindings.BindCommand(m_Controls.get(R.id.img_bike_rem_pic1), observerRemBikePic, m_ViewModel.PictureCaches.get(1));
-		
+
 		Bindings.BindEnabled(m_Controls.get(R.id.btn_save_bike), m_ViewModel.IsValid);		
 		Bindings.BindCommand(m_Controls.get(R.id.btn_save_bike), new ICommand<BikeViewModel>() {
 			@Override
@@ -78,21 +78,25 @@ public class NewBikeScreen extends Activity {
 			index++;
 		}
 
-		m_ViewModel.IsSaving.addObserver(new INotifier<Boolean>() 
-				{			
+		m_ViewModel.IsSaving.addObserver(new INotifier<Boolean>() {			
 			@Override
 			public void OnValueChanged(Boolean value) {
 				if (value == true) {
 					m_SavingPopup.Show(activity);
 				}
-				else {					
-					setResult(RESULT_OK, getIntent());
-					finish();
-					
+				else {
 					m_SavingPopup.Dismiss();
+					
+					if (!m_ViewModel.Error.get().equals("")) {
+						MessageBox.Show(activity, "Error", m_ViewModel.Error.get(), null, null);
+					} 
+					else {
+						setResult(RESULT_OK, getIntent());
+						finish();					
+					}
 				}
 			}
-				});
+		});			
 	}
 
 	private int m_CurrentPicture = -1;
@@ -166,7 +170,7 @@ public class NewBikeScreen extends Activity {
 
 		return null;
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();  			

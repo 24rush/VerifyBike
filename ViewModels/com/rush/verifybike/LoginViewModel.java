@@ -100,7 +100,7 @@ public class LoginViewModel {
 			IsUserLinkedToFacebook.set(false); 
 
 			if (err.getCode() != -1) {
-				MessageBox.Show(m_Activity, m_Activity.getString(R.string.msg_unable_to_login), err.getMessage());
+				MessageBox.Show(m_Activity, m_Activity.getString(R.string.msg_unable_to_login), err.getMessage(), null, null);
 			}
 			return;
 		} 					

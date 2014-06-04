@@ -32,6 +32,6 @@
 	<string name="txt_search_btn">caută</string>
 	<string name="btn_save_bike">salvează</string>
 	<string name="txt_acc_settings">setări</string>	
-	<string name="txt_mark_as">Stare</string>
+	<string name="txt_mark_as">Marcheaza ca</string>
 	<string name="lbl_signout_note">Bicicletele inregistrate nu se vor sterge ci nu veti mai putea sa le editati.</string>		
 </resources>

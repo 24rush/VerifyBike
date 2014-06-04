@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,20 +61,40 @@ public class BikeListAdapter extends BaseAdapter{
 		Bindings.BindVisible(convertedView.findViewById(R.id.btn_recovered), objCurrent.Stolen);
 		
 		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_stolen), new ICommand<BikeViewModel>() {
-			public void Execute(BikeViewModel context) {
+			public void Execute(final BikeViewModel context) {
 				Log.d("Bike " + context.Model.get() + " marked as stolen.");
-				MessageBox.Show(m_Activity, "We are sorry...", "Your bike has been marked as stolen in our database");
-				
-				context.Stolen.set(true);
-				context.Commit();
+				MessageBox.Show(m_Activity, "We are sorry...", "Your bike has been marked as stolen in our database", 
+								new OnClickListener() {
+									// On OK
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										context.Stolen.set(true);
+										context.Commit();										
+									}
+								}, 
+								null);				
 			}
 		}, objCurrent);
 
 		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_sold), new ICommand<BikeViewModel>() {
-			public void Execute(BikeViewModel context) {
+			public void Execute(final BikeViewModel context) {
 				Log.d("Bike " + context.Model.get() + " was sold.");
-				
-				VM.BikesViewModel.RemoveBike(context);
+				MessageBox.Show(m_Activity, "Bike was sold", "When your bike is sold, it will be removed from our databases being the duty of the new owner to register it again", 
+						new OnClickListener() {
+							// On OK
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								VM.BikesViewModel.RemoveBike(context);										
+							}
+						}, 
+						new OnClickListener() {
+							// On Cancel
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								// TODO Auto-generated method stub
+								
+							}
+						});							
 			}
 		}, objCurrent);				
 
