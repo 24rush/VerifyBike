@@ -33,10 +33,10 @@ public class BikeListScreen extends Activity {
 				startAddEditBike(m_BikeViewModel);
 			}
 		}, this);			
-
+		
 		// Manual refresh on the adapter when the list changes
 		VM.BikesViewModel.Bikes().addObserver(new INotifier<ObservableCollection<BikeViewModel>>() {
-			public void OnValueChanged(ObservableCollection<BikeViewModel> value) {
+			public void OnValueChanged(ObservableCollection<BikeViewModel> value) {				
 				bikeListAdapter.notifyDataSetChanged();
 			}
 		});

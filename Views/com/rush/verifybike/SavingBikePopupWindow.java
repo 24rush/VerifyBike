@@ -19,6 +19,11 @@ public class SavingBikePopupWindow {
 	}
 
 	public void Show(Activity activity) {
+		if (activity.isFinishing() == true) {
+			Log.d("Activity " + activity + " is finishing.");
+			return;
+		}
+			
 		if (m_PopupWindow == null)
 			init(activity);
 
@@ -27,6 +32,10 @@ public class SavingBikePopupWindow {
 	}
 
 	public void Dismiss() {
+		if (m_PopupWindow == null)
+			return;
+			
 		m_PopupWindow.dismiss();
+		m_PopupWindow = null;
 	}
 }

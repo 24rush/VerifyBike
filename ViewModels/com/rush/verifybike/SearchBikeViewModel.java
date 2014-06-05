@@ -10,14 +10,24 @@ public class SearchBikeViewModel {
 	public Observable<String> SerialNumber = new Observable<String>("");
 
 	public Observable<Bitmap> BikePreview = new Observable<Bitmap>();
+
 	public Observable<String> Phone = new Observable<String>();
+	public Observable<Boolean> HasPhone = new Observable<Boolean>(false);
+
 	public Observable<String> Email = new Observable<String>();
+	public Observable<Boolean> HasEmail = new Observable<Boolean>(false);
 
 	public Observable<Boolean> IsSearchOnGoing = new Observable<Boolean>(false);
-	public Observable<Boolean> IsStolen = new Observable<Boolean>(false);
-	
+
+	public Observable<Boolean> IsInDatabase = new Observable<Boolean>(false);	
+
 	public void SearchBike() {
-		IsSearchOnGoing.set(true);		
+		IsSearchOnGoing.set(true);
+		Model.set("");
+		Phone.set(""); HasPhone.set(false);
+		Email.set(""); HasEmail.set(false);
+
+		IsInDatabase.set(false);		
 
 		DataEndpoint.CheckSerialNumber(SerialNumber.get(), new DataReceivedCallback<VerificationResult>() {					
 			public void OnDataReceived(VerificationResult result) {						
@@ -30,7 +40,7 @@ public class SearchBikeViewModel {
 	public void CancelSearch() {
 		DataEndpoint.CancelQueries();
 	}
-	
+
 	public void LoadData(VerificationResult modelData) {
 		if (modelData == null) 
 			return;
@@ -39,12 +49,24 @@ public class SearchBikeViewModel {
 		Model.set(modelData.Model);
 		BikePreview.set(null);
 
+		IsInDatabase.set(modelData.Status != BikeStatus.NotInDatabase);
+
 		if (modelData.Status == BikeStatus.Stolen) {
-			IsStolen.set(!modelData.OwnerPhone.equals("") || !modelData.OwnerEmail.equals(""));
-			
+			boolean hasPhone = !modelData.OwnerPhone.equals("");
+			boolean hasEmail = !modelData.OwnerEmail.equals("");			
+
 			Phone.set(modelData.OwnerPhone);
+			HasPhone.set(hasPhone);
+
 			Email.set(modelData.OwnerEmail);
-			
+			HasEmail.set(hasEmail);
+
+			if (modelData.BikePreview != null) {
+				BikePreview.set(BitmapUtils.fromByteArray(modelData.BikePreview));
+			}
+		}
+
+		if (modelData.Status == BikeStatus.Owned) {
 			if (modelData.BikePreview != null) {
 				BikePreview.set(BitmapUtils.fromByteArray(modelData.BikePreview));
 			}

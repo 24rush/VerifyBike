@@ -29,6 +29,6 @@ public class VerificationResult implements Serializable {
 		
 		this.BikePreview = preview;
 		this.OwnerPhone = phone;
-		this.OwnerEmail = email;
+		this.OwnerEmail = email;		
 	}
 }

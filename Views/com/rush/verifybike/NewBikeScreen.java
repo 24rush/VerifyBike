@@ -81,6 +81,7 @@ public class NewBikeScreen extends Activity {
 		m_ViewModel.IsSaving.addObserver(new INotifier<Boolean>() {			
 			@Override
 			public void OnValueChanged(Boolean value) {
+				Log.d("Activity " + activity + " " + activity.isFinishing());
 				if (value == true) {
 					m_SavingPopup.Show(activity);
 				}

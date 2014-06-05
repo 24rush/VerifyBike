@@ -391,14 +391,14 @@ containing a value of this type.
         public static final int telephone=0x7f02003f;
     }
     public static final class id {
-        public static final int action_settings=0x7f040052;
+        public static final int action_settings=0x7f040051;
         public static final int btn_acc_settings=0x7f040045;
         public static final int btn_add_new_bike=0x7f040046;
-        public static final int btn_email_owner=0x7f04004f;
-        public static final int btn_phone_owner=0x7f04004e;
+        public static final int btn_email_owner=0x7f04004e;
+        public static final int btn_phone_owner=0x7f04004d;
         public static final int btn_recovered=0x7f040028;
         public static final int btn_save_bike=0x7f04000b;
-        public static final int btn_search_ok=0x7f040051;
+        public static final int btn_search_ok=0x7f040050;
         public static final int btn_search_serial_number=0x7f040005;
         public static final int btn_sold=0x7f040026;
         public static final int btn_stolen=0x7f040027;
@@ -451,7 +451,6 @@ containing a value of this type.
         public static final int layout_bike_pic=0x7f040020;
         public static final int layout_bike_result=0x7f040048;
         public static final int layout_must_login=0x7f040008;
-        public static final int layout_owner_details=0x7f04004d;
         public static final int layout_pic_0=0x7f04000e;
         public static final int layout_pic_1=0x7f040012;
         public static final int layout_pic_2=0x7f040016;
@@ -469,7 +468,7 @@ containing a value of this type.
         public static final int lst_bikes_owned=0x7f040003;
         public static final int normal=0x7f040001;
         public static final int picker_subtitle=0x7f040038;
-        public static final int progress_search=0x7f040050;
+        public static final int progress_search=0x7f04004f;
         public static final int selection_profile_pic=0x7f040043;
         public static final int small=0x7f040000;
         public static final int txt_Model=0x7f04004c;

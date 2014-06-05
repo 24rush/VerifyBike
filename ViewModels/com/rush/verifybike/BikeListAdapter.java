@@ -69,7 +69,7 @@ public class BikeListAdapter extends BaseAdapter{
 									@Override
 									public void onClick(DialogInterface dialog, int which) {
 										context.Stolen.set(true);
-										context.Commit();										
+										context.Commit(null);										
 									}
 								}, 
 								null);				
@@ -103,7 +103,7 @@ public class BikeListAdapter extends BaseAdapter{
 				Log.d("Bike " + context.Model.get() + " marked as recovered.");
 			
 				context.Stolen.set(false);
-				context.Commit();
+				context.Commit(null);
 			}
 		}, objCurrent);
 		

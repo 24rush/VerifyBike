@@ -36,12 +36,20 @@ public class BikesViewModel {
 		m_Bikes.remove(context);
 	}
 	
-	public void SaveBike(BikeViewModel context) {
-		Log.d("Added bike " + context.Model);
+	public void SaveBike(final BikeViewModel context) {
+		Log.d("Saving bike " + context.Model);
+					
+		final boolean isNewObject = context.IsNewObject();
 		
-		if (context.IsNewObject())
-			m_Bikes.add(context);
-		
-		context.Commit();
+		context.Commit(new INotifier<Boolean>() {			
+			@Override
+			public void OnValueChanged(Boolean value) {
+				Log.d("Saving bike returned for " + context.Model);
+				if (value == true && isNewObject == true) {
+					Log.d("Adding bike to list");
+					m_Bikes.add(context);
+				}
+			}
+		});
 	}
 }

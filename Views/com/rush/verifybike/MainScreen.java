@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.parse.ParseFacebookUtils;
 
@@ -38,9 +37,11 @@ public class MainScreen extends Activity {
 		edtSerialNumberText = getString(R.string.lbl_check_serial);
 		VM.SearchViewModel.SerialNumber.set(edtSerialNumberText);
 
-		Bindings.BindVisible(Controls.get(R.id.layout_must_login), VM.LoginViewModel.CanLogin);		
-		Bindings.BindVisible(Controls.get(R.id.layout_user_loggedin), VM.LoginViewModel.IsUserLinkedToFacebook);	
-
+		Bindings.BindVisible(Controls.get(R.id.layout_must_login), VM.LoginViewModel.CanLogin);				
+		
+		// Bikes will be loaded only if there is a loggedin user
+		Bindings.BindVisible(Controls.get(R.id.layout_user_loggedin), VM.BikesViewModel.BikesLoaded);	
+		
 		Bindings.BindText(Controls.get(R.id.edt_serial_number), VM.SearchViewModel.SerialNumber, Mode.TwoWay);				
 
 		((EditText)Controls.get(R.id.edt_serial_number)).setOnTouchListener(new OnTouchListener() {			
@@ -52,20 +53,7 @@ public class MainScreen extends Activity {
 				
 				return false;
 			}
-		});
-				
-		VM.BikesViewModel.Bikes().Count.addObserver(new INotifier<Integer>() {
-			public void OnValueChanged(Integer value) {			
-				TextView btnNoBikes = (TextView) Controls.get(R.id.lbl_add_bike);
-
-				Boolean hasBikes = value > 0; 
-
-				int idLabel =  !hasBikes ? R.string.lbl_add_bike : R.string.lbl_view_bikes;
-				String label = getString(idLabel);
-
-				btnNoBikes.setText(label);
-			}
-		});
+		});				
 
 		VM.LoginViewModel.FacebookId.addObserver(new INotifier<String>() {						
 			public void OnValueChanged(String value) {
@@ -100,8 +88,8 @@ public class MainScreen extends Activity {
 
 	public void onAddViewBikes(View v) {
 		if (VM.BikesViewModel.Bikes().size() == 0) {
-			Intent intent = new Intent(this, NewBikeScreen.class);
-			DataTransfer.put(Intents.Intent_TransferBikeViewModel, new BikeViewModel());
+			Intent intent = new Intent(this, BikeListScreen.class);
+			//DataTransfer.put(Intents.Intent_TransferBikeViewModel, new BikeViewModel());
 
 			startActivity(intent);
 		}

@@ -92,34 +92,15 @@ class BikeModel {
 			index++;
 		}
 	}
-
+	
 	private int filesSaved = 0; // When second file is saved, the whole object will be saved
-	private void OnFileSaved(final INotifier<Integer> progress, boolean checkSerial) {
-		filesSaved++;
+	private void OnFileSaved(final INotifier<Integer> progress) {
+		filesSaved++;		
 
-		if (filesSaved < 1)
+		if (filesSaved < 2)
 			return;
-
-		if (!checkSerial) {
-			saveObject(progress);
-		}
-
-		Log.d("Checking serial unique");
-
-		ParseQuery<ParseObject> qFindSerial = new ParseQuery<ParseObject>(BikeModel.Class);
-		qFindSerial.whereEqualTo("serial", this.SerialNumber.get());
-
-		qFindSerial.findInBackground(new FindCallback<ParseObject>() {
-			@Override
-			public void done(List<ParseObject> arg0, ParseException arg1) {
-				if (arg0 != null && arg0.size() == 0) {
-					saveObject(progress);
-				} else {
-					// Mark error
-					progress.OnValueChanged(-1);
-				}
-			}
-		});	
+		
+		saveObject(progress);
 	}
 
 	private void saveObject(final INotifier<Integer> progress) {
@@ -130,10 +111,11 @@ class BikeModel {
 			public void done(ParseException arg0) {
 				Log.d("Bike object save completed.");
 
-				DataEndpoint.ClearCachedBikes();
-
 				IsNewObject = false;		
 				filesSaved = 0;
+								
+				PictureBuffers.get(0).ResetChanged();
+				PictureBuffers.get(1).ResetChanged();
 
 				if (progress != null) {
 					progress.OnValueChanged(100);
@@ -142,7 +124,7 @@ class BikeModel {
 		});
 	}
 
-	public void Save(final INotifier<Integer> progress, final boolean checkSerial) {				
+	public void Save(final INotifier<Integer> progress) {				
 		int index = 0;
 		for (Observable<byte[]> picBuffer : PictureBuffers) {
 			if (picBuffer != null && picBuffer.IsChanged()) {
@@ -160,7 +142,7 @@ class BikeModel {
 							@Override
 							public void done(ParseException arg0) {
 								PictureFiles.get(index).set(file);								
-								OnFileSaved(progress, checkSerial);
+								OnFileSaved(progress);
 							}
 						});		
 					}
@@ -168,7 +150,7 @@ class BikeModel {
 			}
 			else {
 				Log.d("No need to create new file for pic" + index);
-				OnFileSaved(progress, checkSerial);
+				OnFileSaved(progress);
 			}
 
 			index++;
@@ -219,9 +201,9 @@ class BikeViewModel {
 		}
 
 		private void loadFromModel() {
-			SerialNumber.set(m_ModelData.SerialNumber.get());
-			Model.set(m_ModelData.Model.get());
-			Stolen.set(m_ModelData.Stolen.get());
+			SerialNumber.load(m_ModelData.SerialNumber.get());
+			Model.load(m_ModelData.Model.get());
+			Stolen.load(m_ModelData.Stolen.get());
 
 			int index = 0;
 			for (Observable<Bitmap> picCache : PictureCaches) {
@@ -238,13 +220,61 @@ class BikeViewModel {
 			loadFromModel();
 		}	
 
-		public void Commit() {		
+		public void Commit(final INotifier<Boolean> onCompleted) {
+			IsSaving.set(true);
+			Error.set("");
+			
+			boolean checkSerialUnique = IsNewObject() || (!m_ModelData.SerialNumber.get().equals(SerialNumber.get()));
+
+			if (checkSerialUnique == true) {
+				validateModel(new INotifier<Boolean>() {					
+					@Override
+					public void OnValueChanged(Boolean value) {						
+						if (value == true) {
+							updateModel(onCompleted);
+						}
+						else {
+							Error.set("Serial number already exists");
+							IsSaving.set(false);
+							
+							if (onCompleted != null)
+								onCompleted.OnValueChanged(false);
+						}
+					}
+				});
+			} 
+			else {
+				updateModel(onCompleted);
+			}
+		}
+
+		private void validateModel(final INotifier<Boolean> notifier) {
+			if (notifier == null)
+				return;		
+
+			ParseQuery<ParseObject> qFindSerial = new ParseQuery<ParseObject>(BikeModel.Class);
+			qFindSerial.whereEqualTo("serial", this.SerialNumber.get());
+			
+			Log.d("Check for unique serial " + this.SerialNumber.get());
+			qFindSerial.findInBackground(new FindCallback<ParseObject>() {
+				@Override
+				public void done(List<ParseObject> arg0, ParseException arg1) {				
+					if (arg0 == null || (arg0 != null && arg0.size() == 0)) {
+						notifier.OnValueChanged(true);
+					} 
+					else {					
+						Log.d("Check for unique serial returned results");
+						notifier.OnValueChanged(false);
+					}
+				}
+			});	
+		}
+
+		private void updateModel(final INotifier<Boolean> notifier) {
 			m_ModelData.SerialNumber.set(SerialNumber.get());
 			m_ModelData.Model.set(Model.get());	
 			m_ModelData.Stolen.set(Stolen.get());
 
-			Error.set("");
-			
 			int index = 0;
 			for (Observable<Bitmap> picBmp : PictureCaches) {			
 				if (picBmp.get() != null && picBmp.IsChanged()) {
@@ -255,19 +285,20 @@ class BikeViewModel {
 					m_ModelData.PictureBuffers.get(index).set(byteArray);
 				}						
 				index++;
-			}
+			}				
 
-			IsSaving.set(true);
 			m_ModelData.Save(new INotifier<Integer>() {			
 				@Override
-				public void OnValueChanged(Integer value) {										
-					if (value == -1) {
-						Error.set("Serial number already exists");
-					}
-					
+				public void OnValueChanged(Integer value) {															
 					IsSaving.set(false);
+					
+					PictureCaches.get(0).ResetChanged();
+					PictureCaches.get(1).ResetChanged();
+					
+					if (notifier != null)
+						notifier.OnValueChanged(true);
 				}
-			}, this.SerialNumber.IsChanged());
+			});
 		}
 
 		public void Delete() {

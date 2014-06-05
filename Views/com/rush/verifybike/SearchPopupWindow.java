@@ -58,13 +58,22 @@ public class SearchPopupWindow {
 		});
 				
 		Bindings.BindText(popupView.findViewById(R.id.txt_Model), VM.SearchViewModel.Model);
-
-		Bindings.BindVisibleString(popupView.findViewById(R.id.layout_bike_model), VM.SearchViewModel.Model);
+		VM.SearchViewModel.Model.addObserver(new INotifier<String>() {
+			
+			@Override
+			public void OnValueChanged(String value) {
+				Log.d("Model " + value);				
+				popupView.findViewById(R.id.layout_bike_model).setVisibility(value != null && !value.equals("") ? View.VISIBLE : View.GONE);				
+			}
+		});
+		
 		Bindings.BindVisible(popupView.findViewById(R.id.layout_bike_result), VM.SearchViewModel.IsSearchOnGoing, Mode.Invert);
 		Bindings.BindVisible(popupView.findViewById(R.id.progress_search), VM.SearchViewModel.IsSearchOnGoing);
 		Bindings.BindImageBitmap((ImageView)popupView.findViewById(R.id.img_bike_preview), VM.SearchViewModel.BikePreview);
 
-		Bindings.BindVisible(popupView.findViewById(R.id.layout_owner_details), VM.SearchViewModel.IsStolen);
+		Bindings.BindVisible(popupView.findViewById(R.id.btn_phone_owner), VM.SearchViewModel.HasPhone);
+		Bindings.BindVisible(popupView.findViewById(R.id.btn_email_owner), VM.SearchViewModel.HasEmail);
+		
 		Bindings.BindText(popupView.findViewById(R.id.btn_email_owner), VM.SearchViewModel.Email);
 		Bindings.BindText(popupView.findViewById(R.id.btn_phone_owner), VM.SearchViewModel.Phone);
 		

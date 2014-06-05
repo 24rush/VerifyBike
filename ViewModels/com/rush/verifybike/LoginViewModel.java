@@ -26,7 +26,7 @@ public class LoginViewModel {
 	public Observable<String> UserFullName = new Observable<String>("");
 	public Observable<String> FacebookId = new Observable<String>("");
 
-	public Observable<Boolean> AllowContactShare = new Observable<Boolean>(true);
+	public Observable<Boolean> AllowContactShare = new Observable<Boolean>(false);
 	public Observable<String> Phone = new Observable<String>();
 	public Observable<String> Email = new Observable<String>();
 
@@ -54,9 +54,11 @@ public class LoginViewModel {
 	}
 
 	public void Save() {			
-		if (!Email.IsChanged() && !Phone.IsChanged() && !AllowContactShare.IsChanged())
+		if (!Email.IsChanged() && !Phone.IsChanged() && !AllowContactShare.IsChanged()) {
+			Log.d("Current user - nothing to refresh.");
 			return;
-
+		}
+		
 		final ParseUser parseUser = ParseUser.getCurrentUser();
 
 		parseUser.put("email", Email.get());	  

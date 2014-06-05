@@ -47,6 +47,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:onClick="onAddViewBikes"
+        android:visibility="gone"
         android:orientation="horizontal" >
 
         <TextView
@@ -58,7 +59,7 @@
             android:gravity="center"
             android:onClick="onAddViewBikes"
             android:paddingTop="20dp"
-            android:text="@string/lbl_add_bike"
+            android:text="@string/lbl_view_bikes"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@android:color/white"

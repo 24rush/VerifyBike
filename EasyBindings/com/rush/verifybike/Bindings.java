@@ -76,14 +76,6 @@ public class Bindings {
 	// Visibility
 	//
 	
-	public void BindVisibleString(final View control, Observable<String> source) {		
-		bind(control, source, ViewProperties.VisibleString, Mode.None, null);		
-	}
-	
-	public void BindVisibleString(final View control, Observable<String> source, final Mode flag) {		
-		bind(control, source, ViewProperties.VisibleString, flag, null);		
-	}
-	
 	public void BindVisible(final View control, Observable<Boolean> source) {
 		bind(control, source, ViewProperties.Visible, Mode.None, null);
 	}
