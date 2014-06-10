@@ -20,6 +20,14 @@ public class UserProfile extends Activity {
 		setContentView(R.layout.activity_user_profile);			
 
 		Bindings.BindChecked((CheckBox)m_Controls.get(R.id.chk_allow_contact_share), m_LoginViewModel.AllowContactShare, Mode.TwoWay);
+		Bindings.BindCommand((CheckBox)m_Controls.get(R.id.chk_allow_contact_share), new ICommand<Boolean>() {
+			@Override
+			public void Execute(Boolean context) {
+				Log.d("Saving user.");
+				m_LoginViewModel.Save();		
+			}
+		}, false);		
+		
 		Bindings.BindEnabled(m_Controls.get(R.id.edt_user_profile_email), m_LoginViewModel.AllowContactShare);
 		Bindings.BindEnabled(m_Controls.get(R.id.edt_user_profile_phone), m_LoginViewModel.AllowContactShare);
 

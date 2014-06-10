@@ -50,7 +50,7 @@ public class Observable<Type extends Object> implements Serializable, IObservabl
 	
 	public boolean load(Type value) {
 		if (m_Value == null || !m_Value.equals(value)) {
-			m_Value = value;			
+			m_Value = value;		
 			
 			for (INotifier<Type> observer : m_Listeners) {
 				observer.OnValueChanged(m_Value);
@@ -67,8 +67,12 @@ public class Observable<Type extends Object> implements Serializable, IObservabl
 	}
 	
 	public void set(Type value) {
-		if (load(value))
+		Log.d("set " + value + " " + m_Value);
+		if (m_Value == null || !m_Value.equals(value)) {			
 			m_IsChanged = true;
+		}
+		
+		load(value);			
 	}
 	
 	public Type get() {

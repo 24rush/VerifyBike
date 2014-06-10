@@ -47,7 +47,7 @@ public class LoginViewModel {
 		FacebookId.set((String)user.getString("facebookId"));
 
 		Email.load((String)user.getString("email"));
-		Phone.load((String)user.getString("mobile"));
+		Phone.load((String)user.getString("mobile"));		
 		AllowContactShare.load(user.getBoolean("allowContactShare"));
 
 		return true;
