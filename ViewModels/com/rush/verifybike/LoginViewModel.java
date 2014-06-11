@@ -53,7 +53,7 @@ public class LoginViewModel {
 		return true;
 	}
 
-	public void Save() {			
+	public void Save() {		
 		if (!Email.IsChanged() && !Phone.IsChanged() && !AllowContactShare.IsChanged()) {
 			Log.d("Current user - nothing to refresh.");
 			return;
@@ -71,7 +71,11 @@ public class LoginViewModel {
 				parseUser.refreshInBackground(new RefreshCallback() {					
 					@Override
 					public void done(ParseObject arg0, ParseException arg1) {
-						Log.d("Refreshed current user.");						
+						Log.d("Refreshed current user.");
+						
+						Email.ResetChanged();
+						Phone.ResetChanged();
+						AllowContactShare.ResetChanged();
 					}
 				});	
 			}

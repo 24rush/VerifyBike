@@ -55,18 +55,18 @@ public class MainScreen extends Activity {
 			}
 		});				
 
-		VM.LoginViewModel.FacebookId.addObserver(new INotifier<String>() {						
+		Bindings.BindChanged(VM.LoginViewModel.FacebookId, new INotifier<String>() {						
 			public void OnValueChanged(String value) {
 				Log.d("New user Facebook id: " + value);
 
 				VM.BikesViewModel.LoadBikes();
 			}
 		});
-
+		
 		VM.LoginViewModel.Init(this);	
 	}
 
-	public void onSearchSerialNumber(View v) {
+	public void onSearchSerialNumber(View v) {		
 		if (VM.SearchViewModel.SerialNumber.get().equals("") || VM.SearchViewModel.SerialNumber.get().equals(edtSerialNumberText))
 			return;
 

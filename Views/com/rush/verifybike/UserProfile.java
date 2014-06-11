@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 
-import com.facebook.widget.ProfilePictureView;
-
 public class UserProfile extends Activity {
 
 	private LoginViewModel m_LoginViewModel = VM.LoginViewModel;
@@ -19,14 +17,14 @@ public class UserProfile extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_profile);			
 
-		Bindings.BindChecked((CheckBox)m_Controls.get(R.id.chk_allow_contact_share), m_LoginViewModel.AllowContactShare, Mode.TwoWay);
-		Bindings.BindCommand((CheckBox)m_Controls.get(R.id.chk_allow_contact_share), new ICommand<Boolean>() {
+		Bindings.BindChecked((CheckBox)m_Controls.get(R.id.chk_allow_contact_share), m_LoginViewModel.AllowContactShare, Mode.TwoWay);				
+		Bindings.BindChanged(m_LoginViewModel.AllowContactShare, new INotifier<Boolean>() {
 			@Override
-			public void Execute(Boolean context) {
-				Log.d("Saving user.");
+			public void OnValueChanged(Boolean context) {
+				Log.d("Saving user.");				
 				m_LoginViewModel.Save();		
 			}
-		}, false);		
+		});		
 		
 		Bindings.BindEnabled(m_Controls.get(R.id.edt_user_profile_email), m_LoginViewModel.AllowContactShare);
 		Bindings.BindEnabled(m_Controls.get(R.id.edt_user_profile_phone), m_LoginViewModel.AllowContactShare);
@@ -36,6 +34,7 @@ public class UserProfile extends Activity {
 	}	
 
 	public void onLogoutFacebook(View v) {
+		Bindings.Destroy();
 		m_LoginViewModel.Logout();
 
 		finish();

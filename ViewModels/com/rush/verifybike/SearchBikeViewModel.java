@@ -6,7 +6,7 @@ import com.rush.verifybike.VerificationResult.BikeStatus;
 public class SearchBikeViewModel {
 
 	public Observable<String> Model = new Observable<String>("");
-	public Observable<BikeStatus> Status = new Observable<BikeStatus>();	
+	public Observable<BikeStatus> Status = new Observable<BikeStatus>(BikeStatus.NotInDatabase);	
 	public Observable<String> SerialNumber = new Observable<String>("");
 
 	public Observable<Bitmap> BikePreview = new Observable<Bitmap>();

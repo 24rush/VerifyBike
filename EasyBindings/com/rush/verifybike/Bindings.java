@@ -16,51 +16,52 @@ enum Mode { None, Invert, TwoWay };
 public class Bindings {
 	public enum BindingType { TEXT, COMMAND, NONE };
 
-	private List<Binding> m_Bindings = new ArrayList<Binding>();
+	private List<OneWayBinding <?, ?>> m_Bindings = new ArrayList<OneWayBinding <?, ?>>();
 
-	private void addBindingForSource(Observable<?> source, View control, Object extra) {
-		m_Bindings.add(new Binding(source, control, extra));		
+	private void addBinding(OneWayBinding <?, ?> binding) {
+		m_Bindings.add(binding);		
 	}
 
-	@SuppressWarnings("unchecked")
 	public void Destroy() {
-		for (Binding binding : m_Bindings) {
-			binding.Observable.removeObserver((INotifier<Object>)binding.Extra);
+		for (OneWayBinding <?, ?> binding : m_Bindings) {
+			binding.Destroy();
 		}
 	}
+	
+	private <ControlType, Type> void bind(final Observable<Type> observable, final OneWayBinding<ControlType, Type> action, INotifier<Type> notifier, final Mode flag) {
+		action.Bind(observable, flag, notifier);	
 
-	private <ControlType, ValueType> void bind(final ControlType control, Observable<ValueType> observable, final AbstractViewBinding<ControlType, ValueType> action) {
-		bind(control, observable, action, Mode.None);
+		addBinding(action);
 	}
-
-	private <ControlType, ValueType> void bind(final ControlType control, final Observable<ValueType> observable, final AbstractViewBinding<ControlType, ValueType> action, final Mode flag) {
+	
+	private <ControlType, ValueType> void bind(final ControlType control, final Observable<ValueType> observable, final OneWayBinding<ControlType, ValueType> action, final Mode flag) {
 		action.Bind(control, observable, flag);	
 
-		//addBindingForSource(observable, (View) control, observer);
+		addBinding(action);
 	}
 
 	// Enabled
 
 	public void BindEnabled(final View control, Observable<Boolean> source) {
-		bind(control, source, ViewProperties.Enabled);						
+		bind(control, source, ViewProperties.Enabled(), Mode.None);						
 	}
 
 	// Checked
 
 	public void BindChecked(final CheckBox control, final Observable<Boolean> source, Mode flags) {		
-		bind(control, source, ViewProperties.Checked, flags);			
+		bind(control, source, ViewProperties.Checked(), flags);			
 	}
 
 	// ImageURI
 
 	public void BindImageURI(final ImageView control, Observable<String> source) {
-		bind(control, source, ViewProperties.ImageURI);
+		bind(control, source, ViewProperties.ImageURI(), Mode.None);
 	}
 
 	// ImageBitmap
 
 	public void BindImageBitmap(final ImageView control, Observable<Bitmap> source) {
-		bind(control, source, ViewProperties.ImageBitmap);
+		bind(control, source, ViewProperties.ImageBitmap(), Mode.None);
 	}
 
 	//
@@ -68,11 +69,11 @@ public class Bindings {
 	//
 
 	public void BindVisible(final View control, Observable<Boolean> source) {
-		bind(control, source, ViewProperties.Visible, Mode.None);
+		bind(control, source, ViewProperties.Visible(), Mode.None);
 	}
 
 	public void BindVisible(final View control, Observable<Boolean> source, final Mode flag) {
-		bind(control, source, ViewProperties.Visible, flag);
+		bind(control, source, ViewProperties.Visible(), flag);
 	}
 
 	// 
@@ -80,11 +81,11 @@ public class Bindings {
 	//
 
 	public void BindText(final View control, Observable<String> source) {
-		bind(control, source, ViewProperties.Text);
+		bind(control, source, ViewProperties.Text(), Mode.None);
 	}
 
 	public void BindText(final View control, final Observable<String> source, final Mode flag) {
-		bind(control, source, ViewProperties.Text, flag);
+		bind(control, source, ViewProperties.Text(), flag);
 	}
 
 	//
@@ -109,20 +110,12 @@ public class Bindings {
 			}
 		});		
 	}
+	
+	public <Type> void BindChanged(final Observable<Type> observable, final INotifier<Type> onChanged) {
+		bind(observable, new Changed<View, Type>(), onChanged, Mode.None);
+	}
 }
 
 interface ICommand<Type> {
 	void Execute(Type context);
-}
-
-class Binding {	
-	public Observable<?> Observable;
-	public Object Extra;
-	public View Control;
-
-	public Binding(Observable<?> obs, View control, Object extra) {
-		Observable = obs;
-		Extra = extra;
-		Control = control;
-	}
 }

@@ -45,9 +45,10 @@ public class SearchPopupWindow {
 		m_BikeStatusToImage.put(BikeStatus.NotInDatabase, new BikeStatusImage(R.string.txt_bikeStatusNotInDb, R.drawable.orange_alert));
 		m_BikeStatusToImage.put(BikeStatus.Stolen, new BikeStatusImage(R.string.txt_bikeStatusStolen, R.drawable.red_alert));		
 		
-		VM.SearchViewModel.Status.addObserver(new INotifier<VerificationResult.BikeStatus>() {		
+		Bindings.BindChanged(VM.SearchViewModel.Status, new INotifier<VerificationResult.BikeStatus>() {		
 			@Override
 			public void OnValueChanged(BikeStatus value) {
+				Log.d("bikestatus " + value);
 				BikeStatusImage bikeImagery = m_BikeStatusToImage.get(value);
 				Integer textId = bikeImagery.TextId;
 				((TextView)popupView.findViewById(R.id.lblBikeStatus)).setText(activity.getString(textId));
@@ -55,10 +56,11 @@ public class SearchPopupWindow {
 				ImageView imgStatus = (ImageView) popupView.findViewById(R.id.img_Status);
 				imgStatus.setImageResource(bikeImagery.ImageId);						
 			}
-		});
+		});		
 				
 		Bindings.BindText(popupView.findViewById(R.id.txt_Model), VM.SearchViewModel.Model);
-		VM.SearchViewModel.Model.addObserver(new INotifier<String>() {
+		
+		Bindings.BindChanged(VM.SearchViewModel.Model, new INotifier<String>() {
 			
 			@Override
 			public void OnValueChanged(String value) {
@@ -110,12 +112,12 @@ public class SearchPopupWindow {
 			}
 		}, VM.SearchViewModel.Email);
 		
-		VM.SearchViewModel.IsSearchOnGoing.addObserver(new INotifier<Boolean>() {			
+		Bindings.BindChanged(VM.SearchViewModel.IsSearchOnGoing, new INotifier<Boolean>() {			
 			@Override
 			public void OnValueChanged(Boolean value) {				
 				((TextView)popupView.findViewById(R.id.btn_search_ok)).setText(activity.getString(value ? R.string.txt_cancel : R.string.txt_ok));
 			}
-		});		
+		});
 		
 		Button btnDismiss = (Button)popupView.findViewById(R.id.btn_search_ok);
 		btnDismiss.setOnClickListener(new Button.OnClickListener(){			

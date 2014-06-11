@@ -4,9 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R.string;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;

@@ -16,6 +16,7 @@ public class BikeListScreen extends Activity {
 
 	private Controls Controls = new Controls(this);
 	private Bindings Bindings = new Bindings();
+	private BikeListAdapter _bikeListAdapter;
 	
 	private BikeViewModel m_BikeViewModel;
 
@@ -25,7 +26,7 @@ public class BikeListScreen extends Activity {
 		setContentView(R.layout.activity_bike_list_screen);		
 
 		View header = getLayoutInflater().inflate(R.layout.header, null);
-		final BikeListAdapter bikeListAdapter = new BikeListAdapter(this);
+		_bikeListAdapter = new BikeListAdapter(this);
 
 		Bindings.BindCommand((Button) ((ViewGroup)header).getChildAt(3), new ICommand<Activity>() {
 			public void Execute(Activity context) {				
@@ -37,14 +38,14 @@ public class BikeListScreen extends Activity {
 		// Manual refresh on the adapter when the list changes
 		VM.BikesViewModel.Bikes().addObserver(new INotifier<ObservableCollection<BikeViewModel>>() {
 			public void OnValueChanged(ObservableCollection<BikeViewModel> value) {				
-				bikeListAdapter.notifyDataSetChanged();
+				_bikeListAdapter.notifyDataSetChanged();
 			}
 		});
 
 		ListView bikeListView = Controls.get(R.id.lst_bikes_owned);
 		bikeListView.addHeaderView(header);
 
-		bikeListView.setAdapter(bikeListAdapter);		
+		bikeListView.setAdapter(_bikeListAdapter);		
 		bikeListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {				
 				m_BikeViewModel = VM.BikesViewModel.Bikes().get(arg2 - 1); 
@@ -82,6 +83,7 @@ public class BikeListScreen extends Activity {
 	public void onBackPressed() {
 		super.onBackPressed();  				
 		Bindings.Destroy();
+		_bikeListAdapter.Destroy();
 	}
 	
 	public void onAccountSettings(View v) {

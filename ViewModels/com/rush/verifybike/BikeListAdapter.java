@@ -17,6 +17,7 @@ public class BikeListAdapter extends BaseAdapter{
 
 	private Activity m_Activity;
 	private LayoutInflater m_LayoutInflater;
+	private Bindings Bindings = new Bindings();
 
 	public BikeListAdapter(Activity _parent) {
 		m_Activity = _parent;
@@ -43,9 +44,7 @@ public class BikeListAdapter extends BaseAdapter{
 	public View getView(int arg0, View convertedView, ViewGroup parentView) {				
 		if (convertedView == null) {					    	
 			convertedView = m_LayoutInflater.inflate(R.layout.bikelistitem, parentView, false);
-		}
-
-		Bindings Bindings = new Bindings();
+		}		
 		
 		List<BikeViewModel> bikes = VM.BikesViewModel.Bikes();
 		final BikeViewModel objCurrent = bikes.get(arg0);		
@@ -108,6 +107,10 @@ public class BikeListAdapter extends BaseAdapter{
 		}, objCurrent);
 		
 		return convertedView;
+	}
+
+	public void Destroy() {
+		Bindings.Destroy();
 	}
 
 }

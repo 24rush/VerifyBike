@@ -78,14 +78,20 @@ public class NewBikeScreen extends Activity {
 			index++;
 		}
 
-		m_ViewModel.IsSaving.addObserver(new INotifier<Boolean>() {			
+		Bindings.BindChanged(m_ViewModel.IsSaving, new INotifier<Boolean>() 
+		{			
 			@Override
 			public void OnValueChanged(Boolean value) {
 				Log.d("Activity " + activity + " " + activity.isFinishing());
 				if (value == true) {
+					_wasSaving = true;
 					m_SavingPopup.Show(activity);
 				}
 				else {
+					if (_wasSaving == false)
+						return;
+					
+					_wasSaving = false;
 					m_SavingPopup.Dismiss();
 					
 					if (!m_ViewModel.Error.get().equals("")) {
@@ -97,9 +103,10 @@ public class NewBikeScreen extends Activity {
 					}
 				}
 			}
-		});			
+		});							
 	}
-
+	
+	private boolean _wasSaving = false;
 	private int m_CurrentPicture = -1;
 
 	private void setLayoutVisibility(int index, boolean imageAvail) {		
@@ -175,6 +182,6 @@ public class NewBikeScreen extends Activity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();  			
-		Bindings.Destroy();
+		Bindings.Destroy();			
 	}
 }
