@@ -62,7 +62,7 @@ public class BikeListAdapter extends BaseAdapter{
 		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_stolen), new ICommand<BikeViewModel>() {
 			public void Execute(final BikeViewModel context) {
 				Log.d("Bike " + context.Model.get() + " marked as stolen.");
-				MessageBox.Show(m_Activity, "We are sorry...", "Your bike has been marked as stolen in our database", 
+				MessageBox.Show(m_Activity, m_Activity.getString(R.string.msg_we_are_sorry), m_Activity.getString(R.string.msg_stolen_bike_marked), 
 								new OnClickListener() {
 									// On OK
 									@Override
@@ -78,7 +78,7 @@ public class BikeListAdapter extends BaseAdapter{
 		Bindings.BindCommand((Button) convertedView.findViewById(R.id.btn_sold), new ICommand<BikeViewModel>() {
 			public void Execute(final BikeViewModel context) {
 				Log.d("Bike " + context.Model.get() + " was sold.");
-				MessageBox.Show(m_Activity, "Bike was sold", "When your bike is sold, it will be removed from our databases being the duty of the new owner to register it again", 
+				MessageBox.Show(m_Activity, m_Activity.getString(R.string.msg_bike_was_sold), m_Activity.getString(R.string.msg_bike_sold_note), 
 						new OnClickListener() {
 							// On OK
 							@Override

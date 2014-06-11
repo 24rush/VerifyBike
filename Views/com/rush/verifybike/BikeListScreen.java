@@ -24,7 +24,7 @@ public class BikeListScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bike_list_screen);		
-
+		
 		View header = getLayoutInflater().inflate(R.layout.header, null);
 		_bikeListAdapter = new BikeListAdapter(this);
 

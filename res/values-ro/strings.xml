@@ -2,17 +2,17 @@
 <resources>
 
     <string name="app_name">cycletome</string>
-    <string name="action_settings">Setari</string>    
+    <string name="action_settings">Setări</string>    
     <string name="lbl_check_serial">introdu aici seria cadrului</string>
-    <string name="title_activity_search_results">Rezultatele cautarii</string>
-    <string name="txt_bikeStatusNotInDb">Bicicleta pe care o cauti nu se afla in baza noastra de date</string>
-    <string name="txt_bikeStatusStolen">Bicicleta a fost raportata ca fiind furata</string>
-    <string name="txt_bikeStatusOwned">Bicicleta este in momentul curent in posesia cuiva</string>
+    <string name="title_activity_search_results">Rezultatele căutării</string>
+    <string name="txt_bikeStatusNotInDb">Bicicleta pe care o cauţi nu se află în baza noastră de date</string>
+    <string name="txt_bikeStatusStolen">Bicicleta a fost raportată ca fiind furată</string>
+    <string name="txt_bikeStatusOwned">Bicicleta se află în momentul curent în posesia cuiva</string>
     <string name="lbl_Model">Model</string>
-    <string name="lbl_LoginToRegister">Pentru a-ti inregistra bicicleta trebuie sa te loghezi</string>
+    <string name="lbl_LoginToRegister">Pentru a-ţi înregistra bicicleta trebuie să te loghezi</string>
     <string name="app_id">500780326714460</string>
-    <string name="msg_unable_to_login">Logarea a esuat!</string>
-    <string name="msg_error_login_message">Incercarea de logare a esuat. Te rog verifica conexiunea la Internet.</string>
+    <string name="msg_unable_to_login">Logarea a eşuat!</string>
+    <string name="msg_error_login_message">Încercarea de logare a eşuat. Te rog verifică conexiunea la Internet.</string>
     <string name="lbl_add_bike">adaugă o bicicletă</string>
     <string name="lbl_view_bikes">bicicletele mele</string>
     <string name="title_activity_bike_list_screen">Bicicletele mele</string>
@@ -21,17 +21,23 @@
     <string name="lbl_btn_sold">vândută</string>
     <string name="lbl_btn_stolen">furată</string>
     <string name="lbl_btn_recovered">recuperată</string>
-    <string name="lbl_serial">Serial</string>
-    <string name="title_activity_new_bike_screen">Adaugă o bicicleta</string>
+    <string name="lbl_serial">Serie</string>
+    <string name="title_activity_new_bike_screen">Adaugă o bicicletă</string>
     <string name="lbl_bike_model">Model</string>
     <string name="lbl_bike_serial_number">Serie</string>
-    <string name="title_activity_browse_picture">Cauta poza</string>
+    <string name="title_activity_browse_picture">Selectează poză</string>
     <string name="title_activity_user_profile">Profilul meu</string>
     <string name="txt_ok">OK</string>
-	<string name="txt_cancel">Renunta</string>
+	<string name="txt_cancel">Renunţă</string>
 	<string name="txt_search_btn">caută</string>
 	<string name="btn_save_bike">salvează</string>
 	<string name="txt_acc_settings">setări</string>	
-	<string name="txt_mark_as">Marcheaza ca</string>
-	<string name="lbl_signout_note">Bicicletele inregistrate nu se vor sterge ci nu veti mai putea sa le editati.</string>		
+	<string name="txt_mark_as">Marchează ca</string>
+	<string name="lbl_signout_note">Bicicletele înregistrate nu se vor şterge ci nu veţi mai putea să le editaţi.</string>
+	<string name="msg_we_are_sorry">Ne pare rău</string>
+	<string name="msg_stolen_bike_marked">Bicicleta a fost marcată ca fiind furată în baza noastră de date</string>
+	<string name="msg_bike_was_sold">Bicicletă vandută</string>
+	<string name="msg_bike_sold_note">Bicicleta va fi ştearsă din baza noastră de date fiind datoria noului proprietar să o înregistreze din nou în cycletome</string>
+	<string name="msg_serial_exists">Seria cadrului deja există</string>	
+	<string name="msg_mail_bike_found">Ţi-am găsit bicicleta!</string>
 </resources>

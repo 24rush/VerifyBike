@@ -552,8 +552,14 @@ containing a value of this type.
         public static final int lbl_serial=0x7f07002f;
         public static final int lbl_signout_note=0x7f07003a;
         public static final int lbl_view_bikes=0x7f070027;
+        public static final int msg_bike_sold_note=0x7f07003e;
+        public static final int msg_bike_was_sold=0x7f07003d;
         public static final int msg_error_login_message=0x7f070025;
+        public static final int msg_mail_bike_found=0x7f070040;
+        public static final int msg_serial_exists=0x7f07003f;
+        public static final int msg_stolen_bike_marked=0x7f07003c;
         public static final int msg_unable_to_login=0x7f070024;
+        public static final int msg_we_are_sorry=0x7f07003b;
         public static final int title_activity_bike_list_screen=0x7f070028;
         public static final int title_activity_browse_picture=0x7f070033;
         public static final int title_activity_new_bike_screen=0x7f070030;

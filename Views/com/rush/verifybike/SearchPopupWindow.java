@@ -99,9 +99,9 @@ public class SearchPopupWindow {
 				Intent mailIntent = new Intent(Intent.ACTION_SEND);
 				
 				mailIntent.setType("message/rfc822");
-				mailIntent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"recipient@example.com"});
-				mailIntent.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
-				mailIntent.putExtra(Intent.EXTRA_TEXT   , "body of email");
+				mailIntent.putExtra(Intent.EXTRA_EMAIL  , new String[]{VM.SearchViewModel.Email.get()});
+				mailIntent.putExtra(Intent.EXTRA_SUBJECT, VM.SearchViewModel.Model.get());
+				mailIntent.putExtra(Intent.EXTRA_TEXT   , Localize.Id(R.string.msg_mail_bike_found));
 				
 				try {
 				    activity.startActivity(mailIntent);

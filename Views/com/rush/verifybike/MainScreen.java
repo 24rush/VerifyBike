@@ -22,6 +22,18 @@ class VM {
 	}
 }
 
+class Localize {
+	private static Activity m_Activity;
+	
+	public Localize(Activity activity) {
+		m_Activity = activity;
+	}
+	
+	public static String Id(int id) {
+		return m_Activity.getString(id);
+	}
+}
+
 public class MainScreen extends Activity {
 
 	private Controls Controls = new Controls(this);
@@ -33,6 +45,7 @@ public class MainScreen extends Activity {
 		setContentView(R.layout.activity_main_screen);		
 
 		// Initialize view models
+		new Localize(this);
 		new VM();
 		edtSerialNumberText = getString(R.string.lbl_check_serial);
 		VM.SearchViewModel.SerialNumber.set(edtSerialNumberText);

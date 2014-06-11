@@ -33,5 +33,11 @@
 	<string name="txt_search_btn">go</string>
 	<string name="btn_save_bike">save</string>
 	<string name="txt_acc_settings">settings</string>
-	<string name="lbl_signout_note">Signing out will not remove your bikes. You will, though, be unable to edit your bikes nor your privacy settings</string>	
+	<string name="lbl_signout_note">Signing out will not remove your bikes. You will just be unable to edit your bikes and your privacy settings</string>
+	<string name="msg_we_are_sorry">We are sorry</string>
+	<string name="msg_stolen_bike_marked">Your bike has been marked as stolen in our database</string>
+	<string name="msg_bike_was_sold">Bike was sold</string>
+	<string name="msg_bike_sold_note">When your bike is sold, it will be removed from our databases being the duty of the new owner to register it again</string>
+	<string name="msg_serial_exists">Serial number already exists</string>
+	<string name="msg_mail_bike_found">I have found your bike!</string>	
 </resources>

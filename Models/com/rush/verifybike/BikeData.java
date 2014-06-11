@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 
 import com.parse.FindCallback;
@@ -190,7 +191,7 @@ class BikeViewModel {
 		//	
 
 		public BikeViewModel(BikeModel src) {
-			m_ModelData = src;		
+			m_ModelData = src;
 			loadFromModel();
 		}
 
@@ -232,7 +233,7 @@ class BikeViewModel {
 							updateModel(onCompleted);
 						}
 						else {
-							Error.set("Serial number already exists");
+							Error.set(Localize.Id(R.string.msg_serial_exists));
 							IsSaving.set(false);
 							
 							if (onCompleted != null)

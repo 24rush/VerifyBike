@@ -2,6 +2,8 @@ package com.rush.verifybike;
 
 import java.util.List;
 
+import android.app.Activity;
+
 public class BikesViewModel {
 	
 	private Boolean m_initDone = false;
