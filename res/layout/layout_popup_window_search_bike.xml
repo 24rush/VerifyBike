@@ -47,6 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal" >
 
                     <TextView
@@ -59,8 +60,7 @@
                         android:id="@+id/txt_Model"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:text="cannondale caad10"
+                        android:layout_marginLeft="8dp"                        
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -86,7 +86,7 @@
                         android:gravity="left|center_vertical" 
                         android:textSize="13sp"                        
                         android:drawableLeft="@drawable/telephone"
-                        android:text="call" />
+                        />
 
                     <Button
                         android:id="@+id/btn_email_owner"
@@ -96,7 +96,7 @@
                         android:gravity="left|center_vertical" 
                         android:textSize="13sp"                       
                         android:drawableLeft="@drawable/icon_email"                      
-                        android:text="email" />
+                        />
                 </LinearLayout>
             </LinearLayout>
 

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">cycletome</string>
+    <string name="app_name">Cycletome</string>
     <string name="action_settings">Setări</string>    
-    <string name="lbl_check_serial">introdu aici seria cadrului</string>
+    <string name="lbl_check_serial">introduceti aici seria cadrului</string>
     <string name="title_activity_search_results">Rezultatele căutării</string>
     <string name="txt_bikeStatusNotInDb">Bicicleta pe care o cauţi nu se află în baza noastră de date</string>
     <string name="txt_bikeStatusStolen">Bicicleta a fost raportată ca fiind furată</string>
-    <string name="txt_bikeStatusOwned">Bicicleta se află în momentul curent în posesia cuiva</string>
-    <string name="lbl_Model">Model</string>
+    <string name="txt_bikeStatusOwned">Bicicleta se afla în posesia cuiva</string>
+    <string name="lbl_Model">Model:</string>
     <string name="lbl_LoginToRegister">Pentru a-ţi înregistra bicicleta trebuie să te loghezi</string>
     <string name="app_id">500780326714460</string>
     <string name="msg_unable_to_login">Logarea a eşuat!</string>
@@ -31,13 +31,20 @@
 	<string name="txt_cancel">Renunţă</string>
 	<string name="txt_search_btn">caută</string>
 	<string name="btn_save_bike">salvează</string>
-	<string name="txt_acc_settings">setări</string>	
+	<string name="txt_acc_settings">contul meu</string>	
 	<string name="txt_mark_as">Marchează ca</string>
 	<string name="lbl_signout_note">Bicicletele înregistrate nu se vor şterge ci nu veţi mai putea să le editaţi.</string>
 	<string name="msg_we_are_sorry">Ne pare rău</string>
-	<string name="msg_stolen_bike_marked">Bicicleta a fost marcată ca fiind furată în baza noastră de date</string>
-	<string name="msg_bike_was_sold">Bicicletă vandută</string>
-	<string name="msg_bike_sold_note">Bicicleta va fi ştearsă din baza noastră de date fiind datoria noului proprietar să o înregistreze din nou în cycletome</string>
-	<string name="msg_serial_exists">Seria cadrului deja există</string>	
+	<string name="msg_stolen_bike_marked">Bicicleta a fost marcată în baza noastră de date ca fiind furată</string>
+	<string name="msg_bike_was_sold">Bicicletă vândută</string>
+	<string name="msg_bike_sold_note">Bicicleta va fi ştearsă din baza noastră de date, noul proprietar având responsabilitatea de a o înregistra din nou în Cycletome</string>
+	<string name="msg_serial_exists">Această serie deja există</string>	
 	<string name="msg_mail_bike_found">Ţi-am găsit bicicleta!</string>
+	<string name="msg_note_provide_details">Notă: publicarea datelor de contact poate fi foarte utilă în cazul în care bicicleta este găsită de cineva</string>
+	<string name="lbl_show_identity">Arată datele de contact atunci când seria bicicletei mele furate este căutată</string>	
+	<string name="lbl_phone_number">Număr de telefon</string>	
+	<string name="lbl_front_picture">Poză din lateral</string>
+	<string name="lbl_mandatory">(obligatorie)</string>
+	<string name="lbl_serial_number">Poză cu seria</string>	
+	<string name="lbl_saving_ongoing">se salvează...</string>
 </resources>

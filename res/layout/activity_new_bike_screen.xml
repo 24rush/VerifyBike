@@ -16,8 +16,7 @@
         style="@style/RoundButton"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_gravity="right"
-        android:onClick="onSaveBike"
+        android:layout_gravity="right"        
         android:text="@string/btn_save_bike" />
 
     <TextView
@@ -52,7 +51,7 @@
         android:baselineAligned="false"
         android:orientation="horizontal" >
 
-        <com.rush.verifybike.SquareLinearLayout
+        <com.rush.cycletome.SquareLinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="3dp"
@@ -73,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
-                    android:text="Front picture"
+                    android:text="@string/lbl_front_picture"
                     android:textStyle="italic" />
 
                 <TextView
@@ -81,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
-                    android:text="(mandatory)"
+                    android:text="@string/lbl_mandatory"
                     android:textStyle="italic" />
 
                 <ImageView
@@ -113,9 +112,9 @@
                     android:layout_marginRight="3dp"
                     android:background="@drawable/recycle_bin1" />
             </RelativeLayout>
-        </com.rush.verifybike.SquareLinearLayout>
+        </com.rush.cycletome.SquareLinearLayout>
 
-        <com.rush.verifybike.SquareLinearLayout
+        <com.rush.cycletome.SquareLinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
@@ -136,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
-                    android:text="Serial number"
+                    android:text="@string/lbl_serial_number"
                     android:textStyle="italic" />
 
                 <TextView
@@ -144,7 +143,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
-                    android:text="(mandatory)"
+                    android:text="@string/lbl_mandatory"
                     android:textStyle="italic" />
 
                 <ImageView
@@ -176,7 +175,7 @@
                     android:layout_marginRight="3dp"
                     android:background="@drawable/recycle_bin1" />
             </RelativeLayout>
-        </com.rush.verifybike.SquareLinearLayout>
+        </com.rush.cycletome.SquareLinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -187,7 +186,7 @@
         android:orientation="horizontal"
         android:visibility="gone" >
 
-        <com.rush.verifybike.SquareLinearLayout
+        <com.rush.cycletome.SquareLinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="3dp"
@@ -240,16 +239,16 @@
                     android:layout_marginRight="3dp"
                     android:background="@drawable/recycle_bin1" />
             </RelativeLayout>
-        </com.rush.verifybike.SquareLinearLayout>
+        </com.rush.cycletome.SquareLinearLayout>
 
-        <com.rush.verifybike.SquareLinearLayout
+        <com.rush.cycletome.SquareLinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:background="@drawable/rect_border"
             android:orientation="vertical"
             android:visibility="invisible" >
-        </com.rush.verifybike.SquareLinearLayout>
+        </com.rush.cycletome.SquareLinearLayout>
     </LinearLayout>
 
 </LinearLayout>

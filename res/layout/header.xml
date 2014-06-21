@@ -16,8 +16,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="22dp"
-        android:layout_marginRight="7dp"
-        android:onClick="onShowUserProfile"
+        android:layout_marginRight="7dp"       
         app:is_cropped="true"
         facebook:preset_size="normal" >
     </com.facebook.widget.ProfilePictureView>
@@ -28,9 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/selection_profile_pic"
-        android:onClick="onShowUserProfile"
-        android:text="alin iordache" />
+        android:layout_toRightOf="@id/selection_profile_pic"        
+        />
 
     <Button
         android:id="@+id/btn_acc_settings"
@@ -58,8 +56,7 @@
         style="@style/HeadlineFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/btn_add_new_bike"
-        android:onClick="onAddNewBike"
+        android:layout_alignBaseline="@id/btn_add_new_bike"        
         android:text="@string/lbl_my_bikes" />
 
 </RelativeLayout>

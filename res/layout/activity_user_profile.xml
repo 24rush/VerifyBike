@@ -12,16 +12,15 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"        
         android:orientation="vertical" >
 
         <TextView
-            style="@style/LabelsFont"
+            style="@style/LabelsLargeFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="(Note: providing your contact details can be very useful when your stolen bike is found)"
+            android:text="@string/msg_note_provide_details"
             android:textStyle="italic" />
 
         <CheckBox
@@ -30,14 +29,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="Show my identity when my bike is searched for" />
+            android:text="@string/lbl_show_identity" />
 
         <TextView
             android:id="@+id/lbl_user_profile_phone"
             style="@style/LabelsLargeFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone number" />
+            android:text="@string/lbl_phone_number" />
 
         <EditText
             android:id="@+id/edt_user_profile_phone"

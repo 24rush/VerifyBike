@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.rush.verifybike"
+    package="com.rush.cycletome"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="20" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
-        android:name="com.rush.verifybike.App"
+        android:name="com.rush.cycletome.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -23,34 +23,26 @@
             android:value="@string/app_id" />
 
         <activity
-            android:name="com.rush.verifybike.MainScreen"
+            android:name="com.rush.cycletome.MainScreen"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="com.rush.verifybike.SearchResults"
-            android:label="@string/title_activity_search_results" >
-        </activity>
+        </activity>    
         <activity
             android:name="com.facebook.LoginActivity"
             android:label="@string/app_name" />
         <activity
-            android:name="com.rush.verifybike.BikeListScreen"
+            android:name="com.rush.cycletome.BikeListScreen"
             android:label="@string/title_activity_bike_list_screen" >
         </activity>
         <activity
-            android:name="com.rush.verifybike.NewBikeScreen"
+            android:name="com.rush.cycletome.NewBikeScreen"
             android:label="@string/title_activity_new_bike_screen" >
-        </activity>
+        </activity>      
         <activity
-            android:name="com.rush.verifybike.BrowsePictureActivity"
-            android:label="@string/title_activity_browse_picture" >
-        </activity>
-        <activity
-            android:name="com.rush.verifybike.UserProfile"
+            android:name="com.rush.cycletome.UserProfile"
             android:label="@string/title_activity_user_profile" >
         </activity>
     </application>
