@@ -31,8 +31,8 @@ public class LoginViewModel {
 	public Observable<String> FacebookId = new Observable<String>("");
 
 	public Observable<Boolean> AllowContactShare = new Observable<Boolean>(false);
-	public Observable<String> Phone = new Observable<String>();
-	public Observable<String> Email = new Observable<String>();
+	public Observable<String> Phone = new Observable<String>("");
+	public Observable<String> Email = new Observable<String>("");
 
 	public boolean Init(Activity _parent) {
 		m_Activity = _parent;
@@ -163,11 +163,10 @@ public class LoginViewModel {
 			IsUserLinkedToFacebook.set(false); 
 		}
 
-		Log.d("User retrieved from Facebook. Updating properties...");		
-
-		Phone.load((String)parseUser.getString("mobile"));
+		Log.d("User retrieved from Facebook. Updating properties...");			
 		
-		parseUser.put("name", user.getName());	  
+		parseUser.put("name", user.getName());
+		parseUser.put("mobile", "");
 		parseUser.put("facebookId", user.getId());							
 		parseUser.put("allowContactShare", false);							
 
@@ -188,7 +187,7 @@ public class LoginViewModel {
 
 				CanLogin.set(false);
 				IsUserLinkedToFacebook.set(true); 	
-				
+				Phone.set("");
 				UserFullName.set((String)parseUser.getString("name"));
 				FacebookId.set((String)parseUser.getString("facebookId"));
 				AllowContactShare.set(false);											

@@ -72,8 +72,13 @@ public class BikeListScreen extends Activity {
 		
 		Bindings.BindText(Controls.get(R.id.lbl_user_name), VM.LoginViewModel.UserFullName);
 		
-		ProfilePictureView userProfilePictureView = (ProfilePictureView) Controls.get(R.id.selection_profile_pic);
-		userProfilePictureView.setProfileId(VM.LoginViewModel.FacebookId.get());	
+		Bindings.BindChanged(VM.LoginViewModel.FacebookId, new INotifier<String>() {
+			@Override
+			public void OnValueChanged(String value) {
+				ProfilePictureView userProfilePictureView = (ProfilePictureView) Controls.get(R.id.selection_profile_pic);
+				userProfilePictureView.setProfileId(value);	
+			}
+		});					
 	}
 
 	private void startAddEditBike(BikeViewModel bikeViewModel) {

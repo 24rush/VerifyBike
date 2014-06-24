@@ -62,7 +62,7 @@ public class MainScreen extends Activity {
 		Bindings.BindVisible(Controls.get(R.id.layout_must_login), VM.LoginViewModel.CanLogin);				
 		
 		// Bikes will be loaded only if there is a loggedin user
-		Bindings.BindVisible(Controls.get(R.id.layout_user_loggedin), VM.BikesViewModel.BikesLoaded);	
+		Bindings.BindVisible(Controls.get(R.id.layout_user_loggedin), VM.LoginViewModel.CanLogin, Mode.Invert);	
 		
 		Bindings.BindText(Controls.get(R.id.edt_serial_number), VM.SearchViewModel.SerialNumber, Mode.TwoWay);				
 
